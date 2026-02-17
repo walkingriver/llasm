@@ -54,11 +54,59 @@ const ti=(el)=>{
 // Apply all i18n
 const ai=()=>A('[data-m-tx]').forEach(ti);
 
+// Utility CSS classes (Tailwind-lite, maximally terse)
+const UC=`
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--m-p:#0066ff;--m-s:#6c757d;--m-ok:#28a745;--m-err:#dc3545;--m-bg:#fff;--m-fg:#212529;font-family:system-ui,sans-serif;line-height:1.5}
+body{background:var(--m-bg);color:var(--m-fg)}
+.f{display:flex}.fc{display:flex;flex-direction:column}.fw{display:flex;flex-wrap:wrap}.fi{align-items:center}.fj{justify-content:center}.fb{justify-content:space-between}.fa{justify-content:space-around}.fe{justify-content:flex-end}.fs{justify-content:flex-start}.fg{flex-grow:1}
+.g1{gap:.25rem}.g2{gap:.5rem}.g3{gap:1rem}.g4{gap:1.5rem}.g5{gap:2rem}
+.p1{padding:.25rem}.p2{padding:.5rem}.p3{padding:1rem}.p4{padding:1.5rem}.p5{padding:2rem}
+.px1{padding-inline:.25rem}.px2{padding-inline:.5rem}.px3{padding-inline:1rem}.px4{padding-inline:1.5rem}.px5{padding-inline:2rem}
+.py1{padding-block:.25rem}.py2{padding-block:.5rem}.py3{padding-block:1rem}.py4{padding-block:1.5rem}.py5{padding-block:2rem}
+.m1{margin:.25rem}.m2{margin:.5rem}.m3{margin:1rem}.m4{margin:1.5rem}.m5{margin:2rem}
+.mx1{margin-inline:.25rem}.mx2{margin-inline:.5rem}.mx3{margin-inline:1rem}.mx4{margin-inline:1.5rem}.mx5{margin-inline:2rem}
+.my1{margin-block:.25rem}.my2{margin-block:.5rem}.my3{margin-block:1rem}.my4{margin-block:1.5rem}.my5{margin-block:2rem}
+.ma{margin:auto}.mxa{margin-inline:auto}
+.wf{width:100%}.wh{width:50%}.wa{width:auto}.w1{width:10%}.w2{width:20%}.w3{width:30%}.w4{width:40%}.w5{width:50%}.w6{width:60%}.w7{width:70%}.w8{width:80%}.w9{width:90%}
+.hf{height:100%}.hv{height:100vh}.ha{height:auto}
+.xw1{max-width:400px}.xw2{max-width:600px}.xw3{max-width:800px}.xw4{max-width:1000px}.xw5{max-width:1200px}
+.t1{font-size:.75rem}.t2{font-size:.875rem}.t3{font-size:1rem}.t4{font-size:1.25rem}.t5{font-size:1.5rem}.t6{font-size:2rem}.t7{font-size:3rem}
+.tc{text-align:center}.tr{text-align:right}.tl{text-align:left}
+.tb{font-weight:700}.tn{font-weight:400}.ti{font-style:italic}
+.tu{text-transform:uppercase}.tl{text-transform:lowercase}.tt{text-transform:capitalize}
+.td{text-decoration:underline}.tdn{text-decoration:none}
+.c1{color:var(--m-p)}.c2{color:var(--m-s)}.c3{color:var(--m-ok)}.c4{color:var(--m-err)}.cw{color:#fff}.cb{color:#000}.cg{color:#666}
+.b1{background:var(--m-p)}.b2{background:var(--m-s)}.b3{background:var(--m-ok)}.b4{background:var(--m-err)}.bw{background:#fff}.bb{background:#000}.bg{background:#f5f5f5}.bt{background:transparent}
+.r{border-radius:4px}.r1{border-radius:2px}.r2{border-radius:8px}.r3{border-radius:12px}.rf{border-radius:9999px}
+.bd{border:1px solid currentColor}.bd1{border:1px solid var(--m-p)}.bd2{border:1px solid var(--m-s)}.bdn{border:none}
+.sh{box-shadow:0 2px 4px rgba(0,0,0,.1)}.sh1{box-shadow:0 1px 2px rgba(0,0,0,.1)}.sh2{box-shadow:0 4px 8px rgba(0,0,0,.15)}.sh3{box-shadow:0 8px 16px rgba(0,0,0,.2)}
+.o1{opacity:.1}.o2{opacity:.2}.o3{opacity:.3}.o4{opacity:.4}.o5{opacity:.5}.o6{opacity:.6}.o7{opacity:.7}.o8{opacity:.8}.o9{opacity:.9}
+.dn{display:none}.db{display:block}.di{display:inline}.dib{display:inline-block}
+.rel{position:relative}.abs{position:absolute}.fix{position:fixed}.stk{position:sticky}
+.t0{top:0}.r0{right:0}.b0{bottom:0}.l0{left:0}.i0{inset:0}
+.z1{z-index:10}.z2{z-index:100}.z3{z-index:1000}
+.oh{overflow:hidden}.oa{overflow:auto}.os{overflow:scroll}
+.cp{cursor:pointer}.cn{cursor:not-allowed}
+.pe{pointer-events:none}.pa{pointer-events:auto}
+.us{user-select:none}
+a{color:var(--m-p);text-decoration:none}a:hover{text-decoration:underline}
+button,input,select,textarea{font:inherit}
+button{cursor:pointer}
+[data-m-enhance~="primary"]{background:var(--m-p);color:#fff;border:none;padding:.5rem 1rem;border-radius:4px}
+[data-m-enhance~="secondary"]{background:var(--m-s);color:#fff;border:none;padding:.5rem 1rem;border-radius:4px}
+[data-m-enhance~="primary"]:hover,[data-m-enhance~="secondary"]:hover{opacity:.9}
+input,select,textarea{padding:.5rem;border:1px solid #ccc;border-radius:4px}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--m-p);outline-offset:1px}
+ul,ol{list-style:none}
+@media(max-width:768px){.sm\\:dn{display:none}.sm\\:db{display:block}.sm\\:fc{flex-direction:column}.sm\\:wf{width:100%}}
+`;
+
 // CSS custom properties injection
 const cs=()=>{
   let st=Q('#m-vars');
   if(!st){st=D.createElement('style');st.id='m-vars';D.head.appendChild(st);}
-  let r=':root{';
+  let r=UC+':root{';
   for(const[k,v]of Object.entries(_t))r+=`${k}:${v};`;
   r+='}';
   r+=`@media(max-width:320px){:root{--m-bp:xs;}}`;

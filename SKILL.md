@@ -131,9 +131,41 @@ Handlers receive `(event, state, L)` where `L` is the runtime:
 | `L.vf(form)` | Validate form → `{v:bool, e:[]}` |
 | `L.f(url,opts)` | Fetch with retry |
 
+## Utility Classes (Tailwind-lite)
+
+Use terse 1-3 character class names for styling. No custom CSS needed.
+
+### Layout
+`f` flex | `fc` flex-col | `fw` flex-wrap | `fi` items-center | `fj` justify-center | `fb` space-between
+
+### Spacing
+`g1-g5` gap | `p1-p5` padding | `px1-px5` padding-x | `py1-py5` padding-y | `m1-m5` margin | `ma` margin-auto | `mxa` margin-x-auto
+
+### Sizing
+`wf` width-full | `wh` width-half | `xw1-xw5` max-width | `hf` height-full | `hv` height-100vh
+
+### Typography
+`t1-t7` font-size | `tc` text-center | `tb` bold | `tu` uppercase
+
+### Colors
+`c1-c4` color (primary/secondary/ok/err) | `cw` white | `cb` black | `cg` gray
+
+### Background
+`b1-b4` bg (primary/secondary/ok/err) | `bw` white | `bb` black | `bg` gray
+
+### Effects
+`r` radius | `rf` radius-full | `sh` shadow | `bd` border
+
+### Display
+`dn` none | `db` block | `rel` relative | `abs` absolute | `cp` cursor-pointer
+
+For full list, see [reference/utility-classes.md](reference/utility-classes.md)
+
 ## Examples
 
 For complete examples, see:
+- [examples/minimal-card.html](examples/minimal-card.html) - Utility classes demo
+- [examples/tour-of-heroes.html](examples/tour-of-heroes.html) - Full app
 - [examples/todo-app.html](examples/todo-app.html)
 - [examples/landing-page.html](examples/landing-page.html)
 - [examples/contact-form.html](examples/contact-form.html)
