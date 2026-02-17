@@ -60,7 +60,7 @@ Every web framework in existence was designed for human developers:
 
 - **Angular** wants you to master modules, services, dependency injection, RxJS, and a CLI with 47 flags
 - **React** assumes you'll read the docs, understand JSX, and debug component lifecycles
-- **Vue** expects you to learn its template syntax and reactive patterns  
+- **Vue** expects you to learn its template syntax and reactive patterns
 - **Tailwind** requires you to memorize hundreds of utility classes
 - **Next.js** needs you to understand server components, client boundaries, and hydration
 - **Ionic** and **React Native** bolt web paradigms onto mobile, with their own quirks
@@ -69,9 +69,15 @@ Every web framework in existence was designed for human developers:
 
 Where does it end?
 
-These frameworks optimize for *human comprehension*. They have tutorials, IDE extensions, and Stack Overflow answers. They're designed to be learned.
+Here's the thing I've noticed: when I ask an LLM to build me some Angular code inside an existing app, asking it to implement the same feature twice will almost never give me the same implementation both times. Should it use a service or inline the logic? Reactive forms or template-driven? Standalone components or NgModules? BehaviorSubject or signal? The LLM will confidently pick *something*—but it's a coin flip which approach you get.
 
-But LLMs don't learn frameworks the way humans do. They ingest everything at once. They don't need tutorials—they need *specifications*. They don't need readable code—they need *unambiguous output formats*.
+Without significant guardrails put in place through extensive rules files, the output is inconsistent. You spend as much time reviewing and correcting the generated code as you would have spent writing it yourself.
+
+All these frameworks optimize for *human comprehension*. They have tutorials, IDE extensions, and Stack Overflow answers. They're designed to be learned—and they're designed to be *flexible*.
+
+But LLMs don't need flexibility. They don't need multiple ways to solve a problem. They need *one way*. They don't need tutorials—they need *specifications*. They don't need readable code—they need *unambiguous output formats*.
+
+
 
 ### The Opportunity
 
@@ -118,12 +124,12 @@ Every LLasM page has exactly three parts:
   <!-- 1. STATIC HTML: Complete semantic markup -->
   <h1 data-m-tx="title" class="t6 tb c1"></h1>
   <button data-m-on="click:save" data-m-enhance="primary ripple">Save</button>
-  
+
   <!-- 2. MANIFEST: State, i18n, theme as embedded JSON -->
   <script type="application/llasm+json" id="manifest">
     {"v":1,"r":{"s":{"count":0}},"l":{"en":{"title":"Hello"}}}
   </script>
-  
+
   <!-- 3. HANDLERS: Optional, always <500 bytes -->
   <script type="module">
     import{l}from"./llasm.js";
