@@ -5,101 +5,50 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="Tour of Heroes - LLuMe implementation">
 <title>Tour of Heroes</title>
-<style>
-:root{font-family:system-ui,sans-serif;--m-p:#369;--m-s:#555}
-*{margin:0;padding:0;box-sizing:border-box}
-body{padding:1rem}
-h1{color:var(--m-p);margin-bottom:1rem}
-nav{margin-bottom:1rem}
-nav a{padding:0.5rem 1rem;background:#e8e8e8;text-decoration:none;color:#333;margin-right:0.5rem;border-radius:4px}
-nav a:hover{background:#ddd}
-.dashboard-heroes{display:flex;gap:1rem;flex-wrap:wrap;margin:1rem 0}
-.dashboard-hero{flex:1;min-width:120px;padding:1.5rem;text-align:center;background:var(--m-p);color:#fff;border-radius:4px;cursor:pointer;text-decoration:none}
-.dashboard-hero:hover{opacity:0.9}
-.heroes{list-style:none;margin:1rem 0}
-.heroes li{display:flex;align-items:center;padding:0.5rem;background:#f4f4f4;margin-bottom:0.25rem;border-radius:4px;cursor:pointer}
-.heroes li:hover{background:#e8e8e8}
-.heroes li.selected{background:var(--m-p);color:#fff}
-.heroes li.selected .badge{background:#fff;color:var(--m-p)}
-.badge{display:inline-block;padding:0.25rem 0.75rem;background:var(--m-p);color:#fff;border-radius:4px;margin-right:0.5rem;font-size:0.875rem}
-.hero-name{flex:1}
-.hero-detail{margin:1rem 0;padding:1rem;border:1px solid #ddd;border-radius:4px}
-.hero-detail h2{margin-bottom:1rem;color:var(--m-p)}
-.hero-detail label{display:block;margin-bottom:0.5rem}
-.hero-detail input{padding:0.5rem;border:1px solid #ccc;border-radius:4px;font-size:1rem;width:200px}
-.buttons{margin-top:1rem}
-.buttons button{padding:0.5rem 1rem;margin-right:0.5rem;border:none;border-radius:4px;cursor:pointer}
-.buttons button:first-child{background:#e8e8e8}
-.buttons button:last-child{background:var(--m-p);color:#fff}
-.search-box{padding:0.5rem;border:1px solid #ccc;border-radius:4px;font-size:1rem;width:200px;margin-bottom:0.5rem}
-.search-results{list-style:none;margin-top:0.5rem}
-.search-results li{padding:0.5rem;background:#f4f4f4;margin-bottom:2px;border-radius:4px}
-.search-results li a{text-decoration:none;color:var(--m-p)}
-.add-section{margin-bottom:1rem}
-.add-section input{padding:0.5rem;border:1px solid #ccc;border-radius:4px;margin-right:0.5rem}
-.add-section button{padding:0.5rem 1rem;background:var(--m-p);color:#fff;border:none;border-radius:4px;cursor:pointer}
-.delete-btn{background:var(--m-s);color:#fff;border:none;padding:0.25rem 0.5rem;border-radius:4px;cursor:pointer;margin-left:auto}
-.mini-detail{margin-top:1rem;padding:1rem;border:1px solid #ddd;border-radius:4px}
-.mini-detail h4{margin-bottom:0.5rem;text-transform:uppercase}
-</style>
 </head>
-<body>
-<h1 data-m-tx="title"></h1>
-<nav>
-<a href="#/">Dashboard</a>
-<a href="#/heroes">Heroes</a>
+<body class="p3">
+<h1 class="t6 c1 tb my2" data-m-tx="title"></h1>
+<nav class="f g2 my3">
+<a href="#/" class="bg r px3 py2 tdn cb cp">Dashboard</a>
+<a href="#/heroes" class="bg r px3 py2 tdn cb cp">Heroes</a>
 </nav>
 
 <!-- Dashboard View -->
-<section data-m-route="/">
-<h2 data-m-tx="topHeroes"></h2>
-<div id="dash-heroes" data-m-bind="topHeroes" data-m-tpl="dash-tpl" data-m-key="id"></div>
-<template id="dash-tpl">
-<a href="#" data-m-f="href" onclick="return false" data-m-enhance="dashboard-hero">
-<span data-m-f="name"></span>
-</a>
-</template>
-<h3 data-m-tx="heroSearch"></h3>
-<input type="text" id="search" data-m-bind="searchTerm" placeholder="Search heroes..." oninput="window._search(this.value)">
-<ul id="search-results" data-m-bind="searchResults" data-m-tpl="search-tpl" data-m-key="id"></ul>
-<template id="search-tpl">
-<li><a href="#" data-m-f="href" onclick="return false"><span data-m-f="name"></span></a></li>
-</template>
+<section data-m-route="/" class="f fc g3">
+<h2 class="t5 c1" data-m-tx="topHeroes"></h2>
+<div id="dash-heroes" data-m-bind="topHeroes" data-m-tpl="dash-tpl" data-m-key="id" class="f fw g2"></div>
+<template id="dash-tpl"><a href="#" class="fg b1 cw p4 r tc tdn cp" style="min-width:120px" onclick="location.hash='/detail/'+this.dataset.mK;return false"><span data-m-f="name"></span></a></template>
+<h3 class="t4 c1 my2" data-m-tx="heroSearch"></h3>
+<input type="text" id="search" placeholder="Search heroes..." oninput="window._search(this.value)" class="xw1">
+<ul id="search-results" data-m-bind="searchResults" data-m-tpl="search-tpl" data-m-key="id" class="f fc g1 my2"></ul>
+<template id="search-tpl"><li class="bg p2 r"><a href="#" class="c1 tdn" onclick="location.hash='/detail/'+this.closest('li').dataset.mK;return false"><span data-m-f="name"></span></a></li></template>
 </section>
 
 <!-- Heroes List View -->
-<section data-m-route="/heroes">
-<h2 data-m-tx="myHeroes"></h2>
-<div>
+<section data-m-route="/heroes" class="f fc g3">
+<h2 class="t5 c1" data-m-tx="myHeroes"></h2>
+<div class="f g2">
 <input type="text" id="newHero" placeholder="Hero name...">
 <button data-m-enhance="primary" onclick="window._add()">Add hero</button>
 </div>
-<ul id="hero-list" data-m-bind="heroes" data-m-tpl="hero-tpl" data-m-key="id"></ul>
-<template id="hero-tpl">
-<li data-m-class="selected:selectedId==id" onclick="window._select(this)">
-<span data-m-f="id"></span>
-<span data-m-f="name"></span>
-<button onclick="event.stopPropagation();window._delete(this)" data-m-enhance="secondary">x</button>
-</li>
-</template>
-<div data-m-if="selectedHero" id="mini-detail">
-<h4 data-m-bind="selectedHero.name|upper"></h4>
-<div>id: <span data-m-bind="selectedHero.id"></span></div>
-<div>name: <span data-m-bind="selectedHero.name"></span></div>
-<a href="#" id="view-link">View Details</a>
+<ul id="hero-list" data-m-bind="heroes" data-m-tpl="hero-tpl" data-m-key="id" class="f fc g1"></ul>
+<template id="hero-tpl"><li class="f fi g2 p2 bg r cp" onclick="window._select(this)"><span class="b1 cw px2 py1 r t2" data-m-f="id"></span><span class="fg" data-m-f="name"></span><button class="b2 cw px2 py1 r t2" onclick="event.stopPropagation();window._delete(this)">x</button></li></template>
+<div data-m-if="selectedHero" id="mini-detail" class="bd r p3 my2">
+<h4 class="tu tb c1" data-m-bind="selectedHero.name|upper"></h4>
+<p class="my1">id: <span data-m-bind="selectedHero.id"></span></p>
+<p class="my1">name: <span data-m-bind="selectedHero.name"></span></p>
+<a href="#" id="view-link" class="c1">View Details</a>
 </div>
 </section>
 
 <!-- Hero Detail View -->
-<section data-m-route="/detail/:id">
-<h2><span data-m-bind="editHero.name|upper"></span> Details</h2>
-<div>
-<p>id: <span data-m-bind="editHero.id"></span></p>
-<label>Hero name:
-<input type="text" id="edit-name" data-m-bind="editHero.name" oninput="window._editName(this.value)">
-</label>
+<section data-m-route="/detail/:id" class="f fc g3 xw2">
+<h2 class="t5 c1"><span data-m-bind="editHero.name|upper"></span> Details</h2>
+<div class="f fc g2">
+<p>id: <span class="tb" data-m-bind="editHero.id"></span></p>
+<label class="f fc g1">Hero name:<input type="text" id="edit-name" data-m-bind="editHero.name" oninput="window._editName(this.value)"></label>
 </div>
-<div>
+<div class="f g2">
 <button data-m-enhance="secondary" onclick="history.back()">Go back</button>
 <button data-m-enhance="primary" onclick="window._save()">Save</button>
 </div>
@@ -108,113 +57,15 @@ nav a:hover{background:#ddd}
 <script type="application/llume+json" id="manifest">{"v":1,"r":{"s":{"heroes":[{"id":12,"name":"Dr. Nice"},{"id":13,"name":"Bombasto"},{"id":14,"name":"Celeritas"},{"id":15,"name":"Magneta"},{"id":16,"name":"RubberMan"},{"id":17,"name":"Dynama"},{"id":18,"name":"Dr. IQ"},{"id":19,"name":"Magma"},{"id":20,"name":"Tornado"}],"topHeroes":[],"selectedHero":null,"selectedId":null,"editHero":null,"searchTerm":"","searchResults":[]}},"l":{"en":{"title":"Tour of Heroes","topHeroes":"Top Heroes","myHeroes":"My Heroes","heroSearch":"Hero Search"}},"t":{"--m-p":"#369","--m-s":"#555"}}</script>
 <script type="module">
 import{l}from"./llume.js";
-
-// Initialize top heroes
-const initTop=()=>{
-  const s=l.s();
-  const top=s.heroes.slice(0,4).map(h=>({...h,href:`#/detail/${h.id}`}));
-  l.u({topHeroes:top});
-};
-
-// Search heroes
-window._search=(term)=>{
-  const s=l.s();
-  if(!term.trim()){l.u({searchResults:[]});return;}
-  const results=s.heroes.filter(h=>h.name.toLowerCase().includes(term.toLowerCase())).map(h=>({...h,href:`#/detail/${h.id}`}));
-  l.u({searchResults:results,searchTerm:term});
-};
-
-// Select hero in list
-window._select=(li)=>{
-  const id=parseInt(li.querySelector('[data-m-f="id"]').textContent);
-  const s=l.s();
-  const hero=s.heroes.find(h=>h.id===id);
-  l.u({selectedHero:hero,selectedId:id});
-  const vl=l.q('#view-link');
-  if(vl)vl.href=`#/detail/${id}`;
-};
-
-// Add hero
-window._add=()=>{
-  const inp=l.q('#newHero');
-  const name=inp.value.trim();
-  if(!name)return;
-  const s=l.s();
-  const maxId=Math.max(...s.heroes.map(h=>h.id),10);
-  const hero={id:maxId+1,name};
-  l.u({heroes:[...s.heroes,hero]});
-  inp.value='';
-  initTop();
-};
-
-// Delete hero
-window._delete=(btn)=>{
-  const li=btn.closest('li');
-  const id=parseInt(li.querySelector('[data-m-f="id"]').textContent);
-  const s=l.s();
-  l.u({heroes:s.heroes.filter(h=>h.id!==id),selectedHero:null,selectedId:null});
-  initTop();
-};
-
-// Edit hero name
-window._editName=(name)=>{
-  const s=l.s();
-  if(s.editHero)l.u({editHero:{...s.editHero,name}});
-};
-
-// Save hero
-window._save=()=>{
-  const s=l.s();
-  if(!s.editHero)return;
-  const heroes=s.heroes.map(h=>h.id===s.editHero.id?{...s.editHero}:h);
-  l.u({heroes,selectedHero:null,selectedId:null});
-  initTop();
-  history.back();
-};
-
-// Handle route changes for detail view
-const onRoute=()=>{
-  const p=l.p();
-  if(p.id){
-    const s=l.s();
-    const hero=s.heroes.find(h=>h.id===parseInt(p.id));
-    if(hero)l.u({editHero:{...hero}});
-  }
-};
-
-// Initialize
-l.h({});
-initTop();
-window.addEventListener('hashchange',onRoute);
-onRoute();
-
-// Style dashboard heroes
-setTimeout(()=>{
-  l.qa('#dash-heroes a').forEach(a=>{
-    a.classList.add('dashboard-hero');
-    a.onclick=(e)=>{e.preventDefault();location.hash=`/detail/${a.querySelector('[data-m-f="id"]')?.textContent||a.dataset.mK}`;};
-  });
-  l.qa('#search-results a').forEach(a=>{
-    a.onclick=(e)=>{e.preventDefault();location.hash=`/detail/${a.closest('li').dataset.mK}`;};
-  });
-},100);
-
-// Re-bind clicks after state updates
-const origU=l.u;
-l.u=(p)=>{origU(p);setTimeout(()=>{
-  l.qa('#dash-heroes a').forEach(a=>{
-    a.classList.add('dashboard-hero');
-    a.onclick=(e)=>{e.preventDefault();location.hash=`/detail/${a.dataset.mK}`;};
-  });
-  l.qa('#search-results a').forEach(a=>{
-    a.onclick=(e)=>{e.preventDefault();location.hash=`/detail/${a.closest('li').dataset.mK}`;};
-  });
-  l.qa('#hero-list li').forEach(li=>{
-    const s=l.s();
-    if(parseInt(li.dataset.mK)===s.selectedId)li.classList.add('selected');
-    else li.classList.remove('selected');
-  });
-},10);};
+const initTop=()=>{const s=l.s();l.u({topHeroes:s.heroes.slice(0,4)});};
+window._search=(term)=>{const s=l.s();if(!term.trim()){l.u({searchResults:[]});return;}l.u({searchResults:s.heroes.filter(h=>h.name.toLowerCase().includes(term.toLowerCase()))});};
+window._select=(li)=>{const id=parseInt(li.dataset.mK),s=l.s(),hero=s.heroes.find(h=>h.id===id);l.u({selectedHero:hero,selectedId:id});const vl=l.q('#view-link');if(vl)vl.href=`#/detail/${id}`;};
+window._add=()=>{const inp=l.q('#newHero'),name=inp.value.trim();if(!name)return;const s=l.s(),maxId=Math.max(...s.heroes.map(h=>h.id),10);l.u({heroes:[...s.heroes,{id:maxId+1,name}]});inp.value='';initTop();};
+window._delete=(btn)=>{const id=parseInt(btn.closest('li').dataset.mK),s=l.s();l.u({heroes:s.heroes.filter(h=>h.id!==id),selectedHero:null,selectedId:null});initTop();};
+window._editName=(name)=>{const s=l.s();if(s.editHero)l.u({editHero:{...s.editHero,name}});};
+window._save=()=>{const s=l.s();if(!s.editHero)return;l.u({heroes:s.heroes.map(h=>h.id===s.editHero.id?{...s.editHero}:h),selectedHero:null,selectedId:null});initTop();history.back();};
+const onRoute=()=>{const p=l.p();if(p.id){const s=l.s(),hero=s.heroes.find(h=>h.id===parseInt(p.id));if(hero)l.u({editHero:{...hero}});}};
+l.h({});initTop();window.addEventListener('hashchange',onRoute);onRoute();
 </script>
 </body>
 </html>

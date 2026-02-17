@@ -62,13 +62,48 @@ The manifest is embedded JSON in `<script type="application/llume+json" id="mani
 
 ## Theme Variables
 
-Standard variables the runtime recognizes:
+Standard variables the runtime recognizes. Set in manifest `t` section.
 
-| Variable | Default | Purpose |
-|----------|---------|---------|
-| `--m-p` | `#0066ff` | Primary color |
-| `--m-s` | `#6c757d` | Secondary color |
-| `--m-bg` | `#ffffff` | Background |
-| `--m-fg` | `#212529` | Foreground/text |
-| `--m-err` | `#dc3545` | Error color |
-| `--m-ok` | `#28a745` | Success color |
+| Variable | Default | Purpose | Utility Classes |
+|----------|---------|---------|-----------------|
+| `--m-p` | `#0066ff` | Primary color | `c1`, `b1`, `bd1` |
+| `--m-s` | `#6c757d` | Secondary color | `c2`, `b2`, `bd2` |
+| `--m-ok` | `#28a745` | Success color | `c3`, `b3` |
+| `--m-err` | `#dc3545` | Error color | `c4`, `b4` |
+| `--m-bg` | `#ffffff` | Background | body default |
+| `--m-fg` | `#212529` | Foreground/text | body default |
+
+### Theme Examples
+
+**Dark mode:**
+```json
+"t": {
+  "--m-p": "#818cf8",
+  "--m-s": "#64748b",
+  "--m-bg": "#0f172a",
+  "--m-fg": "#f1f5f9"
+}
+```
+
+**Brand colors:**
+```json
+"t": {
+  "--m-p": "#7c3aed",
+  "--m-s": "#a78bfa"
+}
+```
+
+**Warm theme:**
+```json
+"t": {
+  "--m-p": "#ea580c",
+  "--m-s": "#78716c",
+  "--m-ok": "#16a34a",
+  "--m-err": "#dc2626"
+}
+```
+
+The LLM generates appropriate values based on human description:
+- "Make it purple" → `"--m-p": "#7c3aed"`
+- "Dark theme" → `"--m-bg": "#1a1a1a", "--m-fg": "#f5f5f5"`
+- "Corporate blue" → `"--m-p": "#0066cc"`
