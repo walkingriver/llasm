@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="LLuMe Demo - AI-native web framework">
+<title>LLuMe Demo</title>
+</head>
+<body>
+<div id="app">
+<header><h1 data-m-tx="ti"></h1></header>
+<nav><a href="#/">Home</a> <a href="#/form">Form</a> <a href="#/list">List</a></nav>
+<main>
+<section data-m-route="/">
+<p data-m-tx="we"></p>
+<div data-m-enhance="disclosure"><button data-m-enhance="primary ripple">Info</button><div data-m-content><p>Hidden content revealed.</p></div></div>
+<div data-m-enhance="tooltip"><button>Hover</button><span data-m-tip>Tooltip text</span></div>
+</section>
+<section data-m-route="/form" hidden>
+<form id="fm">
+<label>Email<input type="email" name="em" required></label>
+<label>Name<input type="text" name="nm" minlength="2" maxlength="50"></label>
+<div data-m-enhance="combobox"><input placeholder="Country"><ul data-m-list><li data-m-opt>USA</li><li data-m-opt>UK</li><li data-m-opt>Canada</li></ul></div>
+<button type="submit" data-m-enhance="primary ripple validate">Submit</button>
+</form>
+<p data-m-bind="msg"></p>
+</section>
+<section data-m-route="/list" hidden>
+<div data-m-enhance="tabs"><button data-m-tab="t1">Tab 1</button><button data-m-tab="t2">Tab 2</button><div data-m-panel="t1"><p>Panel 1</p></div><div data-m-panel="t2"><p>Panel 2</p></div></div>
+<ul data-m-bind="items" data-m-tpl="it" data-m-key="id"></ul>
+<template id="it"><li><span data-m-f="nm"></span></li></template>
+<div data-m-enhance="progress" data-m-max="100" data-m-value="42"></div>
+</section>
+</main>
+<footer><button id="ln" data-m-enhance="secondary">EN</button></footer>
+</div>
+<script type="application/llume+json" id="manifest">{"v":1,"r":{"t":"div","a":{"id":"app"},"c":[{"t":"header","c":[{"t":"h1","tx":"ti"}]},{"t":"nav"},{"t":"main","c":[{"t":"section","a":{"data-m-route":"/"},"s":{}},{"t":"section","a":{"data-m-route":"/form"},"c":[{"t":"form","a":{"id":"fm"},"e":{"s":"f1"},"s":{"msg":""}}]},{"t":"section","a":{"data-m-route":"/list"},"s":{"items":[{"id":"1","nm":"Item A"},{"id":"2","nm":"Item B"}]}}]},{"t":"footer","c":[{"t":"button","a":{"id":"ln"},"e":{"c":"f2"}}]}]},"l":{"en":{"ti":"LLuMe Demo","we":"Welcome to LLuMe"},"es":{"ti":"Demo LLuMe","we":"Bienvenido a LLuMe"}},"t":{"--m-p":"#0066ff","--m-s":"#6c757d"}}</script>
+<script type="module">
+import{l}from"./llume.js";
+l.h({f1:async(e,s,L)=>{const r=L.vf(e.target);if(!r.v)return;L.u({msg:"OK"});},f2:(e,s,L)=>{L.r(L.s().ln==="es"?"en":"es");}});
+</script>
+</body>
+</html>
