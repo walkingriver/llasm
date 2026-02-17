@@ -64,7 +64,7 @@ const ai=()=>A('[data-m-tx]').forEach(ti);
 const UC=`
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--m-p:#0066ff;--m-s:#6c757d;--m-ok:#28a745;--m-err:#dc3545;--m-bg:#fff;--m-fg:#212529;font-family:system-ui,sans-serif;line-height:1.5}
-body{background:var(--m-bg);color:var(--m-fg);transition:background .3s,color .3s}
+body{background:var(--m-bg);color:var(--m-fg)}
 .f{display:flex}.fc{flex-direction:column}.fw{flex-wrap:wrap}.fi{align-items:center}.fj{justify-content:center}.fb{justify-content:space-between}.fa{justify-content:space-around}.fe{justify-content:flex-end}.fs{justify-content:flex-start}.fg{flex-grow:1}
 .g{display:grid}.gc2{grid-template-columns:repeat(2,1fr)}.gc3{grid-template-columns:repeat(3,1fr)}.gc4{grid-template-columns:repeat(4,1fr)}.gc5{grid-template-columns:repeat(5,1fr)}.gc6{grid-template-columns:repeat(6,1fr)}.gr2{grid-template-rows:repeat(2,1fr)}.gr3{grid-template-rows:repeat(3,1fr)}
 .g1{gap:.25rem}.g2{gap:.5rem}.g3{gap:1rem}.g4{gap:1.5rem}.g5{gap:2rem}

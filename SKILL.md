@@ -238,6 +238,38 @@ For complete examples, see:
 - [examples/contact-form.html](examples/contact-form.html)
 - [examples/minimal-card.html](examples/minimal-card.html) - Utility classes
 
+## Performance Best Practices
+
+Follow these rules to achieve optimal Lighthouse scores:
+
+### Images
+- **Always use WebP format** with quality 10-25 for decorative/background images, 40-60 for important visuals
+- **Always specify width and height attributes** on `<img>` elements to prevent CLS (Cumulative Layout Shift)
+- **Preload hero/LCP images** with `<link rel="preload" as="image" href="..." fetchpriority="high">`
+- **Use responsive sizing** with `style="height:min(400px,50vh);object-fit:cover"` for hero images
+
+### CSS Animations
+- **Only animate compositable properties**: `transform` and `opacity`
+- **Never animate**: `color`, `background`, `background-color`, `width`, `height`, `margin`, `padding`, `top`, `left`, etc.
+- **Avoid body-level transitions** - they cause non-composited animation warnings
+
+### Layout Stability (CLS)
+- **Explicit dimensions** on all images and media elements
+- **Reserve space** for dynamic content with min-height or aspect-ratio
+- **Avoid injecting content above existing content** after page load
+
+### Head Element Order
+```html
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="...">
+  <meta name="theme-color" content="#0066ff">
+  <link rel="preload" as="image" href="img/hero.webp" type="image/webp" fetchpriority="high">
+  <title>Page Title</title>
+</head>
+```
+
 ## File Output
 
 When generating a page, also copy `llasm.js` alongside it:
