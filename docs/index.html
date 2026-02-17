@@ -48,7 +48,8 @@
     <nav class="f g3 fi fw">
       <a href="#features" class="cg sm:dn" style="text-decoration:none">Features</a>
       <a href="#how" class="cg sm:dn" style="text-decoration:none">How It Works</a>
-      <a href="#examples" class="cg" style="text-decoration:none">Examples</a>
+      <a href="#examples" class="cg sm:dn" style="text-decoration:none">Examples</a>
+      <a href="#server" class="cg" style="text-decoration:none">Server</a>
       <a href="https://github.com/walkingriver/llasm" class="cg" style="text-decoration:none">GitHub</a>
       <button data-m-enhance="darkmode secondary" class="px2 py1 r t2">Theme</button>
     </nav>
@@ -243,6 +244,46 @@
       </div>
     </section>
 
+    <!-- Server-Side Skills -->
+    <section id="server" class="py5">
+      <h2 class="t6 tb tc c1 py3">Server-Side Skills</h2>
+      <p class="tc cg py2">LLasM also supports full-stack development with native Node.js</p>
+      
+      <div class="g gc2 g3 py3 sm:gc1">
+        <div class="p4 bg r">
+          <div class="t5 tb c1">REST API</div>
+          <p class="cg py2">Generate zero-dependency REST APIs using native Node.js http module. No Express, no Fastify—just single-file servers.</p>
+          <div class="bg r p2" style="overflow-x:auto">
+            <pre class="t1" style="margin:0;font-family:monospace;line-height:1.4"><code>const routes = {
+  'GET /api/items': handler,
+  'POST /api/items': handler,
+  'DELETE /api/items/:id': handler
+};</code></pre>
+          </div>
+          <p class="t2 cg py2">Run with: <code>node server.js</code></p>
+          <a href="https://github.com/walkingriver/llasm/blob/main/SKILL-API.md" class="t2 c1">View SKILL-API.md →</a>
+        </div>
+        
+        <div class="p4 bg r">
+          <div class="t5 tb c1">SSR</div>
+          <p class="cg py2">Server-side render LLasM pages with dynamic state injection. File-based routing where each HTML file is a route.</p>
+          <div class="bg r p2" style="overflow-x:auto">
+            <pre class="t1" style="margin:0;font-family:monospace;line-height:1.4"><code>const ssrHandlers = {
+  '/': async () => ({ user, items }),
+  '/products.html': async () => fetchProducts()
+};</code></pre>
+          </div>
+          <p class="t2 cg py2">Run with: <code>node ssr-server.js</code></p>
+          <a href="https://github.com/walkingriver/llasm/blob/main/SKILL-SSR.md" class="t2 c1">View SKILL-SSR.md →</a>
+        </div>
+      </div>
+      
+      <div class="tc py3">
+        <p class="cg t2">Same philosophy: framework-free, single-file output, no build step.</p>
+        <p class="cg t2 py1">ESM packages allowed when needed (better-sqlite3, zod, etc.)</p>
+      </div>
+    </section>
+
     <!-- CTA -->
     <section class="py5 tc">
       <h2 class="t6 tb c1 py2">Ready to Try It?</h2>
@@ -272,7 +313,7 @@
 
   <!-- Handlers -->
   <script type="module">
-    import{l}from"./llasm.js?v=p4k9t6w3";
+    import{l}from"./llasm.js?v=m7x3q9r2";
     l.h({
       inc:(e,s,L)=>L.u({count:s.count+1}),
       dec:(e,s,L)=>L.u({count:Math.max(0,s.count-1)})
