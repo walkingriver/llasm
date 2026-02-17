@@ -26,6 +26,32 @@ When you ask your AI coding assistant to "build me a todo app with dark mode," L
 
 ## Why Does This Exist?
 
+### Forty Years of Watching Frameworks Come and Go
+
+I've been building software professionally since 1995, and as a hobby since 1981. I started on a TRS-80 with BASIC, moved to Pascal and C, survived the Turbo Vision era, wrote COBOL for a summer job I try to forget, and eventually landed in the Windows world with Delphi and Visual Basic.
+
+I've seen my share of fads come and go: ActiveX controls, DHTML, ColdFusion, Flash/Flex, Silverlight, GWT, Backbone, Knockout, Ember. I coded classic VBScript ASP sites, then rode the .NET wave through Web Forms and MVC. I became a JavaScript developer with AngularJS, then Angular (the rewrite that broke everything), worked extensively with Ionic, dabbled in React, and tried Flutter.
+
+Every one of these frameworks shared a common trait: they were designed to be *flexible*. They offered multiple ways to solve problems. They were *opinionated*—but opinionated in the sense of "we think THIS is the best way," while still allowing you to do it YOUR way if you disagreed.
+
+The problem? Flexibility creates ambiguity. Ambiguity creates bugs. And when the author isn't a human who can reason through ambiguity—when the author is an LLM that will confidently hallucinate a plausible-but-wrong approach—flexibility becomes a liability.
+
+### The Perl Problem (and Its Opposite)
+
+Perl's motto was "There's more than one way to do it." For human programmers who value expressiveness, that's a feature. For LLMs, it's a nightmare. Every decision point is an opportunity for hallucination.
+
+What if there were a framework that is NOT opinionated in the traditional sense? Not "we think you should do it this way, but here's an escape hatch." Instead: **there is exactly one way to do most of the hard stuff.**
+
+- One way to handle events
+- One way to bind state
+- One way to render lists
+- One way to show a modal
+- One manifest format, one attribute naming convention, one output structure
+
+No flexibility. No choices. No escape hatches. Just rules.
+
+Yes, build tools can obfuscate and minify human-readable code after the fact. But that's a different concern. LLasM isn't about *hiding* complexity from humans—it's about *eliminating* complexity for LLMs. The output isn't obfuscated; it's simply never designed for human eyes in the first place.
+
 ### The Problem with Human-Centric Frameworks
 
 Every web framework in existence was designed for human developers:
@@ -110,6 +136,18 @@ The runtime handles reactivity, routing, i18n, theming, persistence, and progres
 ---
 
 ## The Philosophy
+
+### One Way to Do It
+
+LLasM inverts the traditional framework philosophy. Instead of "opinionated but flexible," it's "rigid and unambiguous."
+
+Want to handle a button click? There's one way: `data-m-on="click:handlerName"`.
+
+Want to show a toast? There's one way: `L.t('message', 'type')`.
+
+Want to persist state? There's one way: add the key to `"persist":[]` in the manifest.
+
+This rigidity isn't a limitation—it's the feature. Every decision that's already made is a decision the LLM can't get wrong.
 
 ### LLMs Are the Only Author
 
