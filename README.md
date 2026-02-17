@@ -2,7 +2,9 @@
 
 **LLM Assembly Language — The Web Framework Built Exclusively for Large Language Models**
 
-LLasM is the first framework whose only intended user is another LLM. Humans don't read, write, or debug LLasM code. The framework exists solely to let language models generate complete, production-grade web pages faster and more reliably than any human-centric stack.
+LLasM is the first framework whose only intended user is another LLM. Humans don't read, write, or debug LLasM code. The framework exists solely to let language models generate complete, production-grade web applications faster and more reliably than any human-centric stack.
+
+**Now with full-stack capabilities:** Frontend pages, REST APIs, and Server-Side Rendering — all with zero dependencies.
 
 ## Installation
 
@@ -18,15 +20,22 @@ Works with: Cursor, Claude Code, Copilot, Windsurf, Amp, Goose, Gemini CLI, and 
 
 Once installed, just ask your AI agent:
 
+### Frontend
 > "Build me a todo app with dark mode toggle"
 
-The agent reads the LLasM skill and outputs:
-1. A complete HTML file
-2. A copy of `llasm.js` alongside it
+The agent outputs a complete HTML file + `llasm.js`. Open in browser. Done.
 
-Open the HTML file in your browser. Done.
+### REST API
+> "Build me a REST API for managing notes with file-based persistence"
 
-No npm install. No build step. No toolchain.
+The agent outputs a single `server.js`. Run with `node server.js`. Done.
+
+### SSR
+> "Build me a server-rendered page that fetches user data"
+
+The agent outputs an HTML template + `ssr-server.js`. Run with `node ssr-server.js`. Done.
+
+**No npm install. No build step. No dependencies.**
 
 ---
 
@@ -225,6 +234,8 @@ Terse, token-efficient styling built into the runtime:
 
 ## Examples
 
+### Frontend
+
 | Example | Description |
 |---------|-------------|
 | `features-demo.html` | Showcases all v1.2 features |
@@ -233,6 +244,15 @@ Terse, token-efficient styling built into the runtime:
 | `landing-page.html` | Marketing page with accordion/tabs |
 | `contact-form.html` | Form with validation |
 | `minimal-card.html` | Styled card with utility classes |
+
+### Server-Side
+
+| Example | Description |
+|---------|-------------|
+| `api-basic.js` | In-memory CRUD API |
+| `api-with-db.js` | File-based JSON persistence |
+| `ssr-basic.js` | Basic server-side rendering |
+| `ssr-with-api.js` | Combined SSR + REST API server |
 
 ---
 
@@ -255,37 +275,92 @@ Terse, token-efficient styling built into the runtime:
 
 ```
 llasm/
-├── SKILL.md           # Main skill instructions (agent reads this)
-├── llasm.js           # Runtime (bundled with generated pages)
+├── SKILL.md           # Frontend skill (agent reads this)
+├── SKILL-API.md       # REST API skill
+├── SKILL-SSR.md       # SSR skill
+├── llasm.js           # Frontend runtime (~8KB gzipped)
 ├── AGENTS.md          # Agent discovery file
 ├── reference/         # Detailed specs
 │   ├── manifest-schema.md
 │   ├── enhancement-rules.md
 │   ├── runtime-api.md
-│   └── utility-classes.md
+│   ├── utility-classes.md
+│   ├── api-patterns.md      # REST API patterns
+│   └── ssr-patterns.md      # SSR patterns
 └── docs/
     ├── index.html     # Live docs site
     └── examples/      # Few-shot learning examples (live at llasm.dev/examples/)
         ├── features-demo.html
         ├── todo-app.html
         ├── tour-of-heroes.html
+        ├── api-basic.js         # Simple CRUD API
+        ├── api-with-db.js       # API with persistence
+        ├── ssr-basic.js         # Basic SSR server
+        ├── ssr-with-api.js      # Combined SSR + API
         └── ...
 ```
 
 ---
 
-## Future: SSR & PWA
+## Server-Side Skills
 
-Server-side rendering and PWA support planned:
+LLasM includes two server-side skills for full-stack development:
+
+### REST API (SKILL-API.md)
+
+Generate zero-dependency REST APIs using native Node.js:
 
 ```javascript
-// SSR (future)
-import { renderStatic } from 'llasm/ssr.js';
-const html = renderStatic(manifest);
+// server.js - Generated output
+import { createServer } from 'http';
 
-// PWA (future)
-<div data-m-enhance="pwa"></div>
+const routes = {
+  'GET /api/items': (req, res) => { /* handler */ },
+  'POST /api/items': (req, res, params, body) => { /* handler */ },
+  'DELETE /api/items/:id': (req, res, params) => { /* handler */ }
+};
+
+createServer(async (req, res) => {
+  // Router, CORS, JSON parsing - all in ~50 lines
+}).listen(3000);
 ```
+
+Run: `node server.js`
+
+### SSR (SKILL-SSR.md)
+
+Server-render LLasM pages with dynamic state injection:
+
+```javascript
+// ssr-server.js - Generated output
+import { createServer } from 'http';
+import { readFileSync } from 'fs';
+
+const template = readFileSync('./index.html', 'utf8');
+
+const render = (state) => {
+  const manifest = { v: 1, r: { s: state }, l: { en: {} } };
+  return template.replace(
+    /<script type="application\/llasm\+json"[^>]*>[\s\S]*?<\/script>/,
+    `<script type="application/llasm+json" id="manifest">${JSON.stringify(manifest)}</script>`
+  );
+};
+
+createServer((req, res) => {
+  const state = { user: 'Alice', items: fetchData() };
+  res.end(render(state));
+}).listen(3000);
+```
+
+Run: `node ssr-server.js`
+
+### Philosophy
+
+Both server skills follow the same principles as frontend LLasM:
+- **Single file output** - No project scaffolding
+- **Zero dependencies** - Native Node.js only (`http`, `fs`, `crypto`)
+- **No frameworks** - No Express, Fastify, or anything else
+- **No build step** - Just `node server.js`
 
 ---
 

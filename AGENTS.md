@@ -1,36 +1,77 @@
 # LLasM - LLM Assembly Language
 
-Generate complete, production-grade web pages with zero build tooling.
+Generate complete, production-grade web applications with zero build tooling.
 
-## When to Use
+## Available Skills
 
-Use this skill when:
+LLasM provides three complementary skills for full-stack development:
+
+| Skill | File | Output | Purpose |
+|-------|------|--------|---------|
+| **Frontend** | `SKILL.md` | Single HTML file | Static pages, SPAs, UI prototypes |
+| **REST API** | `SKILL-API.md` | Single JS file | JSON APIs, CRUD endpoints, data services |
+| **SSR** | `SKILL-SSR.md` | Single JS file | Server-rendered pages with hydration |
+
+All three follow the same philosophy: **zero dependencies, single-file output, no build step**.
+
+## When to Use Each Skill
+
+### Frontend (SKILL.md)
 - Building web pages, web apps, or UI prototypes
 - User wants a todo app, landing page, dashboard, form, etc.
 - Fast iteration without npm/build setup is desired
 - Static HTML with progressive enhancement is appropriate
 
-Do NOT use when:
+### REST API (SKILL-API.md)
+- User needs a backend API or REST service
+- JSON endpoints for CRUD operations
+- Data persistence with file-based JSON or integration points
+- Microservices or serverless function logic
+
+### SSR (SKILL-SSR.md)
+- User needs server-rendered pages with dynamic data
+- SEO-critical pages that need pre-populated content
+- Combining static templates with server-side state injection
+- Full-stack apps with both pages and API endpoints
+
+### Do NOT use LLasM when:
 - Complex SPA with client-side routing is required
 - User specifically requests React, Vue, Angular, etc.
-- Server-side logic beyond static pages is needed
+- Heavy real-time features requiring WebSocket frameworks
+- Enterprise-scale applications needing full frameworks
 
 ## Quick Start
 
-Read `SKILL.md` for complete generation rules.
-
-Generate:
+### Frontend (most common)
+Read `SKILL.md`, generate:
 1. Single HTML file with embedded manifest
 2. Copy `llasm.js` alongside it
 
-That's it. No build step.
+### REST API
+Read `SKILL-API.md`, generate:
+1. Single `server.js` file
+2. Run with `node server.js`
+
+### SSR
+Read `SKILL-SSR.md`, generate:
+1. HTML template(s)
+2. Single `ssr-server.js` file
+3. Run with `node ssr-server.js`
 
 ## Key Files
 
-- `SKILL.md` - Full generation instructions
+### Frontend
+- `SKILL.md` - Frontend generation instructions
 - `llasm.js` - Runtime (~8KB gzipped)
 - `reference/` - Detailed API specs
-- `docs/examples/` - Few-shot learning examples (also live at llasm.dev/examples/)
+- `docs/examples/*.html` - Frontend examples
+
+### Backend
+- `SKILL-API.md` - REST API generation instructions
+- `SKILL-SSR.md` - SSR generation instructions
+- `reference/api-patterns.md` - API patterns and helpers
+- `reference/ssr-patterns.md` - SSR patterns and helpers
+- `docs/examples/*.js` - Server examples
 
 ## Output Format
 
