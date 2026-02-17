@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Simple todo app built with LLuMe">
+<title>Todo App</title>
+</head>
+<body>
+<main>
+<h1 data-m-tx="ti"></h1>
+<form id="af">
+<input type="text" name="task" data-m-enhance="autofocus" placeholder="What needs done?" required minlength="1">
+<button type="submit" data-m-enhance="primary ripple">Add</button>
+</form>
+<ul data-m-bind="items" data-m-tpl="it" data-m-key="id"></ul>
+<template id="it"><li><span data-m-f="tx"></span> <button data-m-enhance="secondary" onclick="this.closest('li').remove()">X</button></li></template>
+<p><span data-m-bind="count"></span> <span data-m-tx="its"></span></p>
+</main>
+<script type="application/llume+json" id="manifest">{"v":1,"r":{"s":{"items":[],"count":0}},"l":{"en":{"ti":"Todo App","its":"items"}},"t":{"--m-p":"#0066ff"}}</script>
+<script type="module">
+import{l}from"./llume.js";
+l.h({f1:(e,s,L)=>{e.preventDefault();const t=L.q('[name=task]');if(!t.value)return;const n={id:Date.now(),tx:t.value};L.u({items:[...s.items,n],count:s.items.length+1});t.value='';t.focus();}});
+L.q('#af').addEventListener('submit',e=>l._s().f1?null:l.h({f1:()=>{}}).f1(e,l.s(),l));
+</script>
+</body>
+</html>

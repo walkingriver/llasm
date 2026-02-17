@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Modern landing page built with LLuMe">
+<meta property="og:title" content="Acme Product">
+<meta property="og:description" content="The best product for your needs">
+<title>Acme Product</title>
+<style>
+:root{font-family:system-ui,sans-serif;line-height:1.6}
+*{margin:0;padding:0;box-sizing:border-box}
+body{min-height:100vh;display:flex;flex-direction:column}
+header,footer{padding:1rem 2rem;background:var(--m-p)}
+header{color:#fff}
+main{flex:1;padding:2rem;max-width:800px;margin:0 auto}
+section{margin:2rem 0}
+nav a{color:#fff;margin-right:1rem;text-decoration:none}
+</style>
+</head>
+<body>
+<header>
+<nav>
+<a href="#hero" data-m-tx="nv1"></a>
+<a href="#features" data-m-tx="nv2"></a>
+<a href="#pricing" data-m-tx="nv3"></a>
+</nav>
+</header>
+<main>
+<section id="hero">
+<h1 data-m-tx="h1"></h1>
+<p data-m-tx="h1s"></p>
+<button data-m-enhance="primary ripple" data-m-tx="cta"></button>
+</section>
+<section id="features">
+<h2 data-m-tx="f1"></h2>
+<div data-m-enhance="accordion">
+<div data-m-acc><div data-m-hd data-m-tx="fa1"></div><div data-m-bd data-m-tx="fb1"></div></div>
+<div data-m-acc><div data-m-hd data-m-tx="fa2"></div><div data-m-bd data-m-tx="fb2"></div></div>
+<div data-m-acc><div data-m-hd data-m-tx="fa3"></div><div data-m-bd data-m-tx="fb3"></div></div>
+</div>
+</section>
+<section id="pricing">
+<h2 data-m-tx="p1"></h2>
+<div data-m-enhance="tabs">
+<button data-m-tab="free" data-m-tx="pt1"></button>
+<button data-m-tab="pro" data-m-tx="pt2"></button>
+<div data-m-panel="free"><p data-m-tx="pf1"></p><p>$0/mo</p></div>
+<div data-m-panel="pro"><p data-m-tx="pp1"></p><p>$29/mo</p></div>
+</div>
+</section>
+</main>
+<footer><p>&copy; 2026 Acme Inc.</p></footer>
+<script type="application/llume+json" id="manifest">{"v":1,"l":{"en":{"nv1":"Home","nv2":"Features","nv3":"Pricing","h1":"Welcome to Acme","h1s":"The solution you've been waiting for.","cta":"Get Started","f1":"Features","fa1":"Fast","fb1":"Lightning fast performance.","fa2":"Secure","fb2":"Enterprise-grade security.","fa3":"Scalable","fb3":"Grows with your business.","p1":"Pricing","pt1":"Free","pt2":"Pro","pf1":"Basic features for individuals.","pp1":"All features for teams."}},"t":{"--m-p":"#1a73e8","--m-s":"#5f6368"}}</script>
+<script type="module">import{l}from"./llume.js";</script>
+</body>
+</html>

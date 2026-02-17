@@ -1,0 +1,33 @@
+{
+  "name": "@walkingriver/llume",
+  "version": "1.0.0",
+  "description": "LLuMe: AI-native web framework skill for Cursor",
+  "type": "module",
+  "bin": {
+    "llume": "./bin/install.js"
+  },
+  "files": [
+    "bin/",
+    "examples/",
+    "reference/",
+    "SKILL.md",
+    "llume.js"
+  ],
+  "keywords": [
+    "llume",
+    "ai",
+    "llm",
+    "cursor",
+    "skill",
+    "web",
+    "framework",
+    "zero-build"
+  ],
+  "author": "Michael Callaghan",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/walkingriver/llume.git"
+  },
+  "homepage": "https://github.com/walkingriver/llume#readme"
+}

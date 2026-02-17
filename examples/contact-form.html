@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Contact form with validation built with LLuMe">
+<title>Contact Us</title>
+<style>
+:root{font-family:system-ui,sans-serif}
+*{margin:0;padding:0;box-sizing:border-box}
+body{min-height:100vh;display:flex;align-items:center;justify-content:center;background:#f5f5f5}
+main{background:#fff;padding:2rem;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.1);width:100%;max-width:400px}
+h1{margin-bottom:1.5rem}
+label{display:block;margin-bottom:1rem}
+input,textarea,select{width:100%;padding:0.5rem;border:1px solid #ccc;border-radius:4px;margin-top:0.25rem}
+button{margin-top:1rem;width:100%}
+.msg{margin-top:1rem;padding:0.75rem;border-radius:4px}
+.ok{background:#d4edda;color:#155724}
+.err{background:#f8d7da;color:#721c24}
+</style>
+</head>
+<body>
+<main>
+<h1 data-m-tx="ti"></h1>
+<form id="cf">
+<label><span data-m-tx="ln"></span><input type="text" name="nm" required minlength="2"></label>
+<label><span data-m-tx="le"></span><input type="email" name="em" required></label>
+<label><span data-m-tx="ls"></span>
+<div data-m-enhance="combobox">
+<input name="sb" placeholder="Select subject..." required>
+<ul><li data-m-opt>General Inquiry</li><li data-m-opt>Support</li><li data-m-opt>Sales</li><li data-m-opt>Partnership</li></ul>
+</div>
+</label>
+<label><span data-m-tx="lm"></span><textarea name="ms" rows="4" required minlength="10"></textarea></label>
+<button type="submit" data-m-enhance="primary ripple validate" data-m-tx="bt"></button>
+</form>
+<div data-m-bind="msg"></div>
+</main>
+<script type="application/llume+json" id="manifest">{"v":1,"r":{"s":{"msg":""}},"l":{"en":{"ti":"Contact Us","ln":"Name","le":"Email","ls":"Subject","lm":"Message","bt":"Send Message","ok":"Message sent!","err":"Please fix errors."}},"t":{"--m-p":"#0066ff"}}</script>
+<script type="module">
+import{l}from"./llume.js";
+l.h({f1:async(e,s,L)=>{e.preventDefault();const r=L.vf(e.target);if(!r.v){L.u({msg:'<div class="msg err">Please fix errors.</div>'});return;}L.u({msg:'<div class="msg ok">Message sent!</div>'});e.target.reset();}});
+document.getElementById('cf').addEventListener('submit',e=>{const h=l._s;if(h.f1)h.f1(e,l.s(),l);});
+</script>
+</body>
+</html>
