@@ -28,7 +28,9 @@ When you ask your AI coding assistant to "build me a todo app with dark mode," L
 
 ### Forty Years of Watching Frameworks Come and Go
 
-I've been building software professionally since 1995, and as a hobby since 1981. I started on a TRS-80 with BASIC, moved to Pascal and C, and eventually landed in the Windows world with Visual Basic.
+I've been building software professionally since 1995, and as a hobby since 1981. I started writing BASIC on HP 2000 and 3000 minicomputers, graduated to an Atari 800 with an external floppy drive, then Pascal on an Atari ST at home. I learned C and C++ on DECStations running their flavor of Unix, even had a NeXTCube for a while before my Apple IIx, then 286 boxes for learning Windows.
+
+The ecosystems changed constantly, but the goal was always the same: *building a better app faster*.
 
 I've seen my share of fads come and go: ActiveX controls, DHTML, ColdFusion, Flash/Flex, Silverlight, GWT, Backbone, Knockout, Ember. I coded classic VBScript ASP sites, then rode the .NET wave through Web Forms and MVC. I became a JavaScript developer with AngularJS, then Angular (the rewrite that broke everything), worked extensively with Ionic, dabbled in React, and tried Flutter.
 
