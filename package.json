@@ -10,7 +10,7 @@
     "test:watch": "vitest"
   },
   "files": [
-    "examples/",
+    "docs/examples/",
     "reference/",
     "SKILL.md",
     "AGENTS.md",

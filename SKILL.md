@@ -231,12 +231,12 @@ L.t('Info message', 'info');   // info
 ## Examples
 
 For complete examples, see:
-- [examples/features-demo.html](examples/features-demo.html) - All v1.2 features
-- [examples/tour-of-heroes.html](examples/tour-of-heroes.html) - Full app
-- [examples/todo-app.html](examples/todo-app.html) - Persistent todos
-- [examples/landing-page.html](examples/landing-page.html)
-- [examples/contact-form.html](examples/contact-form.html)
-- [examples/minimal-card.html](examples/minimal-card.html) - Utility classes
+- [docs/examples/features-demo.html](docs/examples/features-demo.html) - All v1.2 features
+- [docs/examples/tour-of-heroes.html](docs/examples/tour-of-heroes.html) - Full app
+- [docs/examples/todo-app.html](docs/examples/todo-app.html) - Persistent todos
+- [docs/examples/landing-page.html](docs/examples/landing-page.html)
+- [docs/examples/contact-form.html](docs/examples/contact-form.html)
+- [docs/examples/minimal-card.html](docs/examples/minimal-card.html) - Utility classes
 
 ## Performance Best Practices
 

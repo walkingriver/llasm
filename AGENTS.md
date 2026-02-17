@@ -30,7 +30,7 @@ That's it. No build step.
 - `SKILL.md` - Full generation instructions
 - `llasm.js` - Runtime (~8KB gzipped)
 - `reference/` - Detailed API specs
-- `examples/` - Few-shot learning examples
+- `docs/examples/` - Few-shot learning examples (also live at llasm.dev/examples/)
 
 ## Output Format
 

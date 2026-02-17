@@ -263,11 +263,13 @@ llasm/
 │   ├── enhancement-rules.md
 │   ├── runtime-api.md
 │   └── utility-classes.md
-└── examples/          # Few-shot learning examples
-    ├── features-demo.html
-    ├── todo-app.html
-    ├── tour-of-heroes.html
-    └── ...
+└── docs/
+    ├── index.html     # Live docs site
+    └── examples/      # Few-shot learning examples (live at llasm.dev/examples/)
+        ├── features-demo.html
+        ├── todo-app.html
+        ├── tour-of-heroes.html
+        └── ...
 ```
 
 ---
