@@ -3,6 +3,10 @@
   "version": "1.2.0",
   "description": "LLasM: LLM Assembly Language - AI agent skill for generating zero-build web applications",
   "type": "module",
+  "scripts": {
+    "serve": "sirv docs --port 8080 --dev",
+    "serve:examples": "sirv examples --port 8080 --dev"
+  },
   "files": [
     "examples/",
     "reference/",
@@ -30,5 +34,8 @@
     "type": "git",
     "url": "git+https://github.com/walkingriver/llasm.git"
   },
-  "homepage": "https://llasm.dev"
+  "homepage": "https://llasm.dev",
+  "devDependencies": {
+    "sirv-cli": "^3.0.0"
+  }
 }

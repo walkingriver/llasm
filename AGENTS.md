@@ -85,6 +85,14 @@ These rules prevent common Lighthouse audit failures:
 - Set `Cache-Control: public, max-age=31536000` for static assets
 - Add security headers: CSP, HSTS, X-Frame-Options, COOP
 
+## Development Server
+
+Start a local dev server to preview pages:
+```bash
+npm run serve          # Serves docs/ on http://localhost:8080
+npm run serve:examples # Serves examples/ on http://localhost:8080
+```
+
 ## Versioning & Cache Busting
 
 The LLM IS the build tool. When generating or updating any page:
