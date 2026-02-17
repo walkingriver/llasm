@@ -284,9 +284,48 @@ Follow these rules to achieve optimal Lighthouse scores:
 </head>
 ```
 
+### Critical Inline CSS
+For production pages, include critical CSS inline in `<head>` to prevent CLS:
+- Box-sizing reset, CSS custom properties, font-family
+- Layout classes used above the fold (`f`, `fc`, `fi`, `fj`, `fb`, `g`, `gc2`, `gc3`)
+- Spacing classes (`p2-p4`, `px2-px4`, `py1-py5`, `g1-g3`, `mxa`)
+- Typography (`t1-t7`, `tc`, `tb`)
+- Colors (`c1`, `cg`, `cw`, `b1`, `bg`, `bw`)
+- Position (`rel`, `abs`, `stk`, `t0`, `r0`, `b0`, `l0`, `z3`)
+- Responsive breakpoints (`@media(max-width:768px)`)
+
+## Versioning & Cache Busting
+
+### VERSION.json
+Track builds with a simple JSON file at project root:
+```json
+{
+  "build": 1,
+  "date": "2026-02-17T12:00:00Z",
+  "hash": "abc1234"
+}
+```
+
+### Version Bumping Workflow
+When deploying changes:
+1. Increment `build` number in `VERSION.json`
+2. Update `date` to current ISO timestamp
+3. Update `hash` to current git commit hash (first 7 chars)
+4. Update footer `data-m-version` element: `Build {n} · {date}`
+5. Update `llasm.js` import query string: `./llasm.js?v={build}`
+
+### Cache Busting
+Use query string versioning on the llasm.js import:
+```html
+<script type="module">
+  import{l}from"./llasm.js?v=1";
+</script>
+```
+Increment the version number with each build to bust browser cache.
+
 ## File Output
 
 When generating a page, also copy `llasm.js` alongside it:
 - Read `llasm.js` from this skill directory
 - Write it next to the generated HTML
-- Reference as `./llasm.js` in the script import
+- Reference as `./llasm.js?v={build}` in the script import

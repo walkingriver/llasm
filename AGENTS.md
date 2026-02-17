@@ -73,6 +73,8 @@ These rules prevent common Lighthouse audit failures:
 - Reserve space for images/media with explicit dimensions
 - Don't inject content above existing content after load
 - Use `min-height` or `aspect-ratio` for dynamic containers
+- **Include critical CSS inline in `<head>`** to prevent CLS from late CSS injection
+- Apply dark mode class to `<html>` via blocking script before body renders
 
 ### Accessibility:
 - Ensure link color contrast ratio >= 4.5:1 (e.g., `#1a1a1a` not `#666`)
@@ -82,3 +84,15 @@ These rules prevent common Lighthouse audit failures:
 ### Server-Side (document for deployment):
 - Set `Cache-Control: public, max-age=31536000` for static assets
 - Add security headers: CSP, HSTS, X-Frame-Options, COOP
+
+## Versioning & Cache Busting
+
+When making changes to the docs site or llasm.js:
+
+1. **Bump VERSION.json** - Increment `build`, update `date` and `hash`
+2. **Update footer** - Change `data-m-version` element to match build number
+3. **Update cache-bust** - Change `?v=N` query string on `llasm.js` import
+
+Example: `import{l}from"./llasm.js?v=2";`
+
+This ensures browsers fetch the latest version after deployments.
