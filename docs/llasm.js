@@ -109,7 +109,7 @@ button{cursor:pointer}
 input,select,textarea{padding:.5rem;border:1px solid #ccc;border-radius:4px}
 input:focus,select:focus,textarea:focus{outline:2px solid var(--m-p);outline-offset:1px}
 ul,ol{list-style:none}
-.dark{--m-bg:#1a1a1a;--m-fg:#f5f5f5}
+.dark{--m-bg:#1a1a1a;--m-fg:#f5f5f5;background:var(--m-bg);color:var(--m-fg)}.dark .bg{background:#2a2a2a}.dark .bw{background:#1a1a1a}.dark .cg{color:#aaa}
 [data-m-toast]{position:fixed;bottom:1rem;right:1rem;padding:1rem 1.5rem;border-radius:8px;color:#fff;z-index:9999;transform:translateY(100px);opacity:0;transition:all .3s ease;pointer-events:none}
 [data-m-toast].show{transform:translateY(0);opacity:1;pointer-events:auto}
 [data-m-toast].ok{background:var(--m-ok)}[data-m-toast].err{background:var(--m-err)}[data-m-toast].info{background:var(--m-p)}
@@ -314,8 +314,15 @@ const tc=(el)=>{
 // Enhancement: dark mode toggle
 const dm=(el)=>{
   const key='llasm-dark';
-  const apply=(dark)=>{D.body.classList.toggle('dark',dark);try{localStorage.setItem(key,dark);}catch{}};
-  try{const saved=localStorage.getItem(key);if(saved==='true')apply(true);}catch{}
+  const apply=(dark)=>{D.body.classList.toggle('dark',dark);try{localStorage.setItem(key,dark?'true':'false');}catch{}};
+  // Check: 1) localStorage override, 2) system preference
+  try{
+    const saved=localStorage.getItem(key);
+    if(saved!==null){apply(saved==='true');}
+    else if(W.matchMedia&&W.matchMedia('(prefers-color-scheme:dark)').matches){apply(true);}
+  }catch{}
+  // Listen for system preference changes
+  try{W.matchMedia('(prefers-color-scheme:dark)').addEventListener('change',e=>{if(localStorage.getItem(key)===null)apply(e.matches);});}catch{}
   el.addEventListener('click',()=>apply(!D.body.classList.contains('dark')));
 };
 
