@@ -63,6 +63,11 @@ Every web framework in existence was designed for human developers:
 - **Vue** expects you to learn its template syntax and reactive patterns  
 - **Tailwind** requires you to memorize hundreds of utility classes
 - **Next.js** needs you to understand server components, client boundaries, and hydration
+- **Ionic** and **React Native** bolt web paradigms onto mobile, with their own quirks
+- **Flutter** abandons the web entirely for Dart and a custom rendering engine
+- **Android** and **iOS**? Those aren't even web technologies—Kotlin, Swift, Xcode, Android Studio, provisioning profiles, app store review processes...
+
+Where does it end?
 
 These frameworks optimize for *human comprehension*. They have tutorials, IDE extensions, and Stack Overflow answers. They're designed to be learned.
 
