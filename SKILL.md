@@ -299,25 +299,24 @@ For production pages, include critical CSS inline in `<head>` to prevent CLS:
 When generating or updating any LLasM page, the LLM automatically embeds version info:
 
 ### Footer Version (REQUIRED)
-Every page MUST include a version line in the footer with the current date:
+Every page MUST include a version line in the footer with today's date:
 ```html
 <p class="t1 o5" data-m-version>Built YYYY-MM-DD</p>
 ```
-Use today's actual date when generating. This serves as the "build timestamp" - no external build tool needed.
 
 ### Cache Busting (REQUIRED)
-Use a timestamp-based query string on the llasm.js import:
+Generate a random 8-character alphanumeric hash for the llasm.js import:
 ```html
 <script type="module">
-  import{l}from"./llasm.js?v=YYYYMMDD";
+  import{l}from"./llasm.js?v=a7f3b2c1";
 </script>
 ```
-Use today's date as the version. When updating a page, always update this to the current date.
+Generate a NEW random hash each time you create or update a page. This achieves Angular-style cache busting without build tools.
 
 ### Why This Works
-- The LLM IS the build tool - it knows today's date
+- The LLM IS the build tool
+- LLM generates random hash on each update (like content hashing)
 - No external scripts, no package.json, no build step
-- Each generation/update automatically gets a fresh timestamp
 - Cache is busted naturally when pages are regenerated
 
 ## File Output

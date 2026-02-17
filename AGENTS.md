@@ -90,12 +90,12 @@ These rules prevent common Lighthouse audit failures:
 The LLM IS the build tool. When generating or updating any page:
 
 1. **Footer version** - Include `<p class="t1 o5" data-m-version>Built YYYY-MM-DD</p>` with today's date
-2. **Cache-bust import** - Use `import{l}from"./llasm.js?v=YYYYMMDD";` with today's date
+2. **Cache-bust import** - Generate a random 8-char hash: `import{l}from"./llasm.js?v=x9k2m4p7";`
 
-Example for today (2026-02-17):
+Example:
 ```html
 <p data-m-version>Built 2026-02-17</p>
-<script type="module">import{l}from"./llasm.js?v=20260217";</script>
+<script type="module">import{l}from"./llasm.js?v=x9k2m4p7";</script>
 ```
 
-No external build tools. The LLM embeds the timestamp during generation.
+Generate a NEW random hash each time you update a page. This achieves Angular-style cache busting without build tools.
