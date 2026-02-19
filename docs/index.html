@@ -41,6 +41,14 @@
     .z3{z-index:1000}
     a{color:var(--m-p);text-decoration:none}
     @media(max-width:768px){.sm\:dn{display:none}.sm\:fc{flex-direction:column}.sm\:gc1{grid-template-columns:1fr}}
+    /* View Transitions */
+    @view-transition{navigation:auto}
+    @keyframes fade-out{from{opacity:1}to{opacity:0}}
+    @keyframes fade-in{from{opacity:0}to{opacity:1}}
+    @keyframes slide-out{from{transform:translateX(0)}to{transform:translateX(-20px)}}
+    @keyframes slide-in{from{transform:translateX(20px)}to{transform:translateX(0)}}
+    ::view-transition-old(root){animation:.4s ease-out both fade-out,slide-out}
+    ::view-transition-new(root){animation:.4s ease-out both fade-in,slide-in}
     /* Dark mode */
     html.dark{--m-bg:#1a1a1a;--m-fg:#f5f5f5;--m-p:#5c9eff}
     html.dark body{background:var(--m-bg);color:var(--m-fg)}
@@ -58,7 +66,6 @@
       <a href="#features" class="cg sm:dn tdn">Features</a>
       <a href="#how" class="cg sm:dn tdn">How It Works</a>
       <a href="#examples" class="cg sm:dn tdn">Examples</a>
-      <a href="#server" class="cg sm:dn tdn">Server</a>
       <a href="blog.html" class="cg tdn">Blog</a>
       <a href="https://github.com/walkingriver/llasm" class="cg tdn">GitHub</a>
       <button data-m-enhance="darkmode secondary" class="px2 py1 r t2">Theme</button>
@@ -87,7 +94,12 @@
       <div class="f fj g2 fw py3">
         <code class="p2 bg r t3 mono">npx skills add walkingriver/llasm</code>
       </div>
-      <p class="t2 cg">Works with Cursor, Claude Code, Copilot, Windsurf, and more</p>
+      <p class="t2 cg ti">(Coming soon to skills.sh)</p>
+      <p class="t2 cg py1">Works with Cursor, Claude Code, Copilot, Windsurf, and more</p>
+      <a href="blog.html" class="f fi fj g2 b1 cw p2 px4 r tdn tb mt3 dib">
+        <span>Read the announcement</span>
+        <span>→</span>
+      </a>
     </section>
 
     <!-- Philosophy -->
@@ -158,7 +170,7 @@
           <div class="p3 b1 cw r tc step-num">1</div>
           <div>
             <div class="tb t4">Install the Skill</div>
-            <p class="cg py1">Run <code>npx skills add walkingriver/llasm</code> to teach your AI agent the LLasM instruction set.</p>
+            <p class="cg py1">Run <code>npx skills add walkingriver/llasm</code> to teach your AI agent the LLasM instruction set. <span class="ti">(Coming soon)</span></p>
           </div>
         </div>
         <div class="f g3 fi py3 sm:fc">
@@ -270,7 +282,7 @@
       </div>
     </section>
 
-    <!-- Server-Side Skills -->
+    <!-- Server-Side Skills (Coming Soon)
     <section id="server" class="py5">
       <h2 class="t6 tb tc c1 py3">Server-Side Skills</h2>
       <p class="tc cg py2">LLasM also supports full-stack development with native Node.js</p>
@@ -309,12 +321,14 @@
         <p class="cg t2 py1">ESM packages allowed when needed (better-sqlite3, zod, etc.)</p>
       </div>
     </section>
+    -->
 
     <!-- CTA -->
     <section class="py5 tc">
       <h2 class="t6 tb c1 py2">Ready to Try It?</h2>
       <p class="cg py2">Install the skill and ask your AI agent to build something</p>
       <code class="db p3 bg r t3 mxa mono xw3">npx skills add walkingriver/llasm</code>
+      <p class="t2 cg ti py2">(Coming soon to skills.sh)</p>
       <div class="f fj g3 py4 fw">
         <a href="https://github.com/walkingriver/llasm" class="px4 py2 b1 cw r tb tdn">View on GitHub</a>
       </div>
@@ -339,7 +353,7 @@
 
   <!-- Handlers -->
   <script type="module">
-    import{l}from"./llasm.js?v=j5w2n8c3";
+    import{l}from"./llasm.js?v=r7m3k9p2";
     l.h({
       inc:(e,s,L)=>L.u({count:s.count+1}),
       dec:(e,s,L)=>L.u({count:Math.max(0,s.count-1)})

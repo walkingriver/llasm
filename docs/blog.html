@@ -38,6 +38,15 @@
     ul,ol{padding-left:1.5rem;margin:1rem 0}
     li{margin:.25rem 0}
     @media(max-width:768px){.sm\:dn{display:none}.sm\:fc{flex-direction:column}}
+    /* View Transitions */
+    @view-transition{navigation:auto}
+    @keyframes fade-out{from{opacity:1}to{opacity:0}}
+    @keyframes fade-in{from{opacity:0}to{opacity:1}}
+    @keyframes slide-out{from{transform:translateX(0)}to{transform:translateX(-20px)}}
+    @keyframes slide-in{from{transform:translateX(20px)}to{transform:translateX(0)}}
+    ::view-transition-old(root){animation:.4s ease-out both fade-out,slide-out}
+    ::view-transition-new(root){animation:.4s ease-out both fade-in,slide-in}
+    .tdn{text-decoration:none}.oxa{overflow-x:auto}.mt-header{margin-top:60px}.bdt{border-top:1px solid currentColor}
     html.dark{--m-bg:#1a1a1a;--m-fg:#f5f5f5;--m-p:#5c9eff}
     html.dark body{background:var(--m-bg);color:var(--m-fg)}
     html.dark .bg{background:#2a2a2a}
@@ -53,16 +62,16 @@
 <body class="bg">
   <!-- Header -->
   <header class="f fb fi px3 py2 stk t0 l0 r0 z3 bw sh">
-    <a href="index.html" class="t5 tb c1" style="text-decoration:none">⚡ LLasM</a>
+    <a href="index.html" class="t5 tb c1 tdn">⚡ LLasM</a>
     <nav class="f g3 fi fw">
-      <a href="index.html" class="cg" style="text-decoration:none">Home</a>
-      <a href="index.html#examples" class="cg sm:dn" style="text-decoration:none">Examples</a>
-      <a href="https://github.com/walkingriver/llasm" class="cg" style="text-decoration:none">GitHub</a>
+      <a href="index.html" class="cg tdn">Home</a>
+      <a href="index.html#examples" class="cg sm:dn tdn">Examples</a>
+      <a href="https://github.com/walkingriver/llasm" class="cg tdn">GitHub</a>
       <button data-m-enhance="darkmode secondary" class="px2 py1 r t2">Theme</button>
     </nav>
   </header>
 
-  <main class="xw3 mxa px3 py5" style="margin-top:60px">
+  <main class="xw3 mxa px3 py5 mt-header">
     <article>
       <h1 class="t7 tb c1 py3">LLasM: The Web Framework Where Humans Are Not the Intended Audience</h1>
       
@@ -100,9 +109,11 @@
 
       <p class="py2">The ecosystems changed constantly, but the goal was always the same: <em>building a better app faster</em>.</p>
 
-      <p class="py2">I've seen my share of fads come and go: ActiveX controls, DHTML, ColdFusion, Flash/Flex, Silverlight, GWT, Backbone, Knockout, Ember. I coded classic VBScript ASP sites, then rode the .NET wave through Web Forms and MVC. I became a JavaScript developer with AngularJS, then Angular (the rewrite that broke everything), worked extensively with Ionic, dabbled in React, and tried Flutter.</p>
+      <p class="py2">I've seen my share of fads come and go: ActiveX controls, DHTML, ColdFusion, Flash/Flex, Silverlight, GWT, jQuery, Backbone, Knockout, Ember. I coded classic VBScript ASP sites, then rode the .NET wave through Web Forms and MVC. I became a JavaScript developer with AngularJS, then Angular (the rewrite that broke everything), worked extensively with Ionic, dabbled in React, and tried Flutter.</p>
 
-      <p class="py2">Every one of these frameworks shared a common trait: they were designed to be <em>flexible</em>. They offered multiple ways to solve problems. They were <em>opinionated</em>—but opinionated in the sense of "we think THIS is the best way," while still allowing you to do it YOUR way if you disagreed.</p>
+      <p class="py2">Every single one of them—from jQuery to React to Flutter—is an <em>abstraction</em>. The primary purpose of any library or framework is to make it easier for developers to build software. Humans often need such abstractions. Machines don't.</p>
+
+      <p class="py2">And every one of these frameworks shared another common trait: they were designed to be <em>flexible</em>. They offered multiple ways to solve problems. They were <em>opinionated</em>—but opinionated in the sense of "we think THIS is the best way," while still allowing you to do it YOUR way if you disagreed.</p>
 
       <p class="py2">The problem? Flexibility creates ambiguity. Ambiguity creates bugs. And when the author isn't a human who can reason through ambiguity—when the author is an LLM that will confidently hallucinate a plausible-but-wrong approach—flexibility becomes a liability.</p>
 
@@ -171,6 +182,7 @@
       <p class="py2">LLasM is distributed as an <strong>agent skill</strong>—a set of instructions that AI coding agents read and follow. Install it with:</p>
 
       <pre><code>npx skills add walkingriver/llasm</code></pre>
+      <p class="t2 cg ti py1">(Coming soon to skills.sh)</p>
 
       <p class="py2">Once installed, just ask your AI agent to build something:</p>
 
@@ -180,7 +192,7 @@
 
       <ol class="py2">
         <li><strong>A complete HTML file</strong> with embedded state, i18n, and theming</li>
-        <li><strong>A copy of <code>llasm.js</code></strong> (~8KB runtime) alongside it</li>
+        <li><strong>A copy of <code>llasm.js</code></strong> (~9KB gzipped) alongside it</li>
       </ol>
 
       <p class="py2">Open the HTML in a browser. Done. No npm install. No webpack. No Vite. No build step. Ever.</p>
@@ -217,7 +229,7 @@
         <li><strong>Works without JavaScript</strong> for SEO and accessibility</li>
       </ul>
 
-      <p class="py2">The runtime handles reactivity, routing, i18n, theming, persistence, and progressive enhancements (modals, tabs, toasts, dark mode, etc.)—all in ~8KB gzipped.</p>
+      <p class="py2">The runtime handles reactivity, routing, i18n, theming, persistence, and progressive enhancements (modals, tabs, toasts, dark mode, etc.)—all in ~9KB gzipped.</p>
 
       <hr>
 
@@ -231,7 +243,7 @@
 
       <p class="py2">Want to show a toast? There's one way: <code>L.t('message', 'type')</code>.</p>
 
-      <p class="py2">Want to persist state? There's one way: add the key to <code>"persist":[]</code> in the manifest.</p>
+      <p class="py2">Want to persist state? There's one way: add the key to <code>"persist":{}</code> in the manifest with its storage tier.</p>
 
       <p class="py2">This rigidity isn't a limitation—it's the feature. Every decision that's already made is a decision the LLM can't get wrong.</p>
 
@@ -279,7 +291,7 @@
 
       <p class="py2">LLasM covers the "hard 80%" of web UI:</p>
 
-      <div class="py2" style="overflow-x:auto">
+      <div class="py2 oxa">
         <table>
           <thead>
             <tr><th>Feature</th><th>How</th></tr>
@@ -297,7 +309,7 @@
             <tr><td>Routing</td><td>Hash-based with <code>data-m-route="/path/:id"</code></td></tr>
             <tr><td>Data binding</td><td><code>data-m-bind="stateKey"</code></td></tr>
             <tr><td>List rendering</td><td><code>data-m-tpl</code> + <code>data-m-key</code></td></tr>
-            <tr><td>Persistence</td><td><code>"persist":["key1"]</code> saves to localStorage</td></tr>
+            <tr><td>Persistence</td><td><code>"persist":{"key":"local"}</code> saves to localStorage</td></tr>
             <tr><td>Offline detection</td><td><code>data-m-if="_offline"</code></td></tr>
           </tbody>
         </table>
@@ -343,9 +355,35 @@
 
       <hr>
 
+      <h2 class="t6 tb c1 py3">Why Stop at HTML/JS/CSS?</h2>
+
+      <p class="py2">If LLMs don't need human-readable abstractions, why stop here? Why not go deeper—all the way to WebAssembly?</p>
+
+      <p class="py2">We could. WASM lets you compile C, Rust, or Go directly to bytecode that runs in the browser. No JavaScript required. Maximum performance. If we're truly optimizing for machines writing code for machines to execute, why not cut out the middleman entirely?</p>
+
+      <p class="py2">But here's what we'd lose:</p>
+
+      <ul class="py2">
+        <li><strong>View Source</strong>: The web's original superpower—inspect any page and learn from it</li>
+        <li><strong>Progressive enhancement</strong>: HTML works without JavaScript; WASM doesn't</li>
+        <li><strong>Accessibility</strong>: Screen readers understand semantic HTML; they can't parse WASM blobs</li>
+        <li><strong>SEO</strong>: Search engines index text content, not binary modules</li>
+        <li><strong>Deep linking</strong>: URLs that point to specific content, not opaque application states</li>
+        <li><strong>The DOM</strong>: CSS selectors, event delegation, browser dev tools—all built around HTML</li>
+        <li><strong>Universal deployment</strong>: HTML runs everywhere; WASM support varies</li>
+        <li><strong>Instant loading</strong>: Text compresses better and streams; binaries must fully download</li>
+      </ul>
+
+      <p class="py2">HTML, CSS, and JavaScript aren't just "good enough"—they're the native language of the web. They're built into every browser on every device. They're what makes the web <em>the web</em> rather than just another app platform.</p>
+
+      <p class="py2">And as Scott Hanselman observed fifteen years ago: JavaScript is already assembly language. We don't need to go lower. We just need to write it differently.</p>
+
+      <hr>
+
       <h2 class="t6 tb c1 py3">Try It</h2>
 
       <pre><code>npx skills add walkingriver/llasm</code></pre>
+      <p class="t2 cg ti py1">(Coming soon to skills.sh)</p>
 
       <p class="py2">Then ask your AI agent:</p>
 
@@ -372,7 +410,7 @@
   </main>
 
   <!-- Footer -->
-  <footer class="tc py4 cg t2 bd" style="border-left:0;border-right:0;border-bottom:0">
+  <footer class="tc py4 cg t2 bdt">
     <p>LLasM — LLM Assembly Language</p>
     <p class="py1">Orchestrated by <a href="https://x.com/mikecallaghan" class="c1">Michael D. Callaghan</a></p>
     <p class="py2">
@@ -380,7 +418,7 @@
       <a href="https://skills.sh" class="cg">skills.sh</a> ·
       <a href="https://x.com/mikecallaghan" class="cg">𝕏</a>
     </p>
-    <p class="t1 o5" data-m-version>Built 2026-02-17</p>
+    <p class="t1 o5" data-m-version>Built 2026-02-19</p>
   </footer>
 
   <!-- Manifest -->
@@ -388,7 +426,7 @@
 
   <!-- Handlers -->
   <script type="module">
-    import{l}from"./llasm.js?v=b3k7n9p4";
+    import{l}from"./llasm.js?v=k9p4x2m7";
     l.h({});
   </script>
 </body>
