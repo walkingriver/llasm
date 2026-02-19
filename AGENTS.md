@@ -205,10 +205,34 @@ Only these `data-m-*` attributes exist. Do NOT invent others.
 ```
 
 ### Conditional Rendering
+
+**NEVER use inline styles (`style.display='none'`) for visibility. Use CSS classes.**
+
+**data-m-if** - Element visibility (runtime adds `.m-hide` class):
 ```html
-<div data-if="s.loading">Loading...</div>
-<div data-if="!s.loading">Content</div>
+<div data-m-if="loading">Loading...</div>
+<div data-m-if="!loading">Content</div>
 ```
+
+**data-m-class** - Conditional CSS classes:
+```html
+<button data-m-class="b1:!loading, b2:loading">Submit</button>
+```
+
+**Ancestor-based styling** (preferred for complex states):
+```html
+<article data-m-class="is-editing:editing" class="p3 bg r">
+  <h2 class="view-mode">Title</h2>
+  <input class="edit-mode">
+</article>
+```
+```css
+.edit-mode{display:none}
+.is-editing .edit-mode{display:block}
+.is-editing .view-mode{display:none}
+```
+
+Single class on parent controls all descendants via CSS.
 
 ### Event Binding
 ```html

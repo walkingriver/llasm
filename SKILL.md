@@ -442,19 +442,53 @@ if(!id){l.u({notFound:true});return;}
 
 ### 7. Conditional Display
 
+**NEVER use inline styles for visibility.** Always use CSS classes.
+
+**data-m-if** - Element-level visibility (adds `.m-hide` class internally):
 ```html
-<!-- Show when true -->
 <div data-m-if="isLoggedIn">Welcome back!</div>
-
-<!-- Show when false -->
 <div data-m-if="!isLoggedIn">Please log in</div>
-
-<!-- Show when empty -->
 <div data-m-if="items.length==0">No items</div>
-
-<!-- Show when has items -->
 <div data-m-if="items.length>0">Has items</div>
 ```
+
+**data-m-class** - Conditional CSS classes:
+```html
+<button data-m-class="b1:!loading, b2:loading" class="cw p2 r">
+  <span data-m-if="!loading">Submit</span>
+  <span data-m-if="loading">Saving...</span>
+</button>
+```
+
+**Ancestor-based styling** - Set state class on parent, style descendants with CSS:
+```html
+<article data-m-class="is-editing:editing" class="p3 bg r">
+  <h2 class="t4 tb">Title</h2>
+  <input class="edit-input wf p2 bd r" type="text">
+  <div class="view-actions f g2">
+    <button data-m-on="click:edit" class="b1 cw p2 r">Edit</button>
+  </div>
+  <div class="edit-actions f g2">
+    <button data-m-on="click:save" class="b1 cw p2 r">Save</button>
+    <button data-m-on="click:cancel" class="b2 cw p2 r">Cancel</button>
+  </div>
+</article>
+```
+
+**CSS in head:**
+```html
+<style>
+.edit-input,.edit-actions{display:none}
+.is-editing .edit-input,.is-editing .edit-actions{display:flex}
+.is-editing h2,.is-editing .view-actions{display:none}
+</style>
+```
+
+This pattern is preferred for complex UI states because:
+- Single class toggle controls multiple descendants
+- No JavaScript needed per element
+- CSS handles all visual transitions
+- Easy to add animations (opacity, transform)
 
 ### 8. Dark Mode (Complete)
 
