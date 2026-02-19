@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="LLasM: LLM Assembly Language - The web framework built exclusively for AI coding agents. Zero build. Pure ESM. One way to do everything.">
+  <meta name="description" content="LLasM: LLM Assembly Language. Agent skills that teach AI coding assistants to generate complete, working web pages. Not a framework—just rules that eliminate hallucination.">
   <meta name="theme-color" content="#0066ff">
   <link rel="preload" as="image" href="img/hero.webp" type="image/webp" fetchpriority="high">
   <title>LLasM - LLM Assembly Language</title>
@@ -80,7 +80,7 @@
     </picture>
     <div class="abs t0 l0 r0 b0 f fc fj fi tc px3">
       <h1 class="t7 tb c1 hero-title">
-        The Web Framework for<br><span class="cg">AI Coding Agents</span>
+        LLM Assembly Language<br><span class="cg">Agent Skills for the Web</span>
       </h1>
     </div>
   </section>
@@ -88,8 +88,8 @@
   <main class="xw4 mxa px3 py5">
     <section class="tc py3">
       <p class="t4 cg mxa py3 xw2">
-        LLasM is the first framework whose only intended user is an LLM. 
-        Humans don't read it. Humans don't write it. Humans don't debug it.
+        Every framework ever created is an abstraction to help humans build software.
+        LLMs don't need abstractions. They need <strong class="cb">rules</strong>.
       </p>
       <div class="f fj g2 fw py3">
         <code class="p2 bg r t3 mono">npx skills add walkingriver/llasm</code>
@@ -102,28 +102,47 @@
       </a>
     </section>
 
-    <!-- Philosophy -->
+    <!-- The Problem -->
     <section class="py4">
-      <div class="g gc3 g3 sm:gc1">
+      <h2 class="t6 tb tc c1 py3">The Problem</h2>
+      <p class="tc cg py2 mxa xw2">Ask an LLM to build the same feature twice in React or Angular, and you'll get different implementations each time. Flexibility creates ambiguity. Ambiguity creates hallucination.</p>
+    </section>
+
+    <!-- The Solution -->
+    <section class="py4">
+      <h2 class="t6 tb tc c1 py3">The Solution</h2>
+      <p class="tc cg py2 mxa xw2">LLasM is an <strong class="cb">agent skill</strong>—a set of instructions that AI coding agents read and follow. One way to handle events. One way to bind state. One manifest format. No choices means no hallucination.</p>
+      <div class="g gc3 g3 sm:gc1 py3">
+        <div class="p3 bg r">
+          <div class="t5 tb c1">A Skill File</div>
+          <p class="cg py2">SKILL.md contains the rules. Install it, and your AI agent knows exactly how to generate valid output.</p>
+        </div>
+        <div class="p3 bg r">
+          <div class="t5 tb c1">A Tiny Runtime</div>
+          <p class="cg py2">llasm.js (~9KB gzipped) handles reactivity, routing, i18n, and progressive enhancements. Not a framework—just glue.</p>
+        </div>
         <div class="p3 bg r">
           <div class="t5 tb c1">Zero Build</div>
-          <p class="cg py2">No npm. No webpack. No Vite. Pure ESM that runs directly in browsers. The "build step" is the LLM generating HTML.</p>
+          <p class="cg py2">No npm. No webpack. No Vite. The "build step" is the LLM generating HTML. Open it in a browser. Done.</p>
         </div>
-        <div class="p3 bg r">
-          <div class="t5 tb c1">One Way</div>
-          <p class="cg py2">No flexibility. No choices. No escape hatches. There is exactly one way to do most things. Rigidity eliminates hallucination.</p>
-        </div>
-        <div class="p3 bg r">
-          <div class="t5 tb c1">&lt;25KB Runtime</div>
-          <p class="cg py2">Reactivity, routing, i18n, theming, persistence, toasts, modals, tabs, accordions—all in a runtime smaller than most hero images.</p>
-        </div>
+      </div>
+    </section>
+
+    <!-- Why Zero Build -->
+    <section class="py5">
+      <h2 class="t6 tb tc c1 py3">Why Zero Build?</h2>
+      <div class="mxa xw2">
+        <p class="cg py2">Every modern web framework assumes a build step: npm install, configure bundler, transpile TypeScript, tree-shake dependencies, optimize for production. That toolchain exists because humans need abstractions.</p>
+        <p class="cg py2">But when an LLM generates code, it can output the final format directly. No transpilation needed—it writes ES modules. No bundling needed—it inlines what's required. No tree-shaking needed—it only generates what's used.</p>
+        <p class="cg py2 tb cb">The build step was always a human accommodation. Remove the human, remove the build.</p>
+        <p class="cg py2">LLasM will never require npm, webpack, Vite, Babel, or any CLI. It's pure ESM that runs directly in browsers. The "build step" is the LLM generating the HTML.</p>
       </div>
     </section>
 
     <!-- Features -->
     <section id="features" class="py5">
-      <h2 class="t6 tb tc c1 py3">What It Covers</h2>
-      <p class="tc cg py2">LLasM handles the "hard 80%" of web UI</p>
+      <h2 class="t6 tb tc c1 py3">What the Skill Teaches</h2>
+      <p class="tc cg py2">The rules cover the "hard 80%" of web UI</p>
       
       <div class="g gc2 g2 py3 sm:gc1">
         <div class="p3 bg r f g2 fi">
@@ -325,8 +344,8 @@
 
     <!-- CTA -->
     <section class="py5 tc">
-      <h2 class="t6 tb c1 py2">Ready to Try It?</h2>
-      <p class="cg py2">Install the skill and ask your AI agent to build something</p>
+      <h2 class="t6 tb c1 py2">Teach Your AI Agent</h2>
+      <p class="cg py2">Install the skill, then ask for what you want</p>
       <code class="db p3 bg r t3 mxa mono xw3">npx skills add walkingriver/llasm</code>
       <p class="t2 cg ti py2">(Coming soon to skills.sh)</p>
       <div class="f fj g3 py4 fw">
@@ -353,7 +372,7 @@
 
   <!-- Handlers -->
   <script type="module">
-    import{l}from"./llasm.js?v=r7m3k9p2";
+    import{l}from"./llasm.js?v=w4k8n3m6";
     l.h({
       inc:(e,s,L)=>L.u({count:s.count+1}),
       dec:(e,s,L)=>L.u({count:Math.max(0,s.count-1)})
