@@ -2,6 +2,12 @@
 
 The LLasM runtime is exposed as `l` via ESM import.
 
+## Philosophy
+
+- **Terse by Default** - Single-letter API: `l.h()`, `l.u()`, `l.t()`
+- **One Way** - Single canonical approach per concept
+- **Browser-Native** - Only browser APIs. No external dependencies
+
 ## Initialization
 
 ```javascript

@@ -1,18 +1,90 @@
 ---
 name: llasm
-version: 1.2.0
-description: Generate complete, interactive web pages using the LLasM framework (LLM Assembly Language). Use when the user wants to build a website, web page, web app, landing page, form, dashboard, or any browser-based UI. LLasM outputs static HTML with embedded manifest and optional handlers - zero build, pure browser ESM.
+version: 2.0.0-alpha
+description: Generate complete, interactive web pages using LLasM (LLM Assembly Language). A framework optimized for LLM code generation, not human developers. Use when the user wants to build a website, web page, web app, landing page, form, dashboard, or any browser-based UI.
 homepage: https://llasm.dev
 repository: https://github.com/walkingriver/llasm
 ---
 
 # LLasM Page Generator
 
-Generate complete, production-ready web pages. Output is always a single HTML file that works directly in browsers.
+**A framework optimized for LLM code generation, not human developers.**
+
+Generate complete, production-ready web pages with zero build tooling.
+
+## Design Principles (Priority Order)
+
+### Tier 1: SECURITY
+- **Safe Binding** - No innerHTML. Sanitize all dynamic content.
+- **No UI Cookies** - Auth is server-side only.
+- **Zero Trust Input** - Validate all user input and URL params.
+
+### Tier 2: ACCESSIBILITY
+- **WCAG Compliant** - WCAG 2.1 AA minimum.
+- **Semantic Elements** - Use native HTML5 (nav, main, article, section).
+- **I18n Ready** - Locale keys with RTL support.
+
+### Tier 3: QUALITY
+- **Lighthouse 90+** - All four categories.
+- **SEO Ready** - Meta tags, Open Graph, semantic headings.
+- **Self-Booting Pages** - Every page hydrates independently.
+
+### Tier 4: PERFORMANCE
+- **LLM-First** - Code for LLMs by LLMs. Human readability is a non-goal.
+- **One Way** - Single canonical approach. No alternatives.
+- **Terse by Default** - 1-3 char identifiers.
+- **Zero Build** - HTML + ES + CSS only.
+- **CSS Before JS** - If CSS can do it, don't use JS.
+- **Browser-Native** - Only browser APIs. No external libraries.
+
+## REQUIRED CHECKLIST
+
+Every LLasM page MUST include ALL of these. Do not skip any.
+
+- [ ] **Folder per app** - `docs/examples/{app-name}/` with `index.html` as entry
+- [ ] **Separate files** - Each view is a separate HTML file (NO hash routing)
+- [ ] **Cache-bust import** - `import{l}from"../../llasm.js?v=x9k2m4p7";`
+- [ ] **Build date** - `<p class="t1 o5">Built YYYY-MM-DD</p>` in footer
+- [ ] **theme-color meta** - `<meta name="theme-color" content="#0066ff">`
+- [ ] **Critical CSS** - Inline `<style>` in head with above-fold classes
+- [ ] **Dark mode script** - Blocking script in head before body
+- [ ] **Semantic footer** - `<footer>` with copyright and build date
+- [ ] **No inline styles** - Use utility classes, not `style="..."`
+
+### Dark Mode Script (Required in Head)
+
+```html
+<script>try{var d=localStorage.getItem('llasm-dark');if(d==='true'||(d===null&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.classList.add('dark');}catch(e){}</script>
+```
+
+### Critical CSS (Required in Head)
+
+```html
+<style>
+*,*::before,*::after{box-sizing:border-box}
+:root{--m-p:#0066ff;--m-s:#6c757d;--m-ok:#28a745;--m-err:#dc3545}
+body{margin:0;font-family:system-ui,sans-serif;background:var(--m-bg,#fff);color:var(--m-fg,#212529)}
+.f{display:flex}.fc{flex-direction:column}.fi{align-items:center}.fj{justify-content:center}.fb{justify-content:space-between}.fg{flex-grow:1}
+.g{display:grid}.gc3{grid-template-columns:repeat(3,1fr)}
+.g1{gap:.25rem}.g2{gap:.5rem}.g3{gap:1rem}.g4{gap:1.5rem}
+.p2{padding:.5rem}.p3{padding:1rem}.p4{padding:1.5rem}.px3{padding-inline:1rem}.py2{padding-block:.5rem}.py4{padding-block:1.5rem}
+.mxa{margin-inline:auto}.xw3{max-width:900px}
+.t1{font-size:.75rem}.t2{font-size:.875rem}.t3{font-size:1rem}.t4{font-size:1.25rem}.t5{font-size:1.5rem}.tb{font-weight:700}.tc{text-align:center}
+.c1{color:var(--m-p)}.cg{color:#6c757d}.cw{color:#fff}.cb{color:#000}
+.b1{background:var(--m-p)}.b2{background:var(--m-s)}.bg{background:#f5f5f5}.bw{background:#fff}
+.r{border-radius:4px}.r2{border-radius:8px}.rf{border-radius:9999px}.sh{box-shadow:0 2px 8px rgba(0,0,0,.1)}.bd{border:1px solid #ddd}
+.tdn{text-decoration:none}.cp{cursor:pointer}.o5{opacity:.5}
+.dn{display:none}.rel{position:relative}.abs{position:absolute}
+html.dark{--m-bg:#1a1a1a;--m-fg:#f5f5f5;--m-p:#5c9eff}
+html.dark body{background:#1a1a1a;color:#f5f5f5}
+html.dark .bg{background:#2a2a2a}
+@media(max-width:768px){.sm\:fc{flex-direction:column}.sm\:gc1{grid-template-columns:1fr}.sm\:dn{display:none}}
+</style>
+```
 
 ## Output Structure
 
-Every LLasM page has exactly three parts:
+Every LLasM page has three parts:
 
 ```html
 <!DOCTYPE html>
@@ -20,104 +92,81 @@ Every LLasM page has exactly three parts:
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Page description for SEO">
   <title>Page Title</title>
 </head>
 <body class="p3">
-  <!-- 1. STATIC HTML: Complete semantic markup with utility classes -->
+  <!-- 1. SEMANTIC HTML with utility classes -->
   <main class="xw3 mxa f fc g3">
-    <h1 class="t6 c1 tb" data-m-tx="ti"></h1>
-    <button data-m-on="click:save" data-m-enhance="primary ripple">Save</button>
-    <div data-m-if="items.length==0" class="p3 bg r tc">No items</div>
-    <ul data-m-bind="items" data-m-tpl="tpl" data-m-key="id" class="f fc g1"></ul>
+    <h1 class="t6 c1 tb">Welcome</h1>
+    <p class="cg" data-m-bind="message"></p>
+    <button data-m-on="click:save" class="b1 cw p2 px3 r">Save</button>
   </main>
 
-  <!-- 2. MANIFEST: Minified JSON with state, i18n, theme, persistence -->
-  <script type="application/llasm+json" id="manifest">{"v":1,"r":{"s":{"items":[]}},"persist":["items"],"l":{"en":{"ti":"Hello"}},"t":{"--m-p":"#0066ff"}}</script>
+  <!-- 2. MANIFEST: State, i18n, theme, persistence -->
+  <script type="application/llasm+json" id="manifest">
+  {"v":1,"r":{"s":{"message":"Hello World"}},"l":{"en":{}}}
+  </script>
 
-  <!-- 3. RUNTIME + HANDLERS: Optional, <500 bytes -->
+  <!-- 3. HANDLERS: Event handlers -->
   <script type="module">
   import{l}from"./llasm.js";
-  l.h({save:(e,s,L)=>{L.u({saved:true});L.t('Saved!','ok');}});
+  l.h({save:(e,s,L)=>L.t('Saved!','ok')});
   </script>
 </body>
 </html>
 ```
 
-## Critical Rules
-
-1. **Never use `m-` tags** - only native HTML elements
-2. **Use utility classes for styling** - terse 1-3 char classes (`f fc g3 p3 bg r`)
-3. **Always emit complete HTML** - page must work without JavaScript
-4. **Use 1-2 letter keys** in manifest (`v`, `l`, `t`, `s`, `e`, `b`, `tx`, `a`, `c`)
-5. **Handlers must be ≤500 bytes** minified
-6. **Use data-m-on for events** - not onclick="window._fn()"
-
 ## Data Attributes
 
 | Attribute | Purpose | Example |
 |-----------|---------|---------|
-| `data-m-tx` | i18n text key | `data-m-tx="title"` |
-| `data-m-bind` | Two-way state binding | `data-m-bind="count"` |
-| `data-m-bind` | With pipe transform | `data-m-bind="name\|upper"` |
-| `data-m-bind` | Nested state | `data-m-bind="user.name"` |
-| `data-m-on` | Event binding | `data-m-on="click:save"` |
-| `data-m-on` | Multiple events | `data-m-on="input:typing,blur:validate"` |
-| `data-m-enhance` | Enhancement flags | `data-m-enhance="primary ripple"` |
-| `data-m-route` | Hash routing section | `data-m-route="/about"` |
-| `data-m-route` | With params | `data-m-route="/hero/:id"` |
-| `data-m-if` | Conditional rendering | `data-m-if="showDetail"` |
-| `data-m-if` | Negated condition | `data-m-if="!loading"` |
-| `data-m-if` | Array length check | `data-m-if="items.length==0"` |
-| `data-m-if` | Comparison | `data-m-if="status==active"` |
-| `data-m-class` | Conditional CSS class | `data-m-class="active:isActive"` |
-| `data-m-class` | Equality check | `data-m-class="sel:selectedId==id"` |
-| `data-m-tpl` | Template ID for lists | `data-m-tpl="item-tpl"` |
-| `data-m-key` | Key field for list diffing | `data-m-key="id"` |
-| `data-m-f` | Field name in template | `data-m-f="name"` |
+| `data-m-bind` | State binding | `data-m-bind="userName"` |
+| `data-m-bind` | Nested | `data-m-bind="user.name"` |
+| `data-m-on` | Events | `data-m-on="click:save"` |
+| `data-m-on` | Multiple | `data-m-on="input:upd,blur:val"` |
+| `data-m-if` | Conditional | `data-m-if="loading"` |
+| `data-m-if` | Negated | `data-m-if="!loading"` |
+| `data-m-if` | Comparison | `data-m-if="items.length==0"` |
+| `data-m-class` | Conditional class | `data-m-class="active:isActive"` |
+| `data-m-enhance` | Enhancements | `data-m-enhance="primary ripple"` |
 
-## Pipes (Transforms)
+## Styling Rules
 
-Use with `data-m-bind="key|pipe"`:
+### No Inline Styles
 
-| Pipe | Effect |
-|------|--------|
-| `upper` | UPPERCASE |
-| `lower` | lowercase |
-| `title` | Title Case |
-| `trim` | Remove whitespace |
+NEVER use `style="..."` attributes. Always use utility classes.
 
-## Enhancement Flags
+**Bad:**
+```html
+<div style="display:flex;align-items:center;gap:1rem">
+```
 
-Use `data-m-enhance="flag1 flag2"` on native elements:
+**Good:**
+```html
+<div class="f fi g3">
+```
 
-| Flag | Element | Effect |
-|------|---------|--------|
-| `primary` | button | Primary button styling |
-| `secondary` | button | Secondary button styling |
-| `ripple` | button | Material ripple on click |
-| `disabled` | any | Disabled state + ARIA |
-| `autofocus` | input | Auto-focus on mount |
-| `validate` | button | Form validation trigger |
-| `combobox` | div | Filterable dropdown (contains input + ul) |
-| `modal` | dialog/div | Modal with focus trap |
-| `tabs` | div | Tab container (button[data-m-tab] + div[data-m-panel]) |
-| `accordion` | div | Accordion (div[data-m-acc] items) |
-| `disclosure` | div | Expandable content |
-| `tooltip` | div | Tooltip on hover/focus |
-| `progress` | div | Progress bar |
-| `date` | input | Date picker |
-| `darkmode` | button | Dark mode toggle (persists) |
-| `toast` | div | Toast container (auto-created) |
+### Missing Utility Class?
+
+If no utility class exists, add to critical CSS in head:
+```html
+<style>
+.custom-height{height:120px}
+</style>
+```
+
+Then use: `<div class="custom-height f fi fj">`
 
 ## Manifest Schema
 
 ```json
 {
   "v": 1,
-  "r": { "s": { "count": 0, "items": [] } },
-  "persist": ["items"],
-  "l": { "en": {"key":"Text"}, "es": {"key":"Texto"} },
-  "t": { "--m-p":"#0066ff", "--m-s":"#6c757d" }
+  "r": {"s": {"count": 0, "items": []}},
+  "persist": {"items": "local", "user": "session"},
+  "l": {"en": {"title": "Hello"}},
+  "t": {"--m-p": "#0066ff"}
 }
 ```
 
@@ -125,222 +174,213 @@ Use `data-m-enhance="flag1 flag2"` on native elements:
 |-----|---------|
 | `v` | Version (always 1) |
 | `r.s` | Initial state |
-| `persist` | State keys saved to localStorage |
-| `l` | Locales: `{"locale": {"key": "text"}}` |
-| `t` | Theme: CSS custom properties |
+| `persist` | Storage tier: `"local"` or `"session"` |
+| `l` | Locales |
+| `t` | Theme CSS properties |
 
 ## Runtime API
 
-Handlers receive `(event, state, L, element)` where `L` is the runtime:
+Handlers receive `(event, state, L, element)`:
 
 | Method | Purpose |
 |--------|---------|
 | `L.u(patch)` | Update state |
-| `L.t(msg,type,ms)` | Show toast (`'ok'`, `'err'`, `'info'`) |
-| `L.r(locale)` | Switch locale |
+| `L.t(msg,type,ms)` | Toast: `'ok'`, `'err'`, `'info'` |
 | `L.s()` | Get state snapshot |
-| `L.p()` | Get route params (e.g., `{id:"123"}`) |
-| `L.nav(hash)` | Navigate to hash route |
-| `L.q(sel)` | Query element |
-| `L.vf(form)` | Validate form → `{v:bool, e:[]}` |
 | `L.f(url,opts)` | Fetch with retry |
+| `L.nav(hash)` | Navigate hash route |
 
-## Built-in State
+## Utility Classes (Tailwind-Lite)
 
-| Key | Type | Description |
-|-----|------|-------------|
-| `_offline` | boolean | `true` when browser is offline |
-
-```html
-<span data-m-if="_offline">You're offline</span>
-```
-
-## Utility Classes (Tailwind-lite)
-
-Use terse 1-3 character class names for styling. No custom CSS needed.
+Terse 1-3 character class names. No custom CSS needed.
 
 ### Layout
-`f` flex | `fc` flex-col | `fw` flex-wrap | `fi` items-center | `fj` justify-center | `fb` space-between | `fg` flex-grow
+`f` flex | `fc` column | `fw` wrap | `fi` items-center | `fj` justify-center | `fb` space-between | `fg` grow
 
 ### Grid
-`g` grid | `gc2-gc6` grid-cols | `gr2-gr3` grid-rows
+`g` grid | `gc2-gc6` columns | `g1-g5` gap
 
 ### Spacing
-`g1-g5` gap | `p1-p5` padding | `px1-px5` padding-x | `py1-py5` padding-y | `m1-m5` margin | `ma` margin-auto | `mxa` margin-x-auto
+`p1-p5` padding | `px1-px5` padding-x | `py1-py5` padding-y | `m1-m5` margin | `mxa` margin-x-auto
 
 ### Sizing
-`wf` width-full | `wh` width-half | `xw1-xw5` max-width | `hf` height-full | `hv` height-100vh
+`wf` width-full | `wh` width-half | `xw1-xw5` max-width | `hf` height-full
 
 ### Typography
-`t1-t7` font-size | `tc` text-center | `tb` bold | `tu` uppercase | `ell` ellipsis | `ln2` line-clamp-2
+`t1-t7` font-size | `tc` center | `tb` bold | `tu` uppercase | `ell` ellipsis
 
 ### Colors
-`c1-c4` color (primary/secondary/ok/err) | `cw` white | `cb` black | `cg` gray
+`c1` primary | `c2` secondary | `c3` success | `c4` error | `cw` white | `cb` black | `cg` gray
 
 ### Background
-`b1-b4` bg (primary/secondary/ok/err) | `bw` white | `bb` black | `bg` gray
+`b1` primary | `b2` secondary | `b3` success | `b4` error | `bw` white | `bg` gray | `bt` transparent
 
 ### Effects
-`r` radius | `rf` radius-full | `sh` shadow | `bd` border | `tr` transition
+`r` radius-4px | `r2` radius-8px | `rf` radius-full | `sh` shadow | `bd` border
 
-### Animations
-`spin` spinner | `pulse` pulsing | `fade` fade-in
+### Animation
+`spin` rotate | `pulse` opacity | `fade` fade-in
 
 ### Display
 `dn` none | `db` block | `rel` relative | `abs` absolute | `cp` cursor-pointer
 
-### Responsive (sm: prefix for <768px)
+### Responsive (sm: for <768px)
 `sm:dn` hide | `sm:db` show | `sm:fc` column | `sm:wf` full-width | `sm:gc1` single-col
 
-For full list, see [reference/utility-classes.md](reference/utility-classes.md)
+## Enhancement Flags
+
+Use `data-m-enhance="flag1 flag2"`:
+
+| Flag | Effect |
+|------|--------|
+| `primary` | Primary button styling |
+| `secondary` | Secondary button styling |
+| `ripple` | Material ripple effect |
+| `modal` | Modal with focus trap |
+| `tabs` | Tab container |
+| `accordion` | Accordion panels |
+| `darkmode` | Dark mode toggle |
+| `toast` | Toast container |
 
 ## Common Patterns
 
 ### Loading State
 ```html
 <div data-m-if="loading" class="f fj fi g2">
-  <div class="spin b1 r" style="width:24px;height:24px"></div>
+  <div class="spin b1 rf w24 h24"></div>
   <span class="cg">Loading...</span>
 </div>
-<div data-m-if="!loading">Content here</div>
+<div data-m-if="!loading">Content</div>
 ```
+
+Add to critical CSS: `.w24{width:24px}.h24{height:24px}`
 
 ### Empty State
 ```html
 <div data-m-if="items.length==0" class="p4 bg r tc cg">No items yet</div>
-<ul data-m-if="items.length>0" data-m-bind="items" ...></ul>
 ```
 
-### Toast Notification
-```javascript
-L.t('Saved!', 'ok');           // success
-L.t('Error occurred', 'err');  // error
-L.t('Info message', 'info');   // info
-```
-
-### Dark Mode Toggle
+### Card Grid
 ```html
-<button data-m-enhance="darkmode secondary">Toggle Dark</button>
+<section class="g gc3 g3 sm:gc1">
+  <article class="bg r2 sh p3 f fc g2">
+    <h3 class="t4 tb" data-m-bind="title"></h3>
+    <p class="cg ln2" data-m-bind="desc"></p>
+    <span class="c1 tb" data-m-bind="price"></span>
+  </article>
+</section>
 ```
 
-### Persisted State
+### List Rendering
+```html
+<ul data-m-bind="items" data-m-tpl="item-tpl" data-m-key="id" class="f fc g2"></ul>
+<template id="item-tpl">
+  <li class="f fi fb p3 bg r">
+    <span data-m-f="name"></span>
+    <button data-m-on="click:remove" class="c4">Remove</button>
+  </li>
+</template>
+```
+
+### Toast
+```javascript
+L.t('Saved!', 'ok');      // success
+L.t('Error!', 'err');     // error  
+L.t('Info', 'info');      // info
+```
+
+## File Organization
+
+Every app lives in its own folder:
+
+```
+docs/examples/
+  bookstore/
+    index.html      # Entry point (shop view)
+    checkout.html   # Checkout page
+    confirm.html    # Order confirmation
+  recipes/
+    index.html      # Recipe list
+    detail.html     # Recipe detail (?id=123)
+```
+
+### Folder Rules
+
+1. **One folder per app** - `docs/examples/{app-name}/`
+2. **Entry point is `index.html`** - Main/home view
+3. **Short page names** - `checkout.html` not `bookstore-checkout.html`
+4. **llasm.js path** - `../../llasm.js` (two levels up from app folder)
+
+### Navigation Between Pages
+
+```html
+<!-- Within same app folder -->
+<a href="checkout.html">Checkout</a>
+<a href="detail.html?id=123">View Details</a>
+
+<!-- Back to index -->
+<a href="./">Back to Home</a>
+```
+
+### Shared State
+
+Pages in same app share state via localStorage:
+
 ```json
-{"v":1,"r":{"s":{"items":[]}},"persist":["items"]}
+{"persist": {"cart": "local"}}
 ```
 
-## Examples
+### Reading URL Parameters
 
-For complete examples, see:
-- [docs/examples/features-demo.html](docs/examples/features-demo.html) - All v1.2 features
-- [docs/examples/tour-of-heroes.html](docs/examples/tour-of-heroes.html) - Full app
-- [docs/examples/todo-app.html](docs/examples/todo-app.html) - Persistent todos
-- [docs/examples/landing-page.html](docs/examples/landing-page.html)
-- [docs/examples/contact-form.html](docs/examples/contact-form.html)
-- [docs/examples/minimal-card.html](docs/examples/minimal-card.html) - Utility classes
+```javascript
+const id = new URLSearchParams(location.search).get('id');
+```
 
-## Performance Best Practices
+### When Hash Routing IS Allowed
 
-Follow these rules to achieve optimal Lighthouse scores:
+Only for tabs/panels within ONE page:
+
+```html
+<section data-m-if="tab==info">Info content</section>
+<section data-m-if="tab==specs">Specs content</section>
+```
+
+NOT for separate views (shop vs checkout vs confirm).
+
+## E2E Testing (Opt-in)
+
+For automated testing, add `data-testid`:
+```html
+<button data-m-on="click:save" data-testid="btn-save">Save</button>
+```
+
+Prefix conventions: `btn-`, `inp-`, `msg-`, `lst-`
+
+## Performance Rules
 
 ### Images
-- **Always use WebP format** with quality 10-25 for decorative/background images, 40-60 for important visuals
-- **Always specify width and height attributes** on `<img>` elements to prevent CLS (Cumulative Layout Shift)
-- **Preload hero/LCP images** with `<link rel="preload" as="image" href="..." fetchpriority="high">`
-- **Use responsive sizing** with `style="height:min(400px,50vh);object-fit:cover"` for hero images
+- WebP format, quality 10-25 backgrounds, 40-60 content
+- Explicit width/height on all `<img>`
+- Preload LCP images
 
-### CSS Animations
-- **Only animate compositable properties**: `transform` and `opacity`
-- **Never animate**: `color`, `background`, `background-color`, `width`, `height`, `margin`, `padding`, `top`, `left`, etc.
-- **Avoid body-level transitions** - they cause non-composited animation warnings
+### Animations
+- Only animate `transform` and `opacity`
+- Never animate `color`, `background`, `width`, `height`
 
-### Layout Stability (CLS)
-- **Explicit dimensions** on all images and media elements
-- **Reserve space** for dynamic content with min-height or aspect-ratio
-- **Avoid injecting content above existing content** after page load
-- **Dark mode detection in head** - Add inline script to detect and apply dark mode before body renders
+### Critical CSS
+Include critical CSS inline in `<head>` for CLS prevention.
 
-### Dark Mode & Accessibility
-- **Color contrast** - Dark mode primary color `#5c9eff` provides 5.4:1 contrast on `#2a2a2a` background (WCAG AA compliant)
-- **Apply dark mode early** - Use blocking inline script in `<head>` to prevent flash and CLS:
-  ```html
-  <script>try{var d=localStorage.getItem('llasm-dark');if(d==='true'||(d===null&&window.matchMedia&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.classList.add('dark');}catch(e){}</script>
-  <style>html.dark{--m-bg:#1a1a1a;--m-fg:#f5f5f5;--m-p:#5c9eff;background:var(--m-bg);color:var(--m-fg)}html.dark body{background:var(--m-bg);color:var(--m-fg)}html.dark .bg{background:#2a2a2a}html.dark .cg{color:#aaa}</style>
-  ```
-- **Dark mode class on html** - Apply `.dark` class to `document.documentElement` (html), not body, for earliest rendering
-- **Minimum contrast ratios**:
-  - Large text (18pt/24px+ or 14pt/18.66px+ bold): 3:1 minimum
-  - Normal text: 4.5:1 minimum
-  - UI components and graphics: 3:1 minimum
+## Cache Busting
 
-### Head Element Order
+Generate random 8-char hash on every page update:
 ```html
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="description" content="...">
-  <meta name="theme-color" content="#0066ff">
-  <link rel="preload" as="image" href="img/hero.webp" type="image/webp" fetchpriority="high">
-  <title>Page Title</title>
-</head>
+<script type="module">import{l}from"./llasm.js?v=x9k2m4p7";</script>
+<p class="t1 o5">Built 2026-02-17</p>
 ```
-
-### Critical Inline CSS
-For production pages, include critical CSS inline in `<head>` to prevent CLS:
-- Box-sizing reset, CSS custom properties, font-family
-- Layout classes used above the fold (`f`, `fc`, `fi`, `fj`, `fb`, `g`, `gc2`, `gc3`)
-- Spacing classes (`p2-p4`, `px2-px4`, `py1-py5`, `g1-g3`, `mxa`)
-- Typography (`t1-t7`, `tc`, `tb`)
-- Colors (`c1`, `cg`, `cw`, `b1`, `bg`, `bw`)
-- Position (`rel`, `abs`, `stk`, `t0`, `r0`, `b0`, `l0`, `z3`)
-- Responsive breakpoints (`@media(max-width:768px)`)
-
-## Versioning & Cache Busting
-
-When generating or updating any LLasM page, the LLM automatically embeds version info:
-
-### Footer Version (REQUIRED)
-Every page MUST include a version line in the footer with today's date:
-```html
-<p class="t1 o5" data-m-version>Built YYYY-MM-DD</p>
-```
-
-### Cache Busting (REQUIRED)
-Generate a random 8-character alphanumeric hash for the llasm.js import:
-```html
-<script type="module">
-  import{l}from"./llasm.js?v=a7f3b2c1";
-</script>
-```
-Generate a NEW random hash each time you create or update a page. This achieves Angular-style cache busting without build tools.
-
-### Why This Works
-- The LLM IS the build tool
-- LLM generates random hash on each update (like content hashing)
-- No external scripts, no package.json, no build step
-- Cache is busted naturally when pages are regenerated
-
-## Testing (Optional)
-
-LLasM does not mandate testing for generated pages. However, if the user requests tests or you want to validate functionality:
-
-### Runtime Tests
-The `llasm.js` runtime has unit tests using Vitest:
-```bash
-npm test        # Run once
-npm test:watch  # Watch mode
-```
-
-### Generated Page Testing
-If testing generated pages is desired, consider:
-- **Manual browser testing** - Open in browser, check DevTools console
-- **E2E tests** - User's choice of framework (Playwright, Cypress, etc.)
-- **Validation** - Ensure manifest JSON is valid, required attributes present
-
-Testing is NOT part of the zero-build philosophy for generated pages. It remains the user's choice.
 
 ## File Output
 
-When generating a page, also copy `llasm.js` alongside it:
-- Read `llasm.js` from this skill directory
-- Write it next to the generated HTML
-- Reference as `./llasm.js?v={build}` in the script import
+When generating a page:
+1. Create HTML file with manifest
+2. Copy `llasm.js` alongside it
+3. Reference as `./llasm.js?v={random}`

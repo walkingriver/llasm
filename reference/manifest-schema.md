@@ -36,20 +36,42 @@ The manifest is embedded JSON in `<script type="application/llasm+json" id="mani
 | `l` | object | No | Locale strings by language code |
 | `t` | object | No | CSS custom properties (theme) |
 
-## State Persistence
+## State Persistence (Three-Tier Storage)
 
-The `persist` array lists state keys that should survive page refresh:
+State keys can be persisted to different storage tiers:
+
+### Object Syntax (Recommended)
 
 ```json
 {
   "v": 1,
-  "r": { "s": { "items": [], "counter": 0, "temp": "" } },
+  "r": {"s": {"cart": [], "user": null, "temp": ""}},
+  "persist": {"cart": "local", "user": "session"}
+}
+```
+
+| Tier | Storage | Lifetime |
+|------|---------|----------|
+| `"session"` | sessionStorage | Tab lifetime |
+| `"local"` | localStorage | Browser lifetime |
+| `"server"` | API fetch | Permanent (future) |
+
+### Array Syntax (Legacy)
+
+```json
+{
+  "v": 1,
+  "r": {"s": {"items": [], "counter": 0}},
   "persist": ["items", "counter"]
 }
 ```
 
-- Listed keys are saved to localStorage on every state change
-- On page load, persisted values are restored from localStorage
+Array syntax defaults all keys to localStorage.
+
+### Behavior
+
+- Listed keys are saved on every state change
+- On page load, persisted values are restored
 - Non-persisted keys (like `temp` above) reset to initial values
 
 ## Element Structure (recursive in `r`)

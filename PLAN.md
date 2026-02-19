@@ -1,21 +1,54 @@
 # LLasM Roadmap
 
-## Philosophy Check
+## Design Philosophy
+
+**A framework optimized for LLM code generation, not human developers.**
+
+### Priority Tiers
+
+1. **SECURITY** - OWASP, safe binding, no UI cookies, zero trust input
+2. **ACCESSIBILITY** - WCAG 2.1 AA, semantic elements, i18n
+3. **QUALITY** - Lighthouse 90+, self-booting pages, SEO
+4. **PERFORMANCE** - LLM-first, one way, terse, zero build, CSS before JS
+
+### Core Principles
+
+- **LLM-First** - Code for LLMs by LLMs. Human readability is a non-goal.
+- **One Way** - Single canonical approach. No alternatives.
+- **Terse by Default** - 1-3 char identifiers: `f fc g3` not `flex flex-col gap-3`
+- **Zero Build** - HTML + ES + CSS only. No transpilation.
+- **CSS Before JS** - If CSS can do it, don't use JS.
+- **Browser-Native** - Only browser APIs. No external libraries.
+- **Patterns Over Libs** - LLMs need patterns, not helper libraries.
+
+---
+
+## Philosophy Decisions
+
+### Event Binding
+**Decision: Use actual DOM event names.**
+- `data-m-on="click:handler"` not abbreviated codes
+- LLMs already know standard event names
+- Minimizes hallucinations over custom mappings
+- Familiar to all developers for debugging
 
 ### HTML/Markdown Minification?
 **Decision: No.** 
 - LLMs handle whitespace fine; token cost is minimal
 - Humans need to verify LLM output occasionally
 - Browsers ignore whitespace anyway
-- Minified HTML would hurt debugging
-- Keep JS terse (LLM-only), keep HTML readable (LLM+human verification)
 
 ### PWA Support?
 **Decision: Yes, as optional enhancement (future).**
-- Aligns with offline-first, static HTML philosophy
+- Aligns with offline-first philosophy
 - Service worker is pure JS, no build step
 - Add `data-m-enhance="pwa"` to auto-register SW
-- Manifest JSON can be embedded like state manifest
+
+### E2E Testing
+**Decision: Opt-in via data-testid.**
+- `data-testid="btn-save"` for Playwright/Cypress
+- Prefix conventions: `btn-`, `inp-`, `msg-`, `lst-`
+- Not required, but documented pattern
 
 ---
 

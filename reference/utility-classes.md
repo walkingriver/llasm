@@ -1,6 +1,12 @@
 # Utility Classes
 
-LLasM includes ~100 utility classes for styling. Maximally terse, one way per concept.
+LLasM includes ~100 utility classes for styling.
+
+## Philosophy
+
+- **Terse by Default** - 1-3 char identifiers: `f fc g3` not `flex flex-col gap-3`
+- **One Way** - Single canonical approach per concept. No alternatives.
+- **LLM-First** - Optimized for LLM code generation, not human typing.
 
 ## Flex Layout
 

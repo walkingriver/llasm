@@ -1,150 +1,266 @@
 # LLasM - LLM Assembly Language
 
-Generate complete, production-grade web applications with zero build tooling.
+**A framework optimized for LLM code generation, not human developers.**
 
-## Available Skills
+## Core Mission
 
-LLasM provides three complementary skills for full-stack development:
+Existing frameworks were built to make web development easier for humans. LLasM flips this: minimal API surface, one way to do each thing, patterns over configuration, terse predictable syntax.
 
-| Skill | File | Output | Purpose |
-|-------|------|--------|---------|
-| **Frontend** | `SKILL.md` | Single HTML file | Static pages, SPAs, UI prototypes |
-| **REST API** | `SKILL-API.md` | Single JS file | JSON APIs, CRUD endpoints, data services |
-| **SSR** | `SKILL-SSR.md` | Single JS file | Server-rendered pages with hydration |
+## Design Principles (Priority Order)
 
-All three follow the same philosophy: **zero dependencies, single-file output, no build step**.
+Higher tiers override lower tiers when conflicts arise.
 
-## When to Use Each Skill
+### Tier 1: SECURITY
+- **OWASP Compliant** - Follow OWASP Top 10. Defense in depth.
+- **Safe Binding** - No innerHTML. Sanitize all dynamic content.
+- **No UI Cookies** - Auth is server-side (httpOnly/secure).
+- **Zero Trust Input** - Validate and sanitize all user input and URL params.
+- **Network Resilience** - Handle fetch failures gracefully.
 
-### Frontend (SKILL.md)
-- Building web pages, web apps, or UI prototypes
-- User wants a todo app, landing page, dashboard, form, etc.
-- Fast iteration without npm/build setup is desired
-- Static HTML with progressive enhancement is appropriate
+### Tier 2: ACCESSIBILITY
+- **WCAG Compliant** - WCAG 2.1 AA minimum. ARIA, keyboard nav, focus management.
+- **I18n Ready** - Locale keys with RTL support.
+- **Semantic Elements** - Use native HTML5 (nav, main, article, section).
+- **Responsive** - Fluid layouts, mobile-first breakpoints.
 
-### REST API (SKILL-API.md)
-- User needs a backend API or REST service
-- JSON endpoints for CRUD operations
-- Data persistence with file-based JSON or integration points
-- Microservices or serverless function logic
+### Tier 3: QUALITY
+- **ATOMIC Design** - Atoms + molecules shipped. Organism patterns documented.
+- **Page-Level Routing** - Each page is a file. Deep-linking by default.
+- **Self-Booting Pages** - Every page hydrates independently.
+- **Lighthouse 90+** - All four categories.
+- **SEO Ready** - Meta tags, Open Graph, structured data.
 
-### SSR (SKILL-SSR.md)
-- User needs server-rendered pages with dynamic data
-- SEO-critical pages that need pre-populated content
-- Combining static templates with server-side state injection
-- Full-stack apps with both pages and API endpoints
+### Tier 4: PERFORMANCE
+- **LLM-First** - Code for LLMs by LLMs. Human readability is a non-goal.
+- **One Way** - Single canonical approach. No alternatives.
+- **Terse by Default** - 1-3 char identifiers: `f fc g3` not `flex flex-col gap-3`.
+- **Zero Build** - HTML + ES + CSS only. No transpilation.
+- **CSS Before JS** - If CSS can do it, don't use JS.
+- **Browser-Native** - Only browser APIs. No external libraries.
+- **Patterns Over Libs** - LLMs need patterns, not helper libraries.
 
-### Do NOT use LLasM when:
-- Complex SPA with client-side routing is required
-- User specifically requests React, Vue, Angular, etc.
-- Heavy real-time features requiring WebSocket frameworks
-- Enterprise-scale applications needing full frameworks
+## REQUIRED CHECKLIST
+
+Every LLasM page MUST include ALL of these. Do not skip any.
+
+1. **Folder per app** - Each app gets its own folder with `index.html` as entry point
+2. **Separate files** - Each view/page is a separate HTML file (NO hash routing between pages)
+3. **Cache-bust import** - Random 8-char hash: `import{l}from"../../llasm.js?v=x9k2m4p7";`
+4. **Build date footer** - `<p class="t1 o5">Built 2026-02-17</p>` with today's date
+5. **Critical CSS in head** - Inline `<style>` with utility classes used above fold
+6. **Dark mode script in head** - Blocking script before body renders
+7. **theme-color meta** - `<meta name="theme-color" content="#0066ff">`
+8. **Semantic footer** - `<footer>` element with copyright/version
+9. **No inline styles** - Use utility classes, not `style="..."`
+
+## File Organization
+
+Every app lives in its own folder under `docs/examples/`:
+
+```
+docs/examples/
+  bookstore/
+    index.html      # Entry point (shop view)
+    checkout.html   # Checkout page
+    confirm.html    # Order confirmation
+  recipes/
+    index.html      # Recipe list
+    detail.html     # Recipe detail (?id=123)
+```
+
+### Rules
+
+1. **One folder per app** - `docs/examples/{app-name}/`
+2. **Entry point is `index.html`** - Main/home view
+3. **Short page names** - `checkout.html` not `bookstore-checkout.html`
+4. **llasm.js path** - `../../llasm.js` (relative to app folder)
+
+### Navigation Between Pages
+
+```html
+<!-- Within same app folder -->
+<a href="checkout.html">Checkout</a>
+<a href="detail.html?id=123">View Details</a>
+
+<!-- Back to index -->
+<a href="./">Back to Home</a>
+```
+
+### Required Head Structure
+
+```html
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Page description">
+  <meta name="theme-color" content="#0066ff">
+  <title>Page Title</title>
+  <script>/* dark mode detection */</script>
+  <style>/* critical CSS */</style>
+</head>
+```
+
+### Required Footer Structure
+
+```html
+<footer class="xw3 mxa py4 tc cg t2">
+  <p>&copy; 2026 Site Name</p>
+  <p class="t1 o5">Built 2026-02-17</p>
+</footer>
+```
 
 ## Quick Start
 
-### Frontend (most common)
-Read `SKILL.md`, generate:
-1. Single HTML file with embedded manifest
-2. Copy `llasm.js` alongside it
-
-### REST API
-Read `SKILL-API.md`, generate:
-1. Single `server.js` file
-2. Run with `node server.js`
-
-### SSR
-Read `SKILL-SSR.md`, generate:
-1. HTML template(s)
-2. Single `ssr-server.js` file
-3. Run with `node ssr-server.js`
-
-## Key Files
-
-### Frontend
-- `SKILL.md` - Frontend generation instructions
-- `llasm.js` - Runtime (~8KB gzipped)
-- `reference/` - Detailed API specs
-- `docs/examples/*.html` - Frontend examples
-
-### Backend
-- `SKILL-API.md` - REST API generation instructions
-- `SKILL-SSR.md` - SSR generation instructions
-- `reference/api-patterns.md` - API patterns and helpers
-- `reference/ssr-patterns.md` - SSR patterns and helpers
-- `docs/examples/*.js` - Server examples
-
-## Output Format
+Read `SKILL.md`, generate HTML with embedded manifest:
 
 ```html
 <!DOCTYPE html>
 <html lang="en">
-<body>
-  <!-- Static HTML with data-m-* attributes -->
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Page description for SEO">
+  <meta name="theme-color" content="#0066ff">
+  <title>Page Title</title>
+  <script>try{var d=localStorage.getItem('llasm-dark');if(d==='true'||(d===null&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.classList.add('dark');}catch(e){}</script>
+  <style>/* critical CSS - see SKILL.md */</style>
+</head>
+<body class="p3">
+  <header class="xw3 mxa f fb fi py3">
+    <h1 class="t5 c1 tb">Site Name</h1>
+  </header>
+
+  <main class="xw3 mxa f fc g3">
+    <h2 class="t4 tb" data-m-bind="title"></h2>
+    <p class="cg" data-m-bind="desc"></p>
+    <button data-m-on="click:save" class="b1 cw p2 px3 r">Save</button>
+  </main>
+
+  <footer class="xw3 mxa py4 tc cg t2">
+    <p>&copy; 2026 Site Name</p>
+    <p class="t1 o5">Built 2026-02-17</p>
+  </footer>
+
   <script type="application/llasm+json" id="manifest">
-    {"v":1,"r":{"s":{}},"l":{"en":{}}}
+  {"v":1,"r":{"s":{"title":"Hello","desc":"World"}},"l":{"en":{}}}
   </script>
   <script type="module">
-    import{l}from"./llasm.js";
-    l.h({...});
+  import{l}from"./llasm.js?v=a7f3b2c1";
+  l.h({save:(e,s,L)=>L.t('Saved!','ok')});
   </script>
 </body>
 </html>
 ```
 
-## Performance Rules (Lighthouse)
+## Syntax Reference
 
-These rules prevent common Lighthouse audit failures:
-
-### Images - ALWAYS do these:
-1. **Use WebP format** - Convert all images to WebP with quality 10-25 for backgrounds, 40-60 for content
-2. **Specify width/height** - Every `<img>` must have explicit `width` and `height` attributes to prevent CLS
-3. **Preload LCP images** - Add `<link rel="preload" as="image" href="..." fetchpriority="high">` in `<head>`
-4. **Use responsive sizing** - Apply `object-fit:cover` and responsive height values
-
-### CSS Animations - NEVER animate these properties:
-- `color`, `background`, `background-color`
-- `width`, `height`, `margin`, `padding`
-- `top`, `left`, `right`, `bottom`
-
-### CSS Animations - ONLY animate these properties:
-- `transform` (translate, scale, rotate)
-- `opacity`
-
-### Layout Stability (CLS):
-- Reserve space for images/media with explicit dimensions
-- Don't inject content above existing content after load
-- Use `min-height` or `aspect-ratio` for dynamic containers
-- **Include critical CSS inline in `<head>`** to prevent CLS from late CSS injection
-- Apply dark mode class to `<html>` via blocking script before body renders
-
-### Accessibility:
-- Ensure link color contrast ratio >= 4.5:1 (e.g., `#1a1a1a` not `#666`)
-- Add `lang="en"` to `<html>` element
-- Buttons/links must have accessible names
-
-### Server-Side (document for deployment):
-- Set `Cache-Control: public, max-age=31536000` for static assets
-- Add security headers: CSP, HSTS, X-Frame-Options, COOP
-
-## Versioning & Cache Busting
-
-The LLM IS the build tool. When generating or updating any page:
-
-1. **Footer version** - Include `<p class="t1 o5" data-m-version>Built YYYY-MM-DD</p>` with today's date
-2. **Cache-bust import** - Generate a random 8-char hash: `import{l}from"./llasm.js?v=x9k2m4p7";`
-
-Example:
+### Data Binding
 ```html
-<p data-m-version>Built 2026-02-17</p>
-<script type="module">import{l}from"./llasm.js?v=x9k2m4p7";</script>
+<span data-m-bind="userName"></span>
+<span data-m-bind="user.name"></span>
+<span data-m-bind="name|upper"></span>
 ```
 
-Generate a NEW random hash each time you update a page. This achieves Angular-style cache busting without build tools.
+### Conditional Rendering
+```html
+<div data-if="s.loading">Loading...</div>
+<div data-if="!s.loading">Content</div>
+```
 
-## Testing (Optional)
+### Event Binding
+```html
+<button data-m-on="click:save">Save</button>
+<input data-m-on="input:update,blur:validate">
+<form data-m-on="submit:send">
+```
 
-Testing is NOT mandated for generated pages. The zero-build philosophy applies to output, not tooling.
+Use actual DOM event names (click, input, blur, submit, etc.) - LLMs already know them.
 
-- **llasm.js runtime** has unit tests: `npm test`
-- **Generated pages** - test if user requests, otherwise not required
-- If user wants tests, let them choose their preferred framework
+### List Rendering
+```html
+<ul data-m-bind="items" data-m-tpl="item-tpl" data-m-key="id" class="f fc g2"></ul>
+<template id="item-tpl">
+  <li class="f fb fi p2 bg r">
+    <span data-m-f="name"></span>
+    <span class="c1 tb" data-m-f="price"></span>
+  </li>
+</template>
+```
+
+### Utility Classes (Tailwind-Lite)
+```html
+<div class="f fc g3 p3 bg r">
+  <h1 class="t6 tb c1">Title</h1>
+</div>
+```
+
+Layout: `f` flex | `fc` column | `fi` center | `fj` justify | `fg` grow
+Spacing: `p1-p5` padding | `m1-m5` margin | `g1-g5` gap
+Typography: `t1-t7` size | `tb` bold | `tc` center
+Colors: `c1` primary | `cg` gray | `b1` bg-primary | `bg` bg-gray
+Effects: `r` radius | `sh` shadow | `bd` border
+
+## State Management
+
+Three-tier storage:
+```json
+{
+  "v": 1,
+  "r": {"s": {"cart": [], "user": null}},
+  "persist": {"cart": "local", "user": "session"}
+}
+```
+
+- `session` - sessionStorage (tab lifetime)
+- `local` - localStorage (browser lifetime)
+- `server` - fetch to API (permanent)
+
+## Page-Level Routing
+
+**Each page is a separate HTML file. Do NOT use hash routing between pages.**
+
+Each page:
+- Self-boots independently (works if loaded directly)
+- Shares state via `persist: {"cart": "local"}`
+- Links to other pages with `<a href="checkout.html">`
+
+### Passing Data Between Pages
+
+Use URL params for IDs, localStorage for complex data:
+
+```html
+<!-- Link with ID -->
+<a href="detail.html?id=123">View Recipe</a>
+```
+
+```javascript
+// In detail.html handler
+const id = new URLSearchParams(location.search).get('id');
+```
+
+### When Hash Routing IS Allowed
+
+Only for tabs/panels within a single page:
+```html
+<section data-m-if="tab==info">Info Tab</section>
+<section data-m-if="tab==settings">Settings Tab</section>
+```
+
+NOT for separate views (shop vs checkout vs confirmation).
+
+## Files
+
+| File | Purpose |
+|------|---------|
+| `SKILL.md` | Frontend generation (primary) |
+| `SKILL-API.md` | REST API generation |
+| `SKILL-SSR.md` | Server-side rendering |
+| `llasm.js` | Runtime |
+| `reference/` | Detailed specs |
+
+## Performance Rules
+
+- **Images**: WebP, explicit width/height, lazy loading
+- **Animations**: Only transform/opacity (composited)
+- **CSS**: Inline critical CSS in head
+- **Caching**: Service worker, stale-while-revalidate

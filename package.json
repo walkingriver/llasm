@@ -4,8 +4,7 @@
   "description": "LLasM: LLM Assembly Language - AI agent skill for generating zero-build web applications",
   "type": "module",
   "scripts": {
-    "serve": "sirv docs --port 8080 --dev",
-    "serve:examples": "sirv examples --port 8080 --dev",
+    "start": "sirv docs --port 8080 --dev",
     "test": "vitest run",
     "test:watch": "vitest"
   },

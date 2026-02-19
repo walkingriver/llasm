@@ -27,3 +27,6 @@ npm-debug.log*
 package-lock.json
 yarn.lock
 pnpm-lock.yaml
+
+# Snyk Security Extension - AI Rules (auto-generated)
+.cursor/rules/snyk_rules.mdc

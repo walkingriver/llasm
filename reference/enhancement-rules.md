@@ -2,6 +2,13 @@
 
 All behavior is applied via `data-m-enhance="flag1 flag2"` on native HTML elements.
 
+## Philosophy
+
+- **CSS Before JS** - Use CSS-only solutions when possible (hover states, transitions)
+- **Semantic Elements** - Use native HTML5 elements (button, dialog, form)
+- **Progressive Enhancement** - Page works without JS, enhanced with JS
+- **ARIA Automation** - Runtime adds ARIA attributes automatically
+
 ## Button Enhancements
 
 ### primary
