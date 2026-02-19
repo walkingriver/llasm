@@ -4,21 +4,63 @@
  * Target: ≤9KB gzipped
  */
 const D=document,W=window,Q=(s,c=D)=>c.querySelector(s),A=(s,c=D)=>c.querySelectorAll(s);
-let _s={},_l={},_t={},_ln='en',_h={},_m=null,_p={},_rp={},_ps=[],_ol=!navigator.onLine;
+let _s={},_l={},_t={},_ln='en',_h={},_m=null,_p={},_rp={},_ps={},_ol=!navigator.onLine;
 
 // Proxy-based reactive state
 const px=(o,cb)=>{
   if(typeof o!=='object'||o===null)return o;
   return new Proxy(o,{
     get:(t,k)=>{const v=t[k];return typeof v==='object'&&v!==null?px(v,cb):v;},
-    set:(t,k,v)=>{t[k]=v;cb();sv();return true;},
+    set:(t,k,v)=>{
+      // #region agent log
+      _dbg('llasm.js:px-set','proxy SET trap',{key:String(k),valueType:typeof v,isArray:Array.isArray(v)},'A');
+      // #endregion
+      t[k]=v;cb();sv();return true;
+    },
     deleteProperty:(t,k)=>{delete t[k];cb();sv();return true;}
   });
 };
 
-// LocalStorage persistence
-const sv=()=>{if(_ps.length){const d={};_ps.forEach(k=>{if(_s[k]!==undefined)d[k]=_s[k];});try{localStorage.setItem('llasm',JSON.stringify(d));}catch{}}};
-const ld=()=>{try{const d=JSON.parse(localStorage.getItem('llasm')||'{}');_ps.forEach(k=>{if(d[k]!==undefined)_s[k]=d[k];});}catch{}};
+// #region agent log
+const _dbg=(loc,msg,data,hyp)=>{console.log(`[DBG:${hyp}] ${loc}: ${msg}`,data);};
+// #endregion
+
+// Storage persistence (local/session)
+const sv=()=>{
+  // #region agent log
+  _dbg('llasm.js:sv','sv() called',{psKeys:Object.keys(_ps),psObj:_ps},'A,B');
+  // #endregion
+  for(const[k,tier]of Object.entries(_ps)){
+    const v=_s[k];
+    if(v===undefined)continue;
+    const store=tier==='session'?sessionStorage:localStorage;
+    const json=JSON.stringify(v);
+    // #region agent log
+    _dbg('llasm.js:sv-item','saving item',{key:k,tier:tier,json:json},'A');
+    // #endregion
+    try{store.setItem('llasm-'+k,json);}catch(e){}
+  }
+};
+const ld=()=>{
+  // #region agent log
+  _dbg('llasm.js:ld','ld() called',{psKeys:Object.keys(_ps),psObj:_ps},'C');
+  // #endregion
+  for(const[k,tier]of Object.entries(_ps)){
+    const store=tier==='session'?sessionStorage:localStorage;
+    try{
+      const v=store.getItem('llasm-'+k);
+      // #region agent log
+      _dbg('llasm.js:ld-item','loading item',{key:k,tier:tier,rawValue:v},'C');
+      // #endregion
+      if(v!==null){
+        _s[k]=JSON.parse(v);
+        // #region agent log
+        _dbg('llasm.js:ld-set','after setting _s[k]',{key:k,parsedValue:JSON.parse(v)},'C,D');
+        // #endregion
+      }
+    }catch(e){}
+  }
+};
 
 // DOM diffing for arrays
 const df=(el,arr,tpl,key)=>{
@@ -62,6 +104,7 @@ const ai=()=>A('[data-m-tx]').forEach(ti);
 
 // Utility CSS classes (Tailwind-lite, maximally terse)
 const UC=`
+[data-m-if].m-hide{display:none}
 *{margin:0;padding:0;box-sizing:border-box}
 :root{--m-p:#0066ff;--m-s:#6c757d;--m-ok:#28a745;--m-err:#dc3545;--m-bg:#fff;--m-fg:#212529;font-family:system-ui,sans-serif;line-height:1.5}
 body{background:var(--m-bg);color:var(--m-fg)}
@@ -447,6 +490,9 @@ const ev=(expr)=>{
     const arr=_s[k];
     const len=Array.isArray(arr)?arr.length:0;
     const num=parseInt(n);
+    // #region agent log
+    _dbg('llasm.js:ev','eval length expr',{expr,k,isArray:Array.isArray(arr),len,op,num},'E');
+    // #endregion
     let r=false;
     if(op==='==')r=len===num;
     else if(op==='===')r=len===num;
@@ -455,6 +501,9 @@ const ev=(expr)=>{
     else if(op==='<')r=len<num;
     else if(op==='>=')r=len>=num;
     else if(op==='<=')r=len<=num;
+    // #region agent log
+    _dbg('llasm.js:ev','eval result',{expr,result:r,negResult:neg?!r:r},'E');
+    // #endregion
     return neg?!r:r;
   }
   // Handle key==value
@@ -492,9 +541,16 @@ const gv=(k)=>{
 
 // Conditional rendering (data-m-if)
 const ci=()=>{
+  // #region agent log
+  _dbg('llasm.js:ci','ci() called, processing conditionals',{count:A('[data-m-if]').length},'E');
+  // #endregion
   A('[data-m-if]').forEach(el=>{
-    const show=ev(el.dataset.mIf);
-    el.hidden=!show;
+    const expr=el.dataset.mIf;
+    const show=ev(expr);
+    // #region agent log
+    _dbg('llasm.js:ci-el','setting element visibility',{expr,show,willHide:!show,tagName:el.tagName,text:el.textContent?.slice(0,30)},'E');
+    // #endregion
+    el.classList.toggle('m-hide',!show);
     el.setAttribute('aria-hidden',String(!show));
   });
 };
@@ -563,12 +619,24 @@ const toast=(msg,type='info',dur=3000)=>{
 
 // Mount from manifest JSON
 const mn=(m)=>{
+  // #region agent log
+  _dbg('llasm.js:mn','mount() start',{hasPersist:!!m.persist,hasState:!!m.r?.s,manifest:m},'D');
+  // #endregion
   _m=m;
   if(m.l)_l=m.l;
   if(m.t){_t=m.t;cs();}else cs();
   if(m.persist)_ps=m.persist;
+  // #region agent log
+  _dbg('llasm.js:mn-ps','_ps set',{ps:_ps},'B,C');
+  // #endregion
   if(m.r?.s)_s=px({..._s,...m.r.s},bc);
+  // #region agent log
+  _dbg('llasm.js:mn-state','_s created (before ld)',{cartBefore:_s.cart},'D');
+  // #endregion
   ld();
+  // #region agent log
+  _dbg('llasm.js:mn-afterld','after ld()',{cartAfter:_s.cart},'D');
+  // #endregion
   ai();
   A('[data-m-enhance]').forEach(ae);
   A('[data-m-on]').forEach(oe);
@@ -611,7 +679,12 @@ const ra=()=>{
 // Public API
 const l={
   m:(m)=>{ra();if(m)mn(m);else{const pm2=pm();if(pm2)mn(pm2);}},
-  u:(p)=>{Object.assign(_s,p);bc();},
+  u:(p)=>{
+    // #region agent log
+    _dbg('llasm.js:l.u','l.u() called',{patchKeys:Object.keys(p),hasCart:'cart'in p,cartLen:p.cart?.length},'A');
+    // #endregion
+    Object.assign(_s,p);bc();
+  },
   f:fc,
   v:vs,
   vf:vf,
