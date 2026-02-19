@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Recipe details with ingredients and step-by-step instructions">
+<meta name="theme-color" content="#0066ff">
+<title>Recipe Details</title>
+<script>try{var d=localStorage.getItem('llasm-dark');if(d==='true'||(d===null&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.classList.add('dark');}catch(e){}</script>
+<style>
+*,*::before,*::after{box-sizing:border-box}
+:root{--m-p:#0066ff;--m-s:#6c757d;--m-ok:#28a745;--m-err:#dc3545}
+body{margin:0;font-family:system-ui,sans-serif;background:var(--m-bg,#fff);color:var(--m-fg,#212529)}
+.f{display:flex}.fc{flex-direction:column}.fi{align-items:center}.fj{justify-content:center}.fb{justify-content:space-between}.fg{flex-grow:1}.fw{flex-wrap:wrap}
+.g{display:grid}.gc2{grid-template-columns:repeat(2,1fr)}
+.g1{gap:.25rem}.g2{gap:.5rem}.g3{gap:1rem}.g4{gap:1.5rem}
+.p2{padding:.5rem}.p3{padding:1rem}.p4{padding:1.5rem}.px3{padding-inline:1rem}.py2{padding-block:.5rem}.py3{padding-block:1rem}.py4{padding-block:1.5rem}
+.mxa{margin-inline:auto}.xw3{max-width:900px}
+.t1{font-size:.75rem}.t2{font-size:.875rem}.t3{font-size:1rem}.t4{font-size:1.25rem}.t5{font-size:1.5rem}.t6{font-size:2rem}.tb{font-weight:700}.tc{text-align:center}
+.c1{color:var(--m-p)}.cg{color:#6c757d}.cw{color:#fff}.cb{color:#000}
+.b1{background:var(--m-p)}.b2{background:var(--m-s)}.bg{background:#f5f5f5}.bw{background:#fff}
+.r{border-radius:4px}.r2{border-radius:8px}.rf{border-radius:9999px}.sh{box-shadow:0 2px 8px rgba(0,0,0,.1)}.bd{border:1px solid #ddd}
+.tdn{text-decoration:none}.cp{cursor:pointer}.o5{opacity:.5}
+.dn{display:none}.rel{position:relative}.abs{position:absolute}
+.wf{width:100%}
+.recipe-hero{height:240px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:4rem;border-radius:8px}
+.recipe-hero.pasta{background:linear-gradient(135deg,#f5af19 0%,#f12711 100%)}
+.recipe-hero.chicken{background:linear-gradient(135deg,#11998e 0%,#38ef7d 100%)}
+.recipe-hero.salad{background:linear-gradient(135deg,#56ab2f 0%,#a8e063 100%)}
+.recipe-hero.soup{background:linear-gradient(135deg,#fc4a1a 0%,#f7b733 100%)}
+.recipe-hero.fish{background:linear-gradient(135deg,#4facfe 0%,#00f2fe 100%)}
+.badge{padding:4px 10px;border-radius:9999px;font-size:.75rem;font-weight:600}
+.badge-easy{background:#d4edda;color:#155724}
+.badge-medium{background:#fff3cd;color:#856404}
+.badge-hard{background:#f8d7da;color:#721c24}
+.meta-item{display:flex;align-items:center;gap:.5rem;padding:.5rem 1rem;background:#f5f5f5;border-radius:8px}
+.step{counter-increment:step;position:relative;padding-left:3rem}
+.step::before{content:counter(step);position:absolute;left:0;width:2rem;height:2rem;background:var(--m-p);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700}
+ol.steps{counter-reset:step;list-style:none;padding:0}
+@view-transition{navigation:auto}
+@keyframes fade-out{from{opacity:1}to{opacity:0}}
+@keyframes fade-in{from{opacity:0}to{opacity:1}}
+@keyframes slide-out{from{transform:translateX(0)}to{transform:translateX(-20px)}}
+@keyframes slide-in{from{transform:translateX(20px)}to{transform:translateX(0)}}
+::view-transition-old(root){animation:.4s ease-out both fade-out,slide-out}
+::view-transition-new(root){animation:.4s ease-out both fade-in,slide-in}
+html.dark{--m-bg:#1a1a1a;--m-fg:#f5f5f5;--m-p:#5c9eff}
+html.dark body{background:#1a1a1a;color:#f5f5f5}
+html.dark .bg{background:#2a2a2a}
+html.dark .bw{background:#2a2a2a}
+html.dark .cb{color:#f5f5f5}
+html.dark .meta-item{background:#2a2a2a}
+html.dark .badge-easy{background:#1e4620;color:#a3d9a5}
+html.dark .badge-medium{background:#4a3f1f;color:#f0d77c}
+html.dark .badge-hard{background:#4a1f1f;color:#f0a5a5}
+@media(max-width:768px){.sm\:fc{flex-direction:column}.sm\:gc1{grid-template-columns:1fr}}
+</style>
+</head>
+<body class="p3">
+
+<header class="xw3 mxa f fb fi py3">
+<a href="./" class="f fi g2 tdn c1">
+<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+<span class="tb">Back to Recipes</span>
+</a>
+<button data-m-enhance="darkmode" class="p2 px3 bg r f fi g2 cp" aria-label="Toggle dark mode">
+<svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/></svg>
+</button>
+</header>
+
+<main class="xw3 mxa f fc g4 py3">
+<div data-m-if="notFound" class="p4 bg r2 tc">
+<p class="t4 cg">Recipe not found</p>
+<a href="./" class="c1 tb">Back to all recipes</a>
+</div>
+
+<article data-m-if="!notFound" class="f fc g4">
+<div data-m-bind="heroClass" class="recipe-hero"></div>
+
+<div class="f fc g2">
+<h1 class="t6 tb" data-m-bind="recipe.name"></h1>
+<p class="cg t3" data-m-bind="recipe.description"></p>
+</div>
+
+<div class="f fw g3">
+<div class="meta-item">
+<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><circle cx="10" cy="10" r="8"/><path d="M10 6v4l2.5 2.5"/></svg>
+<span data-m-bind="recipe.time"></span>
+</div>
+<div class="meta-item">
+<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+<span data-m-bind="recipe.difficulty"></span>
+</div>
+<div class="meta-item">
+<svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2"/><circle cx="10" cy="7" r="4"/></svg>
+<span data-m-bind="recipe.servings"></span>
+</div>
+</div>
+
+<section class="f fc g3">
+<h2 class="t5 tb">Ingredients</h2>
+<ul class="f fc g2 bg r2 p4" data-m-bind="ingredients" data-m-tpl="ing-tpl" data-m-key="i"></ul>
+</section>
+
+<section class="f fc g3">
+<h2 class="t5 tb">Instructions</h2>
+<ol class="steps f fc g4" data-m-bind="steps" data-m-tpl="step-tpl" data-m-key="i"></ol>
+</section>
+</article>
+</main>
+
+<footer class="xw3 mxa py4 tc cg t2">
+<p>&copy; 2026 Recipe Collection</p>
+<p class="t1 o5">Built 2026-02-19</p>
+</footer>
+
+<template id="ing-tpl">
+<li class="f fi g2">
+<span class="c1">•</span>
+<span data-m-f="text"></span>
+</li>
+</template>
+
+<template id="step-tpl">
+<li class="step t3"><span data-m-f="text"></span></li>
+</template>
+
+<script type="application/llasm+json" id="manifest">
+{"v":1,"r":{"s":{"notFound":false,"recipe":{},"ingredients":[],"steps":[],"heroClass":""}},"l":{"en":{}}}
+</script>
+<script type="module">
+import{l}from"../../llasm.js?v=r3c1p3s5";
+
+const recipes={
+1:{
+name:"Spaghetti Carbonara",
+description:"Classic Italian pasta with eggs, cheese, and pancetta",
+time:"25 min",
+difficulty:"Medium",
+servings:"4 servings",
+hero:"pasta",
+ingredients:[
+{i:1,text:"400g spaghetti"},
+{i:2,text:"200g pancetta or guanciale, diced"},
+{i:3,text:"4 large egg yolks"},
+{i:4,text:"100g Pecorino Romano, grated"},
+{i:5,text:"50g Parmesan, grated"},
+{i:6,text:"Freshly ground black pepper"},
+{i:7,text:"Salt for pasta water"}
+],
+steps:[
+{i:1,text:"Bring a large pot of salted water to boil. Cook spaghetti until al dente according to package directions."},
+{i:2,text:"While pasta cooks, fry pancetta in a large pan over medium heat until crispy, about 5-7 minutes."},
+{i:3,text:"In a bowl, whisk together egg yolks, Pecorino, Parmesan, and plenty of black pepper."},
+{i:4,text:"Reserve 1 cup pasta water, then drain pasta. Remove pan from heat."},
+{i:5,text:"Add hot pasta to pancetta, toss quickly, then pour egg mixture over. Toss vigorously, adding pasta water as needed to create a creamy sauce."},
+{i:6,text:"Serve immediately with extra cheese and pepper on top."}
+]
+},
+2:{
+name:"Garlic Butter Chicken",
+description:"Juicy pan-seared chicken in garlic herb butter sauce",
+time:"30 min",
+difficulty:"Easy",
+servings:"4 servings",
+hero:"chicken",
+ingredients:[
+{i:1,text:"4 boneless chicken breasts"},
+{i:2,text:"4 tbsp butter"},
+{i:3,text:"6 cloves garlic, minced"},
+{i:4,text:"1 cup chicken broth"},
+{i:5,text:"2 tbsp fresh thyme"},
+{i:6,text:"Salt and pepper to taste"},
+{i:7,text:"2 tbsp olive oil"}
+],
+steps:[
+{i:1,text:"Season chicken breasts generously with salt and pepper on both sides."},
+{i:2,text:"Heat olive oil in a large skillet over medium-high heat. Add chicken and cook 6-7 minutes per side until golden and cooked through. Remove and set aside."},
+{i:3,text:"Reduce heat to medium. Add butter and garlic to the same pan. Sauté for 1 minute until fragrant."},
+{i:4,text:"Pour in chicken broth and thyme. Simmer for 3-4 minutes until slightly reduced."},
+{i:5,text:"Return chicken to pan, spoon sauce over, and cook 2 more minutes."},
+{i:6,text:"Serve with sauce spooned over the top."}
+]
+},
+3:{
+name:"Caesar Salad",
+description:"Crisp romaine with homemade dressing and croutons",
+time:"15 min",
+difficulty:"Easy",
+servings:"4 servings",
+hero:"salad",
+ingredients:[
+{i:1,text:"2 heads romaine lettuce, chopped"},
+{i:2,text:"1 cup croutons"},
+{i:3,text:"1/2 cup Parmesan, shaved"},
+{i:4,text:"2 cloves garlic, minced"},
+{i:5,text:"2 anchovy fillets (optional)"},
+{i:6,text:"1 egg yolk"},
+{i:7,text:"2 tbsp lemon juice"},
+{i:8,text:"1 tsp Dijon mustard"},
+{i:9,text:"1/2 cup olive oil"}
+],
+steps:[
+{i:1,text:"In a large bowl, mash garlic and anchovies into a paste with a fork."},
+{i:2,text:"Whisk in egg yolk, lemon juice, and Dijon mustard until combined."},
+{i:3,text:"Slowly drizzle in olive oil while whisking constantly to emulsify."},
+{i:4,text:"Add chopped romaine to the bowl and toss to coat evenly with dressing."},
+{i:5,text:"Top with croutons and shaved Parmesan. Serve immediately."}
+]
+},
+4:{
+name:"Tomato Basil Soup",
+description:"Creamy roasted tomato soup with fresh basil",
+time:"45 min",
+difficulty:"Medium",
+servings:"6 servings",
+hero:"soup",
+ingredients:[
+{i:1,text:"2 lbs Roma tomatoes, halved"},
+{i:2,text:"1 onion, quartered"},
+{i:3,text:"6 cloves garlic"},
+{i:4,text:"3 tbsp olive oil"},
+{i:5,text:"2 cups vegetable broth"},
+{i:6,text:"1/2 cup heavy cream"},
+{i:7,text:"1/2 cup fresh basil leaves"},
+{i:8,text:"Salt and pepper to taste"}
+],
+steps:[
+{i:1,text:"Preheat oven to 400°F (200°C). Place tomatoes, onion, and garlic on a baking sheet. Drizzle with olive oil, season with salt and pepper."},
+{i:2,text:"Roast for 25-30 minutes until tomatoes are softened and slightly charred."},
+{i:3,text:"Transfer roasted vegetables to a large pot. Add vegetable broth."},
+{i:4,text:"Use an immersion blender to puree until smooth. Alternatively, blend in batches."},
+{i:5,text:"Stir in heavy cream and fresh basil. Simmer for 5 minutes."},
+{i:6,text:"Adjust seasoning and serve with crusty bread."}
+]
+},
+5:{
+name:"Pan-Seared Salmon",
+description:"Crispy skin salmon with lemon dill sauce",
+time:"20 min",
+difficulty:"Hard",
+servings:"2 servings",
+hero:"fish",
+ingredients:[
+{i:1,text:"2 salmon fillets, skin-on"},
+{i:2,text:"2 tbsp olive oil"},
+{i:3,text:"3 tbsp butter"},
+{i:4,text:"2 cloves garlic, minced"},
+{i:5,text:"2 tbsp fresh dill, chopped"},
+{i:6,text:"1 lemon, juiced and zested"},
+{i:7,text:"Salt and pepper to taste"}
+],
+steps:[
+{i:1,text:"Pat salmon fillets completely dry with paper towels. Season generously with salt and pepper."},
+{i:2,text:"Heat olive oil in a skillet over medium-high heat until shimmering."},
+{i:3,text:"Place salmon skin-side down. Press gently with spatula for first 30 seconds. Cook 4-5 minutes without moving until skin is crispy."},
+{i:4,text:"Flip carefully and cook 2-3 more minutes for medium. Remove to plate."},
+{i:5,text:"Reduce heat to medium. Add butter, garlic, dill, lemon juice and zest to pan. Swirl until butter melts."},
+{i:6,text:"Spoon sauce over salmon and serve immediately."}
+]
+}
+};
+
+const id=new URLSearchParams(location.search).get('id');
+if(!id||!recipes[id]){
+l.u({notFound:true});
+}else{
+const r=recipes[id];
+const heroEl=document.querySelector('.recipe-hero');
+if(heroEl)heroEl.classList.add(r.hero);
+heroEl.textContent={pasta:'🍝',chicken:'🍗',salad:'🥗',soup:'🍲',fish:'🐟'}[r.hero];
+l.u({
+notFound:false,
+recipe:{name:r.name,description:r.description,time:r.time,difficulty:r.difficulty,servings:r.servings},
+ingredients:r.ingredients,
+steps:r.steps
+});
+}
+
+l.h({});
+</script>
+</body>
+</html>

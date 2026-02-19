@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Discover delicious recipes with cook times and difficulty levels">
+<meta name="theme-color" content="#0066ff">
+<title>Recipe Collection</title>
+<script>try{var d=localStorage.getItem('llasm-dark');if(d==='true'||(d===null&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.classList.add('dark');}catch(e){}</script>
+<style>
+*,*::before,*::after{box-sizing:border-box}
+:root{--m-p:#0066ff;--m-s:#6c757d;--m-ok:#28a745;--m-err:#dc3545}
+body{margin:0;font-family:system-ui,sans-serif;background:var(--m-bg,#fff);color:var(--m-fg,#212529)}
+.f{display:flex}.fc{flex-direction:column}.fi{align-items:center}.fj{justify-content:center}.fb{justify-content:space-between}.fg{flex-grow:1}
+.g{display:grid}.gc2{grid-template-columns:repeat(2,1fr)}.gc3{grid-template-columns:repeat(3,1fr)}
+.g1{gap:.25rem}.g2{gap:.5rem}.g3{gap:1rem}.g4{gap:1.5rem}
+.p2{padding:.5rem}.p3{padding:1rem}.p4{padding:1.5rem}.px3{padding-inline:1rem}.py2{padding-block:.5rem}.py3{padding-block:1rem}.py4{padding-block:1.5rem}
+.mxa{margin-inline:auto}.xw4{max-width:1000px}
+.t1{font-size:.75rem}.t2{font-size:.875rem}.t3{font-size:1rem}.t4{font-size:1.25rem}.t5{font-size:1.5rem}.t6{font-size:2rem}.tb{font-weight:700}.tc{text-align:center}
+.c1{color:var(--m-p)}.cg{color:#6c757d}.cw{color:#fff}.cb{color:#000}
+.b1{background:var(--m-p)}.b2{background:var(--m-s)}.bg{background:#f5f5f5}.bw{background:#fff}
+.r{border-radius:4px}.r2{border-radius:8px}.rf{border-radius:9999px}.sh{box-shadow:0 2px 8px rgba(0,0,0,.1)}.bd{border:1px solid #ddd}
+.tdn{text-decoration:none}.cp{cursor:pointer}.o5{opacity:.5}
+.dn{display:none}.rel{position:relative}.abs{position:absolute}
+.wf{width:100%}
+.recipe-img{height:180px;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);display:flex;align-items:center;justify-content:center;color:#fff;font-size:2.5rem;border-radius:8px 8px 0 0}
+.recipe-img.pasta{background:linear-gradient(135deg,#f5af19 0%,#f12711 100%)}
+.recipe-img.chicken{background:linear-gradient(135deg,#11998e 0%,#38ef7d 100%)}
+.recipe-img.salad{background:linear-gradient(135deg,#56ab2f 0%,#a8e063 100%)}
+.recipe-img.soup{background:linear-gradient(135deg,#fc4a1a 0%,#f7b733 100%)}
+.recipe-img.fish{background:linear-gradient(135deg,#4facfe 0%,#00f2fe 100%)}
+.badge{padding:4px 10px;border-radius:9999px;font-size:.75rem;font-weight:600}
+.badge-easy{background:#d4edda;color:#155724}
+.badge-medium{background:#fff3cd;color:#856404}
+.badge-hard{background:#f8d7da;color:#721c24}
+@view-transition{navigation:auto}
+@keyframes fade-out{from{opacity:1}to{opacity:0}}
+@keyframes fade-in{from{opacity:0}to{opacity:1}}
+@keyframes slide-out{from{transform:translateX(0)}to{transform:translateX(-20px)}}
+@keyframes slide-in{from{transform:translateX(20px)}to{transform:translateX(0)}}
+::view-transition-old(root){animation:.4s ease-out both fade-out,slide-out}
+::view-transition-new(root){animation:.4s ease-out both fade-in,slide-in}
+html.dark{--m-bg:#1a1a1a;--m-fg:#f5f5f5;--m-p:#5c9eff}
+html.dark body{background:#1a1a1a;color:#f5f5f5}
+html.dark .bg{background:#2a2a2a}
+html.dark .bw{background:#2a2a2a}
+html.dark .cb{color:#f5f5f5}
+html.dark .badge-easy{background:#1e4620;color:#a3d9a5}
+html.dark .badge-medium{background:#4a3f1f;color:#f0d77c}
+html.dark .badge-hard{background:#4a1f1f;color:#f0a5a5}
+@media(max-width:768px){.sm\:fc{flex-direction:column}.sm\:gc1{grid-template-columns:1fr}.sm\:dn{display:none}}
+</style>
+</head>
+<body class="p3">
+
+<header class="xw4 mxa f fb fi py3">
+<a href="./" class="tdn">
+<h1 class="t5 c1 tb">Recipe Collection</h1>
+</a>
+<button data-m-enhance="darkmode" class="p2 px3 bg r f fi g2 cp" aria-label="Toggle dark mode">
+<svg width="20" height="20" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/></svg>
+</button>
+</header>
+
+<main class="xw4 mxa f fc g4 py3">
+<section class="tc">
+<h2 class="t6 tb">Delicious Recipes</h2>
+<p class="cg t3">Simple meals with clear instructions</p>
+</section>
+
+<section class="g gc2 g4 sm:gc1">
+<a href="detail.html?id=1" class="bw r2 sh f fc tdn cb">
+<div class="recipe-img pasta">🍝</div>
+<div class="p3 f fc g2">
+<h3 class="t4 tb">Spaghetti Carbonara</h3>
+<p class="cg t2">Classic Italian pasta with eggs, cheese, and pancetta</p>
+<div class="f fi fb">
+<span class="cg t2">25 min</span>
+<span class="badge badge-medium">Medium</span>
+</div>
+</div>
+</a>
+
+<a href="detail.html?id=2" class="bw r2 sh f fc tdn cb">
+<div class="recipe-img chicken">🍗</div>
+<div class="p3 f fc g2">
+<h3 class="t4 tb">Garlic Butter Chicken</h3>
+<p class="cg t2">Juicy pan-seared chicken in garlic herb butter sauce</p>
+<div class="f fi fb">
+<span class="cg t2">30 min</span>
+<span class="badge badge-easy">Easy</span>
+</div>
+</div>
+</a>
+
+<a href="detail.html?id=3" class="bw r2 sh f fc tdn cb">
+<div class="recipe-img salad">🥗</div>
+<div class="p3 f fc g2">
+<h3 class="t4 tb">Caesar Salad</h3>
+<p class="cg t2">Crisp romaine with homemade dressing and croutons</p>
+<div class="f fi fb">
+<span class="cg t2">15 min</span>
+<span class="badge badge-easy">Easy</span>
+</div>
+</div>
+</a>
+
+<a href="detail.html?id=4" class="bw r2 sh f fc tdn cb">
+<div class="recipe-img soup">🍲</div>
+<div class="p3 f fc g2">
+<h3 class="t4 tb">Tomato Basil Soup</h3>
+<p class="cg t2">Creamy roasted tomato soup with fresh basil</p>
+<div class="f fi fb">
+<span class="cg t2">45 min</span>
+<span class="badge badge-medium">Medium</span>
+</div>
+</div>
+</a>
+
+<a href="detail.html?id=5" class="bw r2 sh f fc tdn cb">
+<div class="recipe-img fish">🐟</div>
+<div class="p3 f fc g2">
+<h3 class="t4 tb">Pan-Seared Salmon</h3>
+<p class="cg t2">Crispy skin salmon with lemon dill sauce</p>
+<div class="f fi fb">
+<span class="cg t2">20 min</span>
+<span class="badge badge-hard">Hard</span>
+</div>
+</div>
+</a>
+</section>
+</main>
+
+<footer class="xw4 mxa py4 tc cg t2">
+<p>&copy; 2026 Recipe Collection</p>
+<p class="t1 o5">Built 2026-02-19</p>
+</footer>
+
+<script type="application/llasm+json" id="manifest">
+{"v":1,"r":{"s":{}},"l":{"en":{}}}
+</script>
+<script type="module">
+import{l}from"../../llasm.js?v=r3c1p3s5";
+l.h({});
+</script>
+</body>
+</html>
