@@ -286,52 +286,317 @@ Only use `data-m-bind` with templates for:
 - **Never use click handlers** for navigation
 - **Never invent new `data-m-*` attributes** - only use documented ones
 
-## Common Patterns
+## Prescribed Patterns
 
-### Loading State
+Use these exact patterns. Do not deviate.
+
+### 1. State Definition
+
+State MUST be defined in manifest `r.s`. Persistence MUST be in `persist`.
+
+```json
+{
+  "v": 1,
+  "r": {"s": {
+    "cart": [],
+    "user": null,
+    "loading": false
+  }},
+  "persist": {
+    "cart": "local",
+    "user": "session"
+  }
+}
+```
+
+- `"local"` - survives browser restart (localStorage)
+- `"session"` - survives page refresh, cleared on tab close (sessionStorage)
+
+### 2. Shopping Cart
+
+**Manifest:**
+```json
+{"r":{"s":{"cart":[]}},"persist":{"cart":"local"}}
+```
+
+**Add button (static HTML, known product):**
 ```html
-<div data-m-if="loading" class="f fj fi g2">
+<button data-m-on="click:addItem" data-id="123" data-name="Widget" data-price="9.99" class="b1 cw p2 px3 r">Add to Cart</button>
+```
+
+**Handler:**
+```javascript
+addItem:(e,s,L,el)=>{
+  const item={id:el.dataset.id,name:el.dataset.name,price:parseFloat(el.dataset.price),qty:1};
+  const existing=s.cart.find(c=>c.id===item.id);
+  if(existing){l.u({cart:s.cart.map(c=>c.id===item.id?{...c,qty:c.qty+1}:c)});}
+  else{l.u({cart:[...s.cart,item]});}
+  L.t('Added to cart','ok');
+}
+```
+
+**Cart count display:**
+```html
+<span data-m-bind="cart.length"></span>
+```
+
+**Cart on another page:** Same manifest with `persist` loads cart automatically.
+
+### 3. Form Input
+
+**Manifest:**
+```json
+{"r":{"s":{"form":{"name":"","email":""}}}}
+```
+
+**Input fields:**
+```html
+<input type="text" data-m-bind="form.name" data-m-on="input:updateForm" name="name" class="wf p2 bd r">
+<input type="email" data-m-bind="form.email" data-m-on="input:updateForm" name="email" class="wf p2 bd r">
+```
+
+**Handler:**
+```javascript
+updateForm:(e,s,L)=>{
+  l.u({form:{...s.form,[e.target.name]:e.target.value}});
+}
+```
+
+**Submit:**
+```html
+<button data-m-on="click:submitForm" class="b1 cw p2 px3 r">Submit</button>
+```
+
+```javascript
+submitForm:(e,s,L)=>{
+  if(!s.form.name||!s.form.email){L.t('Fill all fields','err');return;}
+  L.t('Submitted!','ok');
+  l.u({form:{name:'',email:''}});
+}
+```
+
+### 4. Button Action
+
+**Pattern:** Click → Update state → Show feedback
+
+```html
+<button data-m-on="click:doAction" class="b1 cw p2 px3 r">Action</button>
+```
+
+```javascript
+doAction:(e,s,L)=>{
+  l.u({actionDone:true});
+  L.t('Done!','ok');
+}
+```
+
+### 5. Loading State
+
+**Manifest:**
+```json
+{"r":{"s":{"loading":false,"data":null,"error":null}}}
+```
+
+**Markup:**
+```html
+<div data-m-if="loading" class="f fj fi g2 p4">
   <div class="spin b1 rf w24 h24"></div>
   <span class="cg">Loading...</span>
 </div>
-<div data-m-if="!loading">Content</div>
+<div data-m-if="error" class="p4 b4 cw r">Error loading data</div>
+<div data-m-if="!loading" data-m-if="!error">Content here</div>
 ```
 
-Add to critical CSS: `.w24{width:24px}.h24{height:24px}`
+**Handler:**
+```javascript
+loadData:async(e,s,L)=>{
+  l.u({loading:true,error:null});
+  try{
+    const data=await L.f('/api/data');
+    l.u({loading:false,data});
+  }catch(err){
+    l.u({loading:false,error:err.message});
+  }
+}
+```
 
-### Empty State
+### 6. Detail Page (URL Params)
+
+**In detail.html:**
+```javascript
+const id=new URLSearchParams(location.search).get('id');
+if(!id){l.u({notFound:true});return;}
+// Find item from static data or fetch from API
+```
+
+**Markup:**
 ```html
-<div data-m-if="items.length==0" class="p4 bg r tc cg">No items yet</div>
+<div data-m-if="notFound" class="p4 bg r tc">
+  <p class="cg">Not found</p>
+  <a href="./" class="c1">Back to list</a>
+</div>
+<article data-m-if="!notFound">
+  <h1 data-m-bind="item.name" class="t6 tb"></h1>
+</article>
 ```
 
-### Card Grid
+### 7. Conditional Display
+
+```html
+<!-- Show when true -->
+<div data-m-if="isLoggedIn">Welcome back!</div>
+
+<!-- Show when false -->
+<div data-m-if="!isLoggedIn">Please log in</div>
+
+<!-- Show when empty -->
+<div data-m-if="items.length==0">No items</div>
+
+<!-- Show when has items -->
+<div data-m-if="items.length>0">Has items</div>
+```
+
+### 8. Dark Mode (Complete)
+
+**In head (blocking script):**
+```html
+<script>try{var d=localStorage.getItem('llasm-dark');if(d==='true'||(d===null&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.classList.add('dark');}catch(e){}</script>
+```
+
+**Toggle button:**
+```html
+<button data-m-enhance="darkmode" class="bg p2 px3 r cp">Dark</button>
+```
+
+**In critical CSS:**
+```css
+html.dark{--m-bg:#1a1a1a;--m-fg:#f5f5f5;--m-p:#5c9eff}
+html.dark body{background:#1a1a1a;color:#f5f5f5}
+html.dark .bg{background:#2a2a2a}
+```
+
+### 9. Toast Feedback
+
+```javascript
+L.t('Success message', 'ok');     // green
+L.t('Error message', 'err');      // red
+L.t('Info message', 'info');      // blue
+L.t('Custom duration', 'ok', 5000); // 5 seconds
+```
+
+### 10. Static Card Grid (Known Data)
+
+**Do NOT use templates. Render static HTML:**
+
 ```html
 <section class="g gc3 g3 sm:gc1">
-  <article class="bg r2 sh p3 f fc g2">
-    <h3 class="t4 tb" data-m-bind="title"></h3>
-    <p class="cg ln2" data-m-bind="desc"></p>
-    <span class="c1 tb" data-m-bind="price"></span>
-  </article>
+  <a href="detail.html?id=1" class="bg r2 sh p3 f fc g2 tdn cb">
+    <h3 class="t4 tb">Product Name</h3>
+    <p class="cg t2">Description here</p>
+    <span class="c1 tb">$19.99</span>
+  </a>
+  <a href="detail.html?id=2" class="bg r2 sh p3 f fc g2 tdn cb">
+    <h3 class="t4 tb">Another Product</h3>
+    <p class="cg t2">Another description</p>
+    <span class="c1 tb">$29.99</span>
+  </a>
 </section>
 ```
 
-### List Rendering
+### 11. Dynamic List (Runtime Data Only)
+
+**Only use for data that changes after page load:**
+
 ```html
-<ul data-m-bind="items" data-m-tpl="item-tpl" data-m-key="id" class="f fc g2"></ul>
-<template id="item-tpl">
+<ul data-m-bind="cart" data-m-tpl="cart-tpl" data-m-key="id" class="f fc g2"></ul>
+<template id="cart-tpl">
   <li class="f fi fb p3 bg r">
     <span data-m-f="name"></span>
-    <button data-m-on="click:remove" class="c4">Remove</button>
+    <button data-m-on="click:removeItem" class="c4 t2">Remove</button>
   </li>
 </template>
 ```
 
-### Toast
-```javascript
-L.t('Saved!', 'ok');      // success
-L.t('Error!', 'err');     // error  
-L.t('Info', 'info');      // info
+## CSS Organization
+
+### Small Sites (1-3 pages)
+
+Inline all CSS in each page's `<head>`:
+
+```html
+<head>
+  <style>/* all utility classes + theme + page-specific */</style>
+</head>
 ```
+
+### Larger Sites (4+ pages)
+
+Extract shared CSS to `site.css`, inline only page-critical:
+
+```
+bookstore/
+  index.html
+  checkout.html
+  confirm.html
+  styles/
+    site.css      # shared: utilities, theme, components
+```
+
+**site.css structure:**
+```css
+/* 1. Reset & base */
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;font-family:system-ui,sans-serif}
+
+/* 2. CSS custom properties (theme) */
+:root{--m-p:#0066ff;--m-s:#6c757d;--m-ok:#28a745;--m-err:#dc3545}
+html.dark{--m-bg:#1a1a1a;--m-fg:#f5f5f5;--m-p:#5c9eff}
+
+/* 3. Utility classes */
+.f{display:flex}.fc{flex-direction:column}/* etc */
+
+/* 4. Shared patterns (cards, buttons, forms) */
+.card{background:#f5f5f5;border-radius:8px;padding:1rem}
+```
+
+**Page head:**
+```html
+<head>
+  <link rel="stylesheet" href="styles/site.css">
+  <style>/* page-specific critical CSS only */</style>
+</head>
+```
+
+### CSS Scoping
+
+No Shadow DOM needed. Use these patterns:
+
+**1. Utility classes** - Naturally scoped by usage
+```html
+<div class="f fc g3 p3 bg r">
+```
+
+**2. CSS custom properties** - Theme values
+```css
+:root{--m-p:#0066ff}
+.c1{color:var(--m-p)}
+```
+
+**3. Pattern prefixes** - For site-specific patterns
+```css
+.recipe-card{...}
+.recipe-card-title{...}
+.recipe-card-meta{...}
+```
+
+### Web Components (Future)
+
+If Shadow DOM isolation is needed later:
+- Define as `<m-component>` custom elements
+- Use `:host` for component root styling
+- Pass data via attributes or properties
+
+For now, utility classes + CSS custom properties provide sufficient isolation.
 
 ## File Organization
 
