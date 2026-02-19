@@ -130,8 +130,8 @@ SSR (`_drafts/SKILL-SSR.md` - archived):
 - ✅ SEO meta tag injection patterns
 
 Documentation:
-- ✅ `references/api-patterns.md` - detailed API patterns
-- ✅ `references/ssr-patterns.md` - detailed SSR patterns
+- ✅ `_drafts/api-patterns.md` - detailed API patterns (archived)
+- ✅ `_drafts/ssr-patterns.md` - detailed SSR patterns (archived)
 - ✅ Updated `AGENTS.md` with all three skills
 - ✅ Updated `README.md` with server-side capabilities
 - ✅ Added server section to docs site
