@@ -117,19 +117,24 @@ Every LLasM page has three parts:
 </html>
 ```
 
-## Data Attributes
+## Valid Attributes
+
+Only these `data-m-*` attributes exist. **Do NOT invent new ones.**
 
 | Attribute | Purpose | Example |
 |-----------|---------|---------|
-| `data-m-bind` | State binding | `data-m-bind="userName"` |
-| `data-m-bind` | Nested | `data-m-bind="user.name"` |
+| `data-m-bind` | State binding | `data-m-bind="user.name"` |
 | `data-m-on` | Events | `data-m-on="click:save"` |
-| `data-m-on` | Multiple | `data-m-on="input:upd,blur:val"` |
-| `data-m-if` | Conditional | `data-m-if="loading"` |
-| `data-m-if` | Negated | `data-m-if="!loading"` |
-| `data-m-if` | Comparison | `data-m-if="items.length==0"` |
+| `data-m-if` | Conditional | `data-m-if="!loading"` |
 | `data-m-class` | Conditional class | `data-m-class="active:isActive"` |
 | `data-m-enhance` | Enhancements | `data-m-enhance="primary ripple"` |
+| `data-m-tpl` | Template ID | `data-m-tpl="item-tpl"` |
+| `data-m-key` | List key field | `data-m-key="id"` |
+| `data-m-f` | Template field | `data-m-f="name"` |
+| `data-m-tx` | i18n text key | `data-m-tx="title"` |
+| `data-m-route` | Hash route | `data-m-route="/settings"` |
+
+**Invalid (do not use):** `data-m-href`, `data-m-src`, `data-m-attr`, `data-m-for`, etc.
 
 ## Styling Rules
 
@@ -241,6 +246,45 @@ Use `data-m-enhance="flag1 flag2"`:
 | `accordion` | Accordion panels |
 | `darkmode` | Dark mode toggle |
 | `toast` | Toast container |
+
+## Static HTML First
+
+**When data is known at generation time, render static HTML. Do NOT use templates.**
+
+### Good: Static HTML with Real Links
+
+```html
+<section class="g gc3 g3 sm:gc1">
+  <a href="detail.html?id=1" class="bg r2 sh p3 f fc g2 tdn cb">
+    <h2 class="t4 tb">Spaghetti Carbonara</h2>
+    <span class="t2 cg">25 min</span>
+  </a>
+  <a href="detail.html?id=2" class="bg r2 sh p3 f fc g2 tdn cb">
+    <h2 class="t4 tb">Chicken Stir Fry</h2>
+    <span class="t2 cg">20 min</span>
+  </a>
+</section>
+```
+
+### Bad: Template for Known Data
+
+```html
+<!-- DON'T do this when data is known -->
+<section data-m-bind="recipes" data-m-tpl="tpl" data-m-key="id"></section>
+```
+
+### When to Use Templates
+
+Only use `data-m-bind` with templates for:
+- Data fetched from API at runtime
+- User-generated content (cart items, form entries)
+- Data that changes after page load
+
+### Navigation Rules
+
+- **Always use `<a href>`** for page navigation
+- **Never use click handlers** for navigation
+- **Never invent new `data-m-*` attributes** - only use documented ones
 
 ## Common Patterns
 

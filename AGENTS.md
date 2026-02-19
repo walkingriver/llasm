@@ -152,6 +152,49 @@ Read `SKILL.md`, generate HTML with embedded manifest:
 </html>
 ```
 
+## Static HTML First
+
+**When data is known, render static HTML. Do NOT use templates or data binding.**
+
+```html
+<!-- GOOD: Static HTML with real links -->
+<a href="detail.html?id=1" class="bg r2 sh p3 tdn cb">
+  <h2 class="t4 tb">Recipe Name</h2>
+</a>
+
+<!-- BAD: Template for known data -->
+<section data-m-bind="recipes" data-m-tpl="tpl"></section>
+```
+
+### When to Use Templates
+
+Only for runtime data:
+- API responses
+- User-generated content (cart, forms)
+- Data that changes after load
+
+### Navigation
+
+- **Always `<a href>`** - Never click handlers for navigation
+- **Never invent attributes** - Only use documented `data-m-*` attributes
+
+## Valid Attributes
+
+Only these `data-m-*` attributes exist. Do NOT invent others.
+
+| Attribute | Purpose |
+|-----------|---------|
+| `data-m-bind` | Bind state to element |
+| `data-m-on` | Event binding |
+| `data-m-if` | Conditional rendering |
+| `data-m-class` | Conditional CSS class |
+| `data-m-enhance` | Enhancement flags |
+| `data-m-tpl` | Template ID for lists |
+| `data-m-key` | Key field for list diffing |
+| `data-m-f` | Field name in template |
+| `data-m-tx` | i18n text key |
+| `data-m-route` | Hash route section |
+
 ## Syntax Reference
 
 ### Data Binding
