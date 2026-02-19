@@ -64,18 +64,23 @@
   <header class="f fb fi px3 py2 stk t0 l0 r0 z3 bw sh">
     <a href="index.html" class="t5 tb c1 tdn">⚡ LLasM</a>
     <nav class="f g3 fi fw">
-      <a href="index.html" class="cg tdn">Home</a>
-      <a href="index.html#examples" class="cg sm:dn tdn">Examples</a>
+      <a href="index.html" class="cg tdn" data-m-tx="nav_home">Home</a>
+      <a href="index.html#examples" class="cg sm:dn tdn" data-m-tx="nav_examples">Examples</a>
       <a href="https://github.com/walkingriver/llasm" class="cg tdn">GitHub</a>
-      <button data-m-enhance="darkmode secondary" class="px2 py1 r t2">Theme</button>
+      <button data-m-enhance="darkmode secondary" class="px2 py1 r t2" data-m-tx="nav_theme">Theme</button>
+      <select data-m-on="change:setLocale" class="px2 py1 r t2 bg" aria-label="Language">
+        <option value="en">EN</option>
+        <option value="es">ES</option>
+        <option value="fr">FR</option>
+      </select>
     </nav>
   </header>
 
   <main class="xw3 mxa px3 py5 mt-header">
     <article>
-      <h1 class="t7 tb c1 py3">LLasM: The Web Framework Where Humans Are Not the Intended Audience</h1>
+      <h1 class="t7 tb c1 py3" data-m-tx="blog_title">LLasM: The Web Framework Where Humans Are Not the Intended Audience</h1>
       
-      <p class="t4 cg ti py2">If JavaScript Is Assembly, Then LLMs Need a Compiler</p>
+      <p class="t4 cg ti py2" data-m-tx="blog_subtitle">If JavaScript Is Assembly, Then LLMs Need a Compiler</p>
 
       <p class="py2">In 2011, Scott Hanselman wrote a prescient pair of blog posts that stirred up the web development world. In "<a href="https://www.hanselman.com/blog/javascript-is-assembly-language-for-the-web-sematic-markup-is-dead-clean-vs-machinecoded-html">JavaScript is Assembly Language for the Web</a>," he observed that nobody really cares what View Source looks like anymore. The markup on sites like Google+, Facebook, and Twitter was already machine-generated gibberish—minified, obfuscated, optimized for browsers, not humans.</p>
 
@@ -91,7 +96,7 @@
 
       <hr>
 
-      <h2 class="t6 tb c1 py3">What Is LLasM?</h2>
+      <h2 class="t6 tb c1 py3" data-m-tx="section_what">What Is LLasM?</h2>
 
       <p class="py2"><strong>LLasM</strong> (pronounced "llasm," rhymes with "chasm") stands for <strong>LLM Assembly Language</strong>. It's a web framework designed exclusively for AI coding agents. Not "AI-assisted." Not "AI-friendly." <em>AI-only.</em></p>
 
@@ -101,7 +106,7 @@
 
       <hr>
 
-      <h2 class="t6 tb c1 py3">Why Does This Exist?</h2>
+      <h2 class="t6 tb c1 py3" data-m-tx="section_why">Why Does This Exist?</h2>
 
       <h3 class="t5 tb py2">Forty Years of Watching Frameworks Come and Go</h3>
 
@@ -177,7 +182,7 @@
 
       <hr>
 
-      <h2 class="t6 tb c1 py3">How It Works</h2>
+      <h2 class="t6 tb c1 py3" data-m-tx="section_how">How It Works</h2>
 
       <p class="py2">LLasM is distributed as an <strong>agent skill</strong>—a set of instructions that AI coding agents read and follow. Install it with:</p>
 
@@ -233,7 +238,7 @@
 
       <hr>
 
-      <h2 class="t6 tb c1 py3">The Philosophy</h2>
+      <h2 class="t6 tb c1 py3" data-m-tx="section_philosophy">The Philosophy</h2>
 
       <h3 class="t5 tb py2">One Way to Do It</h3>
 
@@ -287,7 +292,7 @@
 
       <hr>
 
-      <h2 class="t6 tb c1 py3">What Can It Build?</h2>
+      <h2 class="t6 tb c1 py3" data-m-tx="section_build">What Can It Build?</h2>
 
       <p class="py2">LLasM covers the "hard 80%" of web UI:</p>
 
@@ -319,7 +324,7 @@
 
       <hr>
 
-      <h2 class="t6 tb c1 py3">Who Is This For?</h2>
+      <h2 class="t6 tb c1 py3" data-m-tx="section_who">Who Is This For?</h2>
 
       <h3 class="t5 tb py2">Use LLasM If:</h3>
       <ul class="py2">
@@ -339,7 +344,7 @@
 
       <hr>
 
-      <h2 class="t6 tb c1 py3">The Hanselman Connection</h2>
+      <h2 class="t6 tb c1 py3" data-m-tx="section_hanselman">The Hanselman Connection</h2>
 
       <p class="py2">Scott's 2011 articles asked a provocative question: <em>"If the browser can execute it, and it works great, who cares what View Source looks like?"</em></p>
 
@@ -355,7 +360,7 @@
 
       <hr>
 
-      <h2 class="t6 tb c1 py3">Why Stop at HTML/JS/CSS?</h2>
+      <h2 class="t6 tb c1 py3" data-m-tx="section_wasm">Why Stop at HTML/JS/CSS?</h2>
 
       <p class="py2">If LLMs don't need human-readable abstractions, why stop here? Why not go deeper—all the way to WebAssembly?</p>
 
@@ -380,7 +385,7 @@
 
       <hr>
 
-      <h2 class="t6 tb c1 py3">Try It</h2>
+      <h2 class="t6 tb c1 py3" data-m-tx="section_try">Try It</h2>
 
       <pre><code>npx skills add walkingriver/llasm</code></pre>
       <p class="t2 cg ti py1">(Coming soon to skills.sh)</p>
@@ -395,7 +400,7 @@
 
       <hr>
 
-      <h2 class="t6 tb c1 py3">Links</h2>
+      <h2 class="t6 tb c1 py3" data-m-tx="section_links">Links</h2>
 
       <ul class="py2">
         <li><strong>Website</strong>: <a href="https://llasm.dev">llasm.dev</a></li>
@@ -411,8 +416,8 @@
 
   <!-- Footer -->
   <footer class="tc py4 cg t2 bdt">
-    <p>LLasM — LLM Assembly Language</p>
-    <p class="py1">Orchestrated by <a href="https://x.com/mikecallaghan" class="c1">Michael D. Callaghan</a></p>
+    <p data-m-tx="footer_tagline">LLasM — LLM Assembly Language</p>
+    <p class="py1"><span data-m-tx="footer_by">Orchestrated by</span> <a href="https://x.com/mikecallaghan" class="c1">Michael D. Callaghan</a></p>
     <p class="py2">
       <a href="https://github.com/walkingriver/llasm" class="cg">GitHub</a> · 
       <a href="https://skills.sh" class="cg">skills.sh</a> ·
@@ -426,8 +431,10 @@
 
   <!-- Handlers -->
   <script type="module">
-    import{l}from"./llasm.js?v=k9p4x2m7";
-    l.h({});
+    import{l}from"./llasm.js?v=h5j8q3n1";
+    l.h({
+      setLocale:(e,s,L)=>L.locale(e.target.value)
+    });
   </script>
 </body>
 </html>

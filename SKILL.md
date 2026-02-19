@@ -194,6 +194,66 @@ Handlers receive `(event, state, L, element)`:
 | `L.s()` | Get state snapshot |
 | `L.f(url,opts)` | Fetch with retry |
 | `L.nav(hash)` | Navigate hash route |
+| `L.locale(ln)` | Switch language (lazy-loads JSON) |
+
+## i18n (Internationalization)
+
+### SEO-Friendly Approach
+
+English text is static in the HTML (for SEO). Other languages are lazy-loaded from JSON files.
+
+```html
+<h1 data-m-tx="hero_title">LLM Assembly Language</h1>
+<p data-m-tx="intro_text">Every framework ever created...</p>
+```
+
+### Translation Files
+
+Per-page JSON files named `{page}.{locale}.json`:
+
+```
+docs/
+  index.html
+  index.es.json    # Spanish translations
+  index.fr.json    # French translations
+  blog.html
+  blog.es.json
+  blog.fr.json
+```
+
+### JSON Format
+
+```json
+{
+  "hero_title": "Lenguaje Ensamblador LLM",
+  "intro_text": "Todos los frameworks jamás creados..."
+}
+```
+
+### Language Switcher
+
+```html
+<select data-m-on="change:setLocale" aria-label="Language">
+  <option value="en">EN</option>
+  <option value="es">ES</option>
+  <option value="fr">FR</option>
+</select>
+```
+
+Handler:
+```javascript
+l.h({
+  setLocale: (e, s, L) => L.locale(e.target.value)
+});
+```
+
+### How It Works
+
+1. On load, runtime captures original English text from `data-m-tx` elements
+2. When user switches to non-English locale, runtime fetches `{page}.{locale}.json`
+3. Text is replaced with translations
+4. Switching back to English restores original HTML text
+5. Selected language persists in `localStorage`
 
 ## Utility Classes (Tailwind-Lite)
 

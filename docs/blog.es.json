@@ -1,0 +1,19 @@
+{
+  "nav_home": "Inicio",
+  "nav_examples": "Ejemplos",
+  "nav_theme": "Tema",
+  "blog_title": "LLasM: El Framework Web Donde los Humanos No Son la Audiencia",
+  "blog_subtitle": "Si JavaScript Es Ensamblador, Entonces los LLM Necesitan un Compilador",
+  "section_what": "¿Qué Es LLasM?",
+  "section_why": "¿Por Qué Existe Esto?",
+  "section_how": "Cómo Funciona",
+  "section_philosophy": "La Filosofía",
+  "section_build": "¿Qué Puede Construir?",
+  "section_who": "¿Para Quién Es Esto?",
+  "section_hanselman": "La Conexión Hanselman",
+  "section_wasm": "¿Por Qué Detenerse en HTML/JS/CSS?",
+  "section_try": "Pruébalo",
+  "section_links": "Enlaces",
+  "footer_tagline": "LLasM — Lenguaje Ensamblador LLM",
+  "footer_by": "Orquestado por"
+}
