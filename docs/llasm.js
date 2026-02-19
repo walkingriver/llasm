@@ -123,6 +123,7 @@ const restoreTx=()=>{
 
 // Load locale file and apply translations
 const loadLocale=async(ln)=>{
+  try{localStorage.setItem('llasm-locale',ln);}catch(e){}
   if(ln==='en'){
     _ln='en';
     restoreTx();
@@ -142,6 +143,19 @@ const loadLocale=async(ln)=>{
   }catch(e){
     console.warn('LLasM: Could not load locale',ln,e);
   }
+};
+
+// Restore saved locale on init
+const initLocale=()=>{
+  try{
+    const saved=localStorage.getItem('llasm-locale');
+    if(saved&&saved!=='en'){
+      loadLocale(saved);
+      // Update dropdown if exists
+      const sel=Q('select[data-m-on*="setLocale"]');
+      if(sel)sel.value=saved;
+    }
+  }catch(e){}
 };
 
 // Utility CSS classes (Tailwind-lite, maximally terse)
@@ -700,6 +714,7 @@ const mn=(m)=>{
   W.addEventListener('offline',()=>{_ol=true;_s._offline=true;bc();});
   _s._offline=_ol;
   rt();
+  initLocale();
 };
 
 // Parse manifest from DOM
