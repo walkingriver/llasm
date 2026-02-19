@@ -4,7 +4,7 @@
  * Target: ≤9KB gzipped
  */
 const D=document,W=window,Q=(s,c=D)=>c.querySelector(s),A=(s,c=D)=>c.querySelectorAll(s);
-let _s={},_l={},_t={},_ln='en',_h={},_m=null,_p={},_rp={},_ps={},_ol=!navigator.onLine;
+let _s={},_l={},_t={},_ln='en',_h={},_m=null,_p={},_rp={},_ps={},_ol=!navigator.onLine,_origTx={};
 
 // Proxy-based reactive state
 const px=(o,cb)=>{
@@ -96,11 +96,67 @@ const tx=(k)=>{
 // Apply i18n to element
 const ti=(el)=>{
   const k=el.dataset.mTx;
-  if(k)el.textContent=tx('@'+k);
+  if(!k)return;
+  const m=_l[_ln]||{};
+  if(m[k])el.textContent=m[k];
+  else if(_ln==='en'&&_origTx[k])el.textContent=_origTx[k];
 };
 
 // Apply all i18n
 const ai=()=>A('[data-m-tx]').forEach(ti);
+
+// Capture original English text from HTML (for SEO-friendly i18n)
+const captureTx=()=>{
+  A('[data-m-tx]').forEach(el=>{
+    const k=el.dataset.mTx;
+    if(k&&!_origTx[k])_origTx[k]=el.textContent;
+  });
+};
+
+// Restore original English text
+const restoreTx=()=>{
+  A('[data-m-tx]').forEach(el=>{
+    const k=el.dataset.mTx;
+    if(k&&_origTx[k])el.textContent=_origTx[k];
+  });
+};
+
+// Load locale file and apply translations
+const loadLocale=async(ln)=>{
+  try{localStorage.setItem('llasm-locale',ln);}catch(e){}
+  if(ln==='en'){
+    _ln='en';
+    restoreTx();
+    return;
+  }
+  // Determine file path: same directory as current page, named {page}.{locale}.json
+  const path=location.pathname;
+  const base=path.endsWith('/')?path+'index':path.replace(/\.html$/,'');
+  const url=base+'.'+ln+'.json';
+  try{
+    const res=await fetch(url);
+    if(!res.ok)throw new Error('Locale file not found');
+    const data=await res.json();
+    _l[ln]=data;
+    _ln=ln;
+    ai();
+  }catch(e){
+    console.warn('LLasM: Could not load locale',ln,e);
+  }
+};
+
+// Restore saved locale on init
+const initLocale=()=>{
+  try{
+    const saved=localStorage.getItem('llasm-locale');
+    if(saved&&saved!=='en'){
+      loadLocale(saved);
+      // Update dropdown if exists
+      const sel=Q('select[data-m-on*="setLocale"]');
+      if(sel)sel.value=saved;
+    }
+  }catch(e){}
+};
 
 // Utility CSS classes (Tailwind-lite, maximally terse)
 const UC=`
@@ -152,7 +208,7 @@ button{cursor:pointer}
 input,select,textarea{padding:.5rem;border:1px solid #ccc;border-radius:4px}
 input:focus,select:focus,textarea:focus{outline:2px solid var(--m-p);outline-offset:1px}
 ul,ol{list-style:none}
-.dark{--m-bg:#1a1a1a;--m-fg:#f5f5f5;--m-p:#5c9eff;background:var(--m-bg);color:var(--m-fg)}.dark .bg{background:#2a2a2a}.dark .bw{background:#1a1a1a}.dark .cg{color:#aaa}
+.dark{--m-bg:#1a1a1a;--m-fg:#f5f5f5;--m-p:#5c9eff;background:var(--m-bg);color:var(--m-fg)}.dark .bg{background:#2a2a2a}.dark .bw{background:#1a1a1a}.dark .cg{color:#aaa}.dark select,.dark input,.dark textarea{background:#2a2a2a;color:#f5f5f5;border-color:#444}
 [data-m-toast]{position:fixed;bottom:1rem;right:1rem;padding:1rem 1.5rem;border-radius:8px;color:#fff;z-index:9999;transform:translateY(100px);opacity:0;transition:all .3s ease;pointer-events:none}
 [data-m-toast].show{transform:translateY(0);opacity:1;pointer-events:auto}
 [data-m-toast].ok{background:var(--m-ok)}[data-m-toast].err{background:var(--m-err)}[data-m-toast].info{background:var(--m-p)}
@@ -637,6 +693,7 @@ const mn=(m)=>{
   // #region agent log
   _dbg('llasm.js:mn-afterld','after ld()',{cartAfter:_s.cart},'D');
   // #endregion
+  captureTx();
   ai();
   A('[data-m-enhance]').forEach(ae);
   A('[data-m-on]').forEach(oe);
@@ -657,6 +714,7 @@ const mn=(m)=>{
   W.addEventListener('offline',()=>{_ol=true;_s._offline=true;bc();});
   _s._offline=_ol;
   rt();
+  initLocale();
 };
 
 // Parse manifest from DOM
@@ -689,6 +747,7 @@ const l={
   v:vs,
   vf:vf,
   r:(ln)=>{_ln=ln;ai();},
+  locale:loadLocale,
   q:Q,
   qa:A,
   s:()=>JSON.parse(JSON.stringify(_s)),

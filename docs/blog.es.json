@@ -14,6 +14,18 @@
   "section_wasm": "¿Por Qué Detenerse en HTML/JS/CSS?",
   "section_try": "Pruébalo",
   "section_links": "Enlaces",
+  "sub_forty_years": "Cuarenta Años Viendo Frameworks Ir y Venir",
+  "sub_perl": "El Problema de Perl (y Su Opuesto)",
+  "sub_human_centric": "El Problema con los Frameworks Centrados en Humanos",
+  "sub_opportunity": "La Oportunidad",
+  "sub_output": "El Formato de Salida",
+  "sub_one_way": "Una Sola Forma de Hacerlo",
+  "sub_llm_author": "Los LLM Son el Único Autor",
+  "sub_legibility": "Cero Impuesto de Legibilidad Humana",
+  "sub_zero_build": "Sin Paso de Compilación—Para Siempre",
+  "sub_seo": "SEO y Accesibilidad Primero",
+  "sub_use_if": "Usa LLasM Si:",
+  "sub_dont_use": "No Uses LLasM Si:",
   "footer_tagline": "LLasM — Lenguaje Ensamblador LLM",
   "footer_by": "Orquestado por"
 }
