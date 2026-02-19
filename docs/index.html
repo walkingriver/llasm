@@ -21,13 +21,21 @@
     .px2{padding-inline:.5rem}.px3{padding-inline:1rem}.px4{padding-inline:1.5rem}
     .py1{padding-block:.25rem}.py2{padding-block:.5rem}.py3{padding-block:1rem}.py4{padding-block:1.5rem}.py5{padding-block:2rem}
     .mxa{margin-inline:auto}
-    .wf{width:100%}.xw4{max-width:1000px}
+    .wf{width:100%}.xw2{max-width:600px}.xw3{max-width:400px}.xw4{max-width:1000px}
     .t1{font-size:.75rem}.t2{font-size:.875rem}.t3{font-size:1rem}.t4{font-size:1.25rem}.t5{font-size:1.5rem}.t6{font-size:2rem}.t7{font-size:3rem}
     .tc{text-align:center}.tb{font-weight:700}
     .c1{color:var(--m-p)}.cw{color:#fff}.cg{color:#666}
     .b1{background:var(--m-p)}.bw{background:#fff}.bg{background:#f5f5f5}
-    .r{border-radius:4px}.bd{border:1px solid currentColor}.sh{box-shadow:0 2px 4px rgba(0,0,0,.1)}
-    .o5{opacity:.5}.db{display:block}
+    .r{border-radius:4px}.r2{border-radius:8px}.bd{border:1px solid currentColor}.sh{box-shadow:0 2px 4px rgba(0,0,0,.1)}.tdn{text-decoration:none}.cb{color:#000}.cp{cursor:pointer}
+    .ell{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100%}
+    details summary{list-style:none}details summary::-webkit-details-marker{display:none}details[open] summary{margin-bottom:.25rem}
+    .o5{opacity:.5}.o3{opacity:.3}.db{display:block}
+    .mono{font-family:monospace}.oxa{overflow-x:auto}
+    .mt-header{margin-top:60px}.step-num{min-width:48px}
+    .hero-img{height:min(400px,50vh);object-fit:cover}
+    .hero-title{font-size:clamp(2rem,8vw,3.5rem);line-height:1.1}
+    .pre-code{margin:0;line-height:1.6}.pre-sm{line-height:1.4}
+    .bdt{border-top:1px solid currentColor}
     .rel{position:relative}.abs{position:absolute}.stk{position:sticky}
     .t0{top:0}.r0{right:0}.b0{bottom:0}.l0{left:0}
     .z3{z-index:1000}
@@ -39,31 +47,32 @@
     html.dark .bg{background:#2a2a2a}
     html.dark .bw{background:#1a1a1a}
     html.dark .cg{color:#aaa}
+    html.dark .cb{color:#f5f5f5}
   </style>
 </head>
 <body class="bg">
   <!-- Header -->
   <header class="f fb fi px3 py2 stk t0 l0 r0 z3 bw sh">
-    <a href="#" class="t5 tb c1" style="text-decoration:none">⚡ LLasM</a>
+    <a href="#" class="t5 tb c1 tdn">⚡ LLasM</a>
     <nav class="f g3 fi fw">
-      <a href="#features" class="cg sm:dn" style="text-decoration:none">Features</a>
-      <a href="#how" class="cg sm:dn" style="text-decoration:none">How It Works</a>
-      <a href="#examples" class="cg sm:dn" style="text-decoration:none">Examples</a>
-      <a href="#server" class="cg sm:dn" style="text-decoration:none">Server</a>
-      <a href="blog.html" class="cg" style="text-decoration:none">Blog</a>
-      <a href="https://github.com/walkingriver/llasm" class="cg" style="text-decoration:none">GitHub</a>
+      <a href="#features" class="cg sm:dn tdn">Features</a>
+      <a href="#how" class="cg sm:dn tdn">How It Works</a>
+      <a href="#examples" class="cg sm:dn tdn">Examples</a>
+      <a href="#server" class="cg sm:dn tdn">Server</a>
+      <a href="blog.html" class="cg tdn">Blog</a>
+      <a href="https://github.com/walkingriver/llasm" class="cg tdn">GitHub</a>
       <button data-m-enhance="darkmode secondary" class="px2 py1 r t2">Theme</button>
     </nav>
   </header>
 
   <!-- Hero -->
-  <section class="rel" style="margin-top:60px">
+  <section class="rel mt-header">
     <picture>
       <source srcset="img/hero.webp" type="image/webp">
-      <img src="img/hero.jpg" alt="Abstract AI visualization" width="1920" height="640" class="wf db" style="height:min(400px,50vh);object-fit:cover;opacity:0.3">
+      <img src="img/hero.jpg" alt="Abstract AI visualization" width="1920" height="640" class="wf db hero-img o3">
     </picture>
     <div class="abs t0 l0 r0 b0 f fc fj fi tc px3">
-      <h1 class="t7 tb c1" style="font-size:clamp(2rem,8vw,3.5rem);line-height:1.1">
+      <h1 class="t7 tb c1 hero-title">
         The Web Framework for<br><span class="cg">AI Coding Agents</span>
       </h1>
     </div>
@@ -71,12 +80,12 @@
 
   <main class="xw4 mxa px3 py5">
     <section class="tc py3">
-      <p class="t4 cg mxa py3" style="max-width:600px">
+      <p class="t4 cg mxa py3 xw2">
         LLasM is the first framework whose only intended user is an LLM. 
         Humans don't read it. Humans don't write it. Humans don't debug it.
       </p>
       <div class="f fj g2 fw py3">
-        <code class="p2 bg r t3" style="font-family:monospace">npx skills add walkingriver/llasm</code>
+        <code class="p2 bg r t3 mono">npx skills add walkingriver/llasm</code>
       </div>
       <p class="t2 cg">Works with Cursor, Claude Code, Copilot, Windsurf, and more</p>
     </section>
@@ -93,7 +102,7 @@
           <p class="cg py2">No flexibility. No choices. No escape hatches. There is exactly one way to do most things. Rigidity eliminates hallucination.</p>
         </div>
         <div class="p3 bg r">
-          <div class="t5 tb c1">~8KB Runtime</div>
+          <div class="t5 tb c1">&lt;25KB Runtime</div>
           <p class="cg py2">Reactivity, routing, i18n, theming, persistence, toasts, modals, tabs, accordions—all in a runtime smaller than most hero images.</p>
         </div>
       </div>
@@ -115,7 +124,7 @@
         </div>
         <div class="p3 bg r f g2 fi">
           <span class="t4">💾</span>
-          <div><span class="tb">LocalStorage Persistence</span><br><code class="t1 cg">"persist":["items"]</code></div>
+          <div><span class="tb">LocalStorage Persistence</span><br><code class="t1 cg">"persist":{"items":"local"}</code></div>
         </div>
         <div class="p3 bg r f g2 fi">
           <span class="t4">🌙</span>
@@ -146,21 +155,21 @@
       
       <div class="py3">
         <div class="f g3 fi py3 sm:fc">
-          <div class="p3 b1 cw r tc" style="min-width:48px">1</div>
+          <div class="p3 b1 cw r tc step-num">1</div>
           <div>
             <div class="tb t4">Install the Skill</div>
             <p class="cg py1">Run <code>npx skills add walkingriver/llasm</code> to teach your AI agent the LLasM instruction set.</p>
           </div>
         </div>
         <div class="f g3 fi py3 sm:fc">
-          <div class="p3 b1 cw r tc" style="min-width:48px">2</div>
+          <div class="p3 b1 cw r tc step-num">2</div>
           <div>
             <div class="tb t4">Ask for What You Want</div>
             <p class="cg py1">"Build me a todo app with dark mode and persistence." The agent reads the skill and generates valid output.</p>
           </div>
         </div>
         <div class="f g3 fi py3 sm:fc">
-          <div class="p3 b1 cw r tc" style="min-width:48px">3</div>
+          <div class="p3 b1 cw r tc step-num">3</div>
           <div>
             <div class="tb t4">Open in Browser</div>
             <p class="cg py1">You get a complete HTML file + llasm.js. No npm install. No build step. Just open it.</p>
@@ -174,8 +183,8 @@
       <h2 class="t6 tb tc c1 py3">The Output Format</h2>
       <p class="tc cg py2">Every LLasM page has exactly three parts</p>
       
-      <div class="bg r p3" style="overflow-x:auto">
-        <pre class="t2" style="margin:0;font-family:monospace;line-height:1.6"><code>&lt;!DOCTYPE html&gt;
+      <div class="bg r p3 oxa">
+        <pre class="t2 mono pre-code"><code>&lt;!DOCTYPE html&gt;
 &lt;html lang="en"&gt;
 &lt;body class="p3"&gt;
   <span class="cg">&lt;!-- 1. STATIC HTML --&gt;</span>
@@ -218,30 +227,46 @@
       <p class="tc cg py2">Click to see working demos built with LLasM</p>
       
       <div class="g gc3 g3 py3 sm:gc1">
-        <a href="examples/todo-app.html" class="p3 bg r db" style="text-decoration:none">
+        <a href="examples/todo-app.html" class="bg r2 sh p3 f fc g2 tdn cb">
           <div class="t4 tb c1">Todo App</div>
-          <p class="cg py1 t2">Persistent todos with localStorage</p>
+          <p class="cg t2">Persistent todos with localStorage</p>
         </a>
-        <a href="examples/tour-of-heroes.html" class="p3 bg r db" style="text-decoration:none">
-          <div class="t4 tb c1">Tour of Heroes</div>
-          <p class="cg py1 t2">Full app with routing and CRUD</p>
-        </a>
-        <a href="examples/features-demo.html" class="p3 bg r db" style="text-decoration:none">
+        <a href="examples/features-demo.html" class="bg r2 sh p3 f fc g2 tdn cb">
           <div class="t4 tb c1">Features Demo</div>
-          <p class="cg py1 t2">All v1.2 features in one page</p>
+          <p class="cg t2">All v2.0 features in one page</p>
         </a>
-        <a href="examples/contact-form.html" class="p3 bg r db" style="text-decoration:none">
+        <a href="examples/contact-form.html" class="bg r2 sh p3 f fc g2 tdn cb">
           <div class="t4 tb c1">Contact Form</div>
-          <p class="cg py1 t2">Form with validation</p>
+          <p class="cg t2">Form with validation</p>
         </a>
-        <a href="examples/landing-page.html" class="p3 bg r db" style="text-decoration:none">
+        <a href="examples/landing-page.html" class="bg r2 sh p3 f fc g2 tdn cb">
           <div class="t4 tb c1">Landing Page</div>
-          <p class="cg py1 t2">Marketing page layout</p>
+          <p class="cg t2">Marketing page layout</p>
         </a>
-        <a href="examples/minimal-card.html" class="p3 bg r db" style="text-decoration:none">
+        <a href="examples/minimal-card.html" class="bg r2 sh p3 f fc g2 tdn cb">
           <div class="t4 tb c1">Minimal Card</div>
-          <p class="cg py1 t2">Utility classes demo</p>
+          <p class="cg t2">Utility classes demo</p>
         </a>
+        <div class="bg r2 sh p3 f fc g2 cb">
+          <a href="examples/recipes/" class="tdn cb">
+            <div class="t4 tb c1">Recipes</div>
+            <p class="cg t2">List page with detail view</p>
+          </a>
+          <details class="t1 o5">
+            <summary class="cp ell">"Build me a recipe app with a list page and detail page..."</summary>
+            <p class="py1">"Build me a recipe app with a list page and detail page. Include 5 sample recipes with name, cook time, and difficulty."</p>
+          </details>
+        </div>
+        <div class="bg r2 sh p3 f fc g2 cb">
+          <a href="examples/bookstore/" class="tdn cb">
+            <div class="t4 tb c1">Bookstore</div>
+            <p class="cg t2">Multi-page app with cart and checkout</p>
+          </a>
+          <details class="t1 o5">
+            <summary class="cp ell">"Build me a simple bookstore page with a grid of book cards..."</summary>
+            <p class="py1">"Build me a simple bookstore page with a grid of book cards. Each card should show a title, author, price, and an 'Add to Cart' button. Include a cart count in the header that updates when books are added. Add a separate checkout page with a functional (but fake) payment section, billing, shipping, etc. If you can, get the books from amazon.com/author/mcallaghan."</p>
+          </details>
+        </div>
       </div>
     </section>
 
@@ -254,8 +279,8 @@
         <div class="p4 bg r">
           <div class="t5 tb c1">REST API</div>
           <p class="cg py2">Generate zero-dependency REST APIs using native Node.js http module. No Express, no Fastify—just single-file servers.</p>
-          <div class="bg r p2" style="overflow-x:auto">
-            <pre class="t1" style="margin:0;font-family:monospace;line-height:1.4"><code>const routes = {
+          <div class="bg r p2 oxa">
+            <pre class="t1 mono pre-code pre-sm"><code>const routes = {
   'GET /api/items': handler,
   'POST /api/items': handler,
   'DELETE /api/items/:id': handler
@@ -268,8 +293,8 @@
         <div class="p4 bg r">
           <div class="t5 tb c1">SSR</div>
           <p class="cg py2">Server-side render LLasM pages with dynamic state injection. File-based routing where each HTML file is a route.</p>
-          <div class="bg r p2" style="overflow-x:auto">
-            <pre class="t1" style="margin:0;font-family:monospace;line-height:1.4"><code>const ssrHandlers = {
+          <div class="bg r p2 oxa">
+            <pre class="t1 mono pre-code pre-sm"><code>const ssrHandlers = {
   '/': async () => ({ user, items }),
   '/products.html': async () => fetchProducts()
 };</code></pre>
@@ -289,15 +314,15 @@
     <section class="py5 tc">
       <h2 class="t6 tb c1 py2">Ready to Try It?</h2>
       <p class="cg py2">Install the skill and ask your AI agent to build something</p>
-      <code class="db p3 bg r t3 mxa" style="font-family:monospace;max-width:400px">npx skills add walkingriver/llasm</code>
+      <code class="db p3 bg r t3 mxa mono xw3">npx skills add walkingriver/llasm</code>
       <div class="f fj g3 py4 fw">
-        <a href="https://github.com/walkingriver/llasm" class="px4 py2 b1 cw r tb" style="text-decoration:none">View on GitHub</a>
+        <a href="https://github.com/walkingriver/llasm" class="px4 py2 b1 cw r tb tdn">View on GitHub</a>
       </div>
     </section>
   </main>
 
   <!-- Footer -->
-  <footer class="tc py4 cg t2 bd" style="border-left:0;border-right:0;border-bottom:0">
+  <footer class="tc py4 cg t2 bdt">
     <p>LLasM — LLM Assembly Language</p>
     <p class="py1">Orchestrated by <a href="https://x.com/mikecallaghan" class="c1">Michael D. Callaghan</a></p>
     <p class="py2">
@@ -306,7 +331,7 @@
       <a href="https://x.com/mikecallaghan" class="cg">𝕏</a>
     </p>
     <p class="t1 py2">Hero image by <a href="https://pixabay.com/users/geralt-9301/" class="cg">Gerd Altmann</a> from <a href="https://pixabay.com/" class="cg">Pixabay</a></p>
-    <p class="t1 o5" data-m-version>Built 2026-02-17</p>
+    <p class="t1 o5" data-m-version>Built 2026-02-19</p>
   </footer>
 
   <!-- Manifest -->
@@ -314,7 +339,7 @@
 
   <!-- Handlers -->
   <script type="module">
-    import{l}from"./llasm.js?v=t5h2w8j6";
+    import{l}from"./llasm.js?v=p2k7m4r9";
     l.h({
       inc:(e,s,L)=>L.u({count:s.count+1}),
       dec:(e,s,L)=>L.u({count:Math.max(0,s.count-1)})
